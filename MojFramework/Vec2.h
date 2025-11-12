@@ -8,8 +8,8 @@ class _Vec2
 public:
 	_Vec2() = default;
 	_Vec2(T x, T y)
-		: 
-		x(x), 
+		:
+		x(x),
 		y(y)
 	{}
 	template<typename T2>

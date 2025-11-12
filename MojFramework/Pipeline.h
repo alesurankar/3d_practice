@@ -1,4 +1,5 @@
 #pragma once
+
 #include "MyWin.h"
 #include "Graphics.h"
 #include "Triangle.h"
@@ -85,16 +86,16 @@ private:
 	void ProcessTriangle(const VSOut& v0, const VSOut& v1, const VSOut& v2, size_t triangle_index)
 	{
 		// generate triangle from 3 vertices using gs
-		// and send to post-processing
-		// and send to clipperAdd commentMore actions
-		ClipCullTriangle(effect.gs(v0, v1, v2, triangle_index));
+		// and send to clipper
+		auto e = effect.gs(v0, v1, v2, triangle_index);
+		ClipCullTriangle(e);
 	}
 
 	void ClipCullTriangle(Triangle<GSOut>& t)
 	{
 		// cull tests
 		if (t.v0.pos.x > t.v0.pos.w &&
-			t.v1.pos.x > t.v1.pos.w && 
+			t.v1.pos.x > t.v1.pos.w &&
 			t.v2.pos.x > t.v2.pos.w)
 		{
 			return;
@@ -140,8 +141,14 @@ private:
 				const auto v0a = interpolate(v0, v1, alphaA);
 				const auto v0b = interpolate(v0, v2, alphaB);
 				// draw triangles
-				PostProcessTriangleVertices(Triangle<GSOut>{ v0a, v1, v2 });
-				PostProcessTriangleVertices(Triangle<GSOut>{ v0b, v0a, v2 });
+				{
+					auto t1 = Triangle<GSOut>{ v0a,v1,v2 };
+					PostProcessTriangleVertices(t1);
+				}
+				{
+					auto t1 = Triangle<GSOut>{ v0b,v0a,v2 };
+					PostProcessTriangleVertices(t1);
+				}
 			};
 		const auto Clip2 = [this](GSOut& v0, GSOut& v1, GSOut& v2)
 			{
@@ -152,7 +159,10 @@ private:
 				v0 = interpolate(v0, v2, alpha0);
 				v1 = interpolate(v1, v2, alpha1);
 				// draw triangles
-				PostProcessTriangleVertices(Triangle<GSOut>{ v0, v1, v2 });
+				{
+					auto t1 = Triangle<GSOut>{ v0,v1,v2 };
+					PostProcessTriangleVertices(t1);
+				}
 			};
 
 		// near clipping tests
@@ -196,9 +206,9 @@ private:
 	void PostProcessTriangleVertices(Triangle<GSOut>& triangle)
 	{
 		// perspective divide and screen transform for all 3 vertices
-		cst.Transform(triangle.v0);
-		cst.Transform(triangle.v1);
-		cst.Transform(triangle.v2);
+		pst.Transform(triangle.v0);
+		pst.Transform(triangle.v1);
+		pst.Transform(triangle.v2);
 
 		// draw the triangle
 		DrawTriangle(triangle);
@@ -304,7 +314,7 @@ private:
 
 		// calculate start and end scanlines
 		const int yStart = std::max((int)ceil(it0.pos.y - 0.5f), 0);
-			const int yEnd = std::min((int)ceil(it2.pos.y - 0.5f), (int)Graphics::ScreenHeight - 1); // the scanline AFTER the last line drawn
+		const int yEnd = std::min((int)ceil(it2.pos.y - 0.5f), (int)Graphics::ScreenHeight - 1); // the scanline AFTER the last line drawn
 
 		// do interpolant prestep
 		itEdge0 += dv0 * (float(yStart) + 0.5f - it0.pos.y);
@@ -314,7 +324,7 @@ private:
 		{
 			// calculate start and end pixels
 			const int xStart = std::max((int)ceil(itEdge0.pos.x - 0.5f), 0);
-				const int xEnd = std::min((int)ceil(itEdge1.pos.x - 0.5f), (int)Graphics::ScreenWidth - 1); // the pixel AFTER the last pixel drawn
+			const int xEnd = std::min((int)ceil(itEdge1.pos.x - 0.5f), (int)Graphics::ScreenWidth - 1); // the pixel AFTER the last pixel drawn
 
 			// create scanline interpolant startpoint
 			// (some waste for interpolating x,y,z, but makes life easier not having
@@ -330,8 +340,6 @@ private:
 
 			for (int x = xStart; x < xEnd; x++, iLine += diLine)
 			{
-				// recover interpolated z from interpolated 1/z
-				const float z = 1.0f / iLine.pos.z;
 				// do z rejection / update of z buffer
 				// skip shading step if z rejected (early z)
 				if (pZb->TestAndSet(x, y, iLine.pos.z))
@@ -353,6 +361,6 @@ public:
 	Effect effect;
 private:
 	Graphics& gfx;
-	NDCScreenTransformer cst;
+	NDCScreenTransformer pst;
 	std::shared_ptr<ZBuffer> pZb;
 };

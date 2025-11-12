@@ -6,7 +6,6 @@
 #include "MyException.h"
 #include <string>
 
-
 // for granting special access to hWnd only for Graphics constructor
 class HWNDKey
 {
@@ -19,6 +18,7 @@ protected:
 protected:
 	HWND hWnd = nullptr;
 };
+
 class MainWindow : public HWNDKey
 {
 public:
@@ -36,7 +36,7 @@ public:
 	~MainWindow();
 	bool IsActive() const;
 	bool IsMinimized() const;
-	void ShowMessageBox(const std::wstring& title, const std::wstring& message, UINT type = MB_OK) const;
+	void ShowMessageBox(const std::wstring& title, const std::wstring& message) const;
 	void Kill()
 	{
 		PostQuitMessage(0);
@@ -55,7 +55,7 @@ public:
 	Keyboard kbd;
 	Mouse mouse;
 private:
-	static constexpr wchar_t* wndClassName = L"My DirectX Framework Window";
+	static constexpr const wchar_t* wndClassName = L"My DirectX Framework Window";
 	HINSTANCE hInst = nullptr;
 	std::wstring args;
 };

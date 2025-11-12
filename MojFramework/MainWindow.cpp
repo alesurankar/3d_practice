@@ -1,13 +1,9 @@
-/******************************************************************************************************
-This Framework is Cloned and modified from PlanetChili - chili_framework <http://www.planetchili.net>
-*******************************************************************************************************/
 #include "MainWindow.h"
 #include "Resource.h"
 #include "Graphics.h"
 #include "MyException.h"
 #include "App.h"
 #include <assert.h>
-
 
 MainWindow::MainWindow(HINSTANCE hInst, wchar_t* pArgs)
 	:
@@ -63,9 +59,9 @@ bool MainWindow::IsMinimized() const
 	return IsIconic(hWnd) != 0;
 }
 
-void MainWindow::ShowMessageBox(const std::wstring& title, const std::wstring& message, UINT type) const
+void MainWindow::ShowMessageBox(const std::wstring& title, const std::wstring& message) const
 {
-	MessageBox(hWnd, message.c_str(), title.c_str(), type);
+	MessageBox(hWnd, message.c_str(), title.c_str(), MB_OK);
 }
 
 bool MainWindow::ProcessMessage()
@@ -119,9 +115,7 @@ LRESULT MainWindow::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	case WM_DESTROY:
 		PostQuitMessage(0);
 		break;
-	case WM_KILLFOCUS:
-		kbd.ClearState();
-		break;
+
 		// ************ KEYBOARD MESSAGES ************ //
 	case WM_KEYDOWN:
 		if (!(lParam & 0x40000000) || kbd.AutorepeatIsEnabled()) // no thank you on the autorepeat
@@ -174,7 +168,6 @@ LRESULT MainWindow::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	{
 		const POINTS pt = MAKEPOINTS(lParam);
 		mouse.OnLeftPressed(pt.x, pt.y);
-		SetForegroundWindow(hWnd);
 		break;
 	}
 	case WM_RBUTTONDOWN:

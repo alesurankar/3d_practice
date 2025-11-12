@@ -84,7 +84,7 @@ public:
 		}
 		else
 		{
-			static_assert(false, "Bad dimensionality");
+			static_assert(S == 3 || S == 4, "Bad dimensionality");
 		}
 	}
 	constexpr static _Mat Scaling(T factor)
@@ -110,7 +110,7 @@ public:
 		}
 		else
 		{
-			static_assert(false, "Bad dimensionality");
+			static_assert(S == 3 || S == 4, "Bad dimensionality");
 		}
 
 	}
@@ -139,7 +139,7 @@ public:
 		}
 		else
 		{
-			static_assert(false, "Bad dimensionality");
+			static_assert(S == 3 || S == 4, "Bad dimensionality");
 		}
 	}
 	static _Mat RotationY(T theta)
@@ -167,7 +167,7 @@ public:
 		}
 		else
 		{
-			static_assert(false, "Bad dimensionality");
+			static_assert(S == 3 || S == 4, "Bad dimensionality");
 		}
 	}
 	static _Mat RotationX(T theta)
@@ -195,7 +195,7 @@ public:
 		}
 		else
 		{
-			static_assert(false, "Bad dimensionality");
+			static_assert(S == 3 || S == 4, "Bad dimensionality");
 		}
 	}
 	template<class V>
@@ -217,7 +217,7 @@ public:
 		}
 		else
 		{
-			static_assert(false, "Bad dimensionality");
+			static_assert(S == 3 || S == 4, "Bad dimensionality");
 		}
 	}
 	constexpr static _Mat Projection(T w, T h, T n, T f)
@@ -234,7 +234,7 @@ public:
 		}
 		else
 		{
-			static_assert(false, "Bad dimensionality");
+			static_assert(S == 3 || S == 4, "Bad dimensionality");
 		}
 	}
 	constexpr static _Mat ProjectionHFOV(T fov, T ar, T n, T f)
@@ -254,7 +254,7 @@ public:
 		}
 		else
 		{
-			static_assert(false, "Bad dimensionality");
+			static_assert(S == 3 || S == 4, "Bad dimensionality");
 		}
 	}
 public:
@@ -288,8 +288,7 @@ _Vec4<T>& operator*=(_Vec4<T>& lhs, const _Mat<T, 4>& rhs)
 template<typename T>
 _Vec4<T> operator*(const _Vec4<T>& lhs, const _Mat<T, 4>& rhs)
 {
-	return
-	{
+	return{
 		lhs.x * rhs.elements[0][0] + lhs.y * rhs.elements[1][0] + lhs.z * rhs.elements[2][0] + lhs.w * rhs.elements[3][0],
 		lhs.x * rhs.elements[0][1] + lhs.y * rhs.elements[1][1] + lhs.z * rhs.elements[2][1] + lhs.w * rhs.elements[3][1],
 		lhs.x * rhs.elements[0][2] + lhs.y * rhs.elements[1][2] + lhs.z * rhs.elements[2][2] + lhs.w * rhs.elements[3][2],
@@ -297,7 +296,7 @@ _Vec4<T> operator*(const _Vec4<T>& lhs, const _Mat<T, 4>& rhs)
 	};
 }
 
-typedef _Mat<float, 3> Mat3;
-typedef _Mat<double, 3> Mad3;
-typedef _Mat<float, 4> Mat4;
-typedef _Mat<double, 4> Mad4;
+using Mat3 = _Mat<float, 3>;
+using Matd3 = _Mat<double, 3>;
+using Mat4 = _Mat<float, 4>;
+using Matd4 = _Mat<double, 4>;
