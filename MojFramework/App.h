@@ -1,9 +1,5 @@
 #pragma once
 #include "Graphics.h"
-#include <memory>
-#include <vector>
-#include "Scene.h"
-#include "FrameTimer.h"
 
 class App
 {
@@ -15,16 +11,11 @@ public:
 private:
 	void ComposeFrame();
 	void UpdateModel();
-	/********************************/
-	/*  Moje Funkcije               */
-	/********************************/
 private:
 	MainWindow& wnd;
 	Graphics gfx;
-	/********************************/
-	/*  Moji Parametri              */
-	FrameTimer ft;
-	std::vector<std::unique_ptr<Scene>> scenes;
-	std::vector<std::unique_ptr<Scene>>::iterator curScene;
-	/********************************/
+	int x = 20;
+	int y = 20;
+	int width = 12;
+	int height = 12;
 };

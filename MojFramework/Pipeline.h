@@ -1,5 +1,4 @@
 #pragma once
-
 #include "MyWin.h"
 #include "Graphics.h"
 #include "Triangle.h"
