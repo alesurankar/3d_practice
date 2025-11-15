@@ -1,5 +1,8 @@
 #pragma once
 #include "Graphics.h"
+#include "CubeScreenTransformer.h"
+#include "NDCScreenTransformer.h"
+#include "Cube.h"
 
 class App
 {
@@ -18,4 +21,8 @@ private:
 	int y = 20;
 	int width = 12;
 	int height = 12;
+	//NDCScreenTransformer cst;
+	CubeScreenTransformer cst;
+	Cube cube;
+	Rct rct;
 };
