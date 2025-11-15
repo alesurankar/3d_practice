@@ -40,22 +40,12 @@ void App::UpdateModel()
 
 void App::ComposeFrame()
 {
-	//gfx.DrawLine(Vec2{ x - width, y - width }, Vec2{ x + width, y - width }, Colors::Red);
-	//gfx.DrawLine(Vec2{ x + width, y - width }, Vec2{ x + width, y + width }, Colors::Green);
-	//gfx.DrawLine(Vec2{ x + width, y + width }, Vec2{ x - width, y + width }, Colors::Yellow);
-	//gfx.DrawLine(Vec2{ x - width, y + width }, Vec2{ x - width, y - width }, Colors::Blue);
+	gfx.DrawLine(Vec2{ x - width, y - width }, Vec2{ x + width, y - width }, Colors::Red);
+	gfx.DrawLine(Vec2{ x + width, y - width }, Vec2{ x + width, y + width }, Colors::Green);
+	gfx.DrawLine(Vec2{ x + width, y + width }, Vec2{ x - width, y + width }, Colors::Yellow);
+	gfx.DrawLine(Vec2{ x - width, y + width }, Vec2{ x - width, y - width }, Colors::Blue);
 	
-	/*auto lines = cube.GetLines();
-	for (auto& v : lines.vertices)
-	{
-		cst.Transform(v);
-	}
-	for (auto i = lines.indices.cbegin(),
-		end = lines.indices.cend();
-		i != end; std::advance(i, 2))
-	{
-		gfx.DrawLine(lines.vertices[*i], lines.vertices[*std::next(i)], Colors::White);
-	}*/
+	
 
 	auto lines2 = rct.GetLines();
 	for (auto& v : lines2.vert2)
