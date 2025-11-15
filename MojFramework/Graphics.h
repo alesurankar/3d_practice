@@ -37,7 +37,8 @@ public:
 	Graphics(const Graphics&) = delete;
 	Graphics& operator=(const Graphics&) = delete;
 	void EndFrame();
-	void BeginFrame();
+	void BeginFrame(); 
+	void DrawTriangle(const Vec2& v0, const Vec2& v1, const Vec2& v2, Color c);
 	void DrawLine(const Vec2& p1, const Vec2& p2, Color c)
 	{
 		DrawLine(p1.x, p1.y, p2.x, p2.y, c);
@@ -52,6 +53,9 @@ public:
 		sysBuffer.PutPixel(x, y, c);
 	}
 	~Graphics();
+private:
+	void DrawFlatTopTriangle(const Vec2& v0, const Vec2& v1, const Vec2& v2, Color c);
+	void DrawFlatBottomTriangle(const Vec2& v0, const Vec2& v1, const Vec2& v2, Color c);
 private:
 	GDIPlusManager										gdipMan;
 	Microsoft::WRL::ComPtr<IDXGISwapChain>				pSwapChain;

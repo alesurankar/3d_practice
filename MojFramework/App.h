@@ -28,6 +28,7 @@ private:
 	CubeScreenTransformer cst;
 	Cube cube;
 	IndexedLineList lines;
+	IndexedTriangleList triangles;
 	static constexpr float dTheta = PI;
 	float theta_x = 0.0f;
 	float theta_y = 0.0f;
