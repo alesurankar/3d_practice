@@ -22,8 +22,7 @@ private:
 	FrameTimer ft;
 	float x = 0.0f;
 	float y = 0.0f;
-	float a = 0.0f;
-	float b = 0.0f;
+	float z = 2.0f;
 	int width = 12;
 	int height = 12;
 	CubeScreenTransformer cst;

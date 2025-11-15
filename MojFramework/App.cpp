@@ -42,6 +42,22 @@ void App::UpdateModel()
 	if (wnd.kbd.KeyIsPressed('E')) {
 		theta_z = wrap_angle(theta_z - dTheta * speed);
 	}
+	while (!wnd.mouse.IsEmpty())
+	{
+		Mouse::Event e = wnd.mouse.Read();
+
+		switch (e.GetType())
+		{
+		case Mouse::Event::Type::WheelUp:
+			z -= (3*speed);
+			break;
+
+		case Mouse::Event::Type::WheelDown:
+			z += (3*speed);
+			break;
+		}
+	}
+
 
 	const Mat3 rot =
 		Mat3::RotationX(theta_x) *
@@ -51,7 +67,7 @@ void App::UpdateModel()
 	lines = cube.GetLines();
 	for (auto& v : lines.vertices) {
 		v *= rot;
-		v += {x, y, 1.0f};
+		v += {x, y, z};
 		cst.Transform(v);
 	}
 }
@@ -62,6 +78,6 @@ void App::ComposeFrame()
 		end = lines.indices.cend();
 		i != end; std::advance(i, 2))
 	{
-		gfx.DrawLine(lines.vertices[*i], lines.vertices[*std::next(i)], Colors::Blue);
+		gfx.DrawLine(lines.vertices[*i], lines.vertices[*std::next(i)], Colors::Green);
 	}
 }
