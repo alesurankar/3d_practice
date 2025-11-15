@@ -3,6 +3,7 @@
 #include "CubeScreenTransformer.h"
 #include "NDCScreenTransformer.h"
 #include "Cube.h"
+#include "FrameTimer.h"
 
 class App
 {
@@ -17,12 +18,16 @@ private:
 private:
 	MainWindow& wnd;
 	Graphics gfx;
-	int x = 20;
-	int y = 20;
+	FrameTimer ft;
+	float x = 0.0f;
+	float y = 0.0f;
+	float a = 0.0f;
+	float b = 0.0f;
 	int width = 12;
 	int height = 12;
-	//NDCScreenTransformer cst;
 	CubeScreenTransformer cst;
 	Cube cube;
 	Rct rct;
+	IndexedLineList2 lines2;
+	IndexedLineList lines;
 };
