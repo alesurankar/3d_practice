@@ -18,13 +18,6 @@ public:
 		v.y = (-v.y + 1.0f) * yFactor;
 		return v;
 	}
-
-	Vec2& Transform2(Vec2& v) const
-	{
-		v.x = (v.x + 1.0f) * xFactor;
-		v.y = (v.y + 1.0f) * yFactor;
-		return v;
-	}
 private:
 	float xFactor;
 	float yFactor;

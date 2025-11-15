@@ -4,6 +4,7 @@
 #include "NDCScreenTransformer.h"
 #include "Cube.h"
 #include "FrameTimer.h"
+#include "Mat.h"
 
 class App
 {
@@ -27,7 +28,9 @@ private:
 	int height = 12;
 	CubeScreenTransformer cst;
 	Cube cube;
-	Rct rct;
-	IndexedLineList2 lines2;
 	IndexedLineList lines;
+	static constexpr float dTheta = PI;
+	float theta_x = 0.0f;
+	float theta_y = 0.0f;
+	float theta_z = 0.0f;
 };

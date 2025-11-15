@@ -6,10 +6,8 @@ App::App(MainWindow& wnd)
 	:
 	wnd(wnd),
 	gfx(wnd),
-	cube(1.0f),
-	rct(1.0f)
-{
-}
+	cube(1.0f)
+{}
 
 void App::Go()
 {
@@ -22,51 +20,44 @@ void App::Go()
 void App::UpdateModel()
 {
 	const float dt = ft.Mark();
-	float speed = 1.0f;
+	float speed = 1.0f * dt;
 	if (wnd.kbd.KeyIsPressed(VK_SPACE)) {
-		speed = 3.0f;
+		speed = 3.0f * dt;
 	}
 	if (wnd.kbd.KeyIsPressed('W')) {
-		y -= speed * dt;
+		y += speed;
 	}
 	if (wnd.kbd.KeyIsPressed('S')) {
-		y += speed * dt;
+		y -= speed;
 	}
 	if (wnd.kbd.KeyIsPressed('A')) {
-		x -= speed * dt;
+		x -= speed;
 	}
 	if (wnd.kbd.KeyIsPressed('D')) {
-		x += speed * dt;
+		x += speed;
+	}
+	if (wnd.kbd.KeyIsPressed('Q')) {
+		theta_z = wrap_angle(theta_z + dTheta * speed);
+	}
+	if (wnd.kbd.KeyIsPressed('E')) {
+		theta_z = wrap_angle(theta_z - dTheta * speed);
 	}
 
-	//Rectangle
-	lines2 = rct.GetLines();
-	for (auto& v : lines2.vert2)
-	{
-		v += {x, y};
-		cst.Transform2(v);
-	}
+	const Mat3 rot =
+		Mat3::RotationX(theta_x) *
+		Mat3::RotationY(theta_y) *
+		Mat3::RotationZ(theta_z);
 
-	//Cube
 	lines = cube.GetLines();
-	for (auto& v : lines.vertices)
-	{
-		v += {0.0f, 0.0f, 1.0f};
+	for (auto& v : lines.vertices) {
+		v *= rot;
+		v += {x, y, 1.0f};
 		cst.Transform(v);
 	}
 }
 
 void App::ComposeFrame()
 {
-	// Rectangle
-	for (auto i = lines2.ind2.cbegin(),
-		end = lines2.ind2.cend();
-		i != end; std::advance(i, 2))
-	{
-		gfx.DrawLine(lines2.vert2[*i], lines2.vert2[*std::next(i)], Colors::White);
-	}
-
-	//Cube
 	for (auto i = lines.indices.cbegin(),
 		end = lines.indices.cend();
 		i != end; std::advance(i, 2))
