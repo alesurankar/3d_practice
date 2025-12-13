@@ -85,11 +85,11 @@ public:
         this->z *= rhs;
         return *this;
     }
-    _Vec3 operator*(const T& rhs) const
+    _Vec3 operator*(const T& rhs) const // dot product
     {
         return _Vec3(*this) *= rhs;
     }
-    _Vec3 operator%(const _Vec3& rhs) const
+    _Vec3 operator%(const _Vec3& rhs) const // cross product
     {
         return _Vec3(
             this->y * rhs.z - this->z * rhs.y,
