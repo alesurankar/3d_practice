@@ -1,6 +1,5 @@
 #include "MainWindow.h"
 #include "App.h"
-#include "CubeScene.h"
 
 
 App::App(MainWindow& wnd)
@@ -8,7 +7,7 @@ App::App(MainWindow& wnd)
 	wnd(wnd),
 	gfx(wnd)
 {
-	scene = std::make_unique<CubeScene>();
+	scene = std::make_unique<MyScene>();
 }
 
 void App::Go()

@@ -1,10 +1,6 @@
 #pragma once
 #include "Graphics.h"
-#include "CubeScreenTransformer.h"
-#include "NDCScreenTransformer.h"
-#include "Cube.h"
 #include "FrameTimer.h"
-#include "Mat.h"
 #include "MyScene.h"
 #include <memory>
 

@@ -106,7 +106,6 @@
     <ClInclude Include="App.h" />
     <ClInclude Include="Colors.h" />
     <ClInclude Include="Cube.h" />
-    <ClInclude Include="CubeScene.h" />
     <ClInclude Include="CubeScreenTransformer.h" />
     <ClInclude Include="IndexedLineList.h" />
     <ClInclude Include="MouseTracker.h" />
