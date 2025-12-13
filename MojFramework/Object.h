@@ -9,6 +9,25 @@
 class Object
 {
 public:
+	Object(float x_in = 0.0f, float y_in = 0.0f, float z_in = 2.0f)
+		:
+		x(x_in),
+		y(y_in),
+		z(z_in)
+	{}
+	void Move(float dx, float dy, float dz)
+	{
+		x += dx;
+		y += dy;
+		z += dz;
+	}
+
+	void Rotate(float dx, float dy, float dz)
+	{
+		theta_x = wrap_angle(theta_x + dx);
+		theta_y = wrap_angle(theta_y + dy);
+		theta_z = wrap_angle(theta_z + dz);
+	}
 	void Update()
 	{
 		triangles = cube.GetTriangles();
