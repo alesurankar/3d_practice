@@ -7,7 +7,7 @@ App::App(MainWindow& wnd)
 	wnd(wnd),
 	gfx(wnd)
 {
-	scene = std::make_unique<MyScene>();
+	scene = std::make_unique<MyScene>(gfx);
 }
 
 void App::Go()
@@ -22,12 +22,10 @@ void App::UpdateModel()
 {
 	const float dt = ft.Mark();
 
-	// update scene
 	scene->Update(wnd.kbd, wnd.mouse, dt);
 }
 
 void App::ComposeFrame()
 {
-	// draw scene
-	scene->Draw(gfx);
+	scene->Draw();
 }

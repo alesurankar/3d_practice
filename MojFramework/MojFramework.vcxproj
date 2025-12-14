@@ -106,9 +106,11 @@
     <ClInclude Include="App.h" />
     <ClInclude Include="Colors.h" />
     <ClInclude Include="Cube.h" />
+    <ClInclude Include="CubeMesh.h" />
     <ClInclude Include="CubeScreenTransformer.h" />
     <ClInclude Include="IndexedLineList.h" />
     <ClInclude Include="MouseTracker.h" />
+    <ClInclude Include="MyPipeline.h" />
     <ClInclude Include="MyScene.h" />
     <ClInclude Include="NDCScreenTransformer.h" />
     <ClInclude Include="DefaultGeometryShader.h" />
