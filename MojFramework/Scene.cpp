@@ -141,12 +141,15 @@ void Scene::CheckCollisions()
 void Scene::BindAndDraw(const TestObject& obj)
 {
     pipeline.effect.ps.BindTexture(obj.GetTexture());
-    pipeline.effect.vs.BindTransformation(
-        Mat4::RotationX(obj.GetOrnt().x) *
-        Mat4::RotationY(obj.GetOrnt().y) *
-        Mat4::RotationZ(obj.GetOrnt().z) *
-        Mat4::Translation(obj.GetPos().x, obj.GetPos().y, obj.GetPos().z)
-    );
+	const auto proj = Mat4::Projection(2.0f, 2.0f, 1.0f, 100.0f);
+	const Mat4 world =
+		Mat4::RotationX(obj.GetOrnt().x) *
+		Mat4::RotationY(obj.GetOrnt().y) *
+		Mat4::RotationZ(obj.GetOrnt().z) *
+		Mat4::Translation(obj.GetPos().x, obj.GetPos().y, obj.GetPos().z);
+
+	pipeline.effect.vs.BindWorld(world);
+	pipeline.effect.vs.BindProjection(proj);
 
     pipeline.Draw(obj.GetTriangle());
 } 

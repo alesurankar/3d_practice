@@ -88,33 +88,33 @@ private:
 	void ClipCullTriangle(Triangle<GSOut>& t)
 	{
 		// cull tests
-		if (t.v0.pos.x > t.v0.pos.z &&
-			t.v1.pos.x > t.v1.pos.z &&
-			t.v2.pos.x > t.v2.pos.z)
+		if (t.v0.pos.x > t.v0.pos.w &&
+			t.v1.pos.x > t.v1.pos.w &&
+			t.v2.pos.x > t.v2.pos.w)
 		{
 			return;
 		}
-		if (t.v0.pos.x < -t.v0.pos.z &&
-			t.v1.pos.x < -t.v1.pos.z &&
-			t.v2.pos.x < -t.v2.pos.z)
+		if (t.v0.pos.x < -t.v0.pos.w &&
+			t.v1.pos.x < -t.v1.pos.w &&
+			t.v2.pos.x < -t.v2.pos.w)
 		{
 			return;
 		}
-		if (t.v0.pos.y > t.v0.pos.z &&
-			t.v1.pos.y > t.v1.pos.z &&
-			t.v2.pos.y > t.v2.pos.z) 
+		if (t.v0.pos.y > t.v0.pos.w &&
+			t.v1.pos.y > t.v1.pos.w &&
+			t.v2.pos.y > t.v2.pos.w) 
 		{
 			return;
 		}
-		if (t.v0.pos.y < -t.v0.pos.z &&
-			t.v1.pos.y < -t.v1.pos.z &&
-			t.v2.pos.y < -t.v2.pos.z)
+		if (t.v0.pos.y < -t.v0.pos.w &&
+			t.v1.pos.y < -t.v1.pos.w &&
+			t.v2.pos.y < -t.v2.pos.w)
 		{
 			return;
 		}
-		if (t.v0.pos.z > t.v0.pos.z &&
-			t.v1.pos.z > t.v1.pos.z &&
-			t.v2.pos.z > t.v2.pos.z)
+		if (t.v0.pos.z > t.v0.pos.w &&
+			t.v1.pos.z > t.v1.pos.w &&
+			t.v2.pos.z > t.v2.pos.w)
 		{
 			return;
 		}
@@ -334,10 +334,10 @@ private:
 
 			for (int x = xStart; x < xEnd; x++, iLine += diLine)
 			{
-				const float z = 1.0f / iLine.pos.z;
-				if (zb.TestAndSet(x, y, z))
+				if (zb.TestAndSet(x, y, iLine.pos.z))
 				{
-					const auto attr = iLine * z;
+					const float w = 1.0f / iLine.pos.w;
+					const auto attr = iLine * w;
 					gfx.PutPixel(x, y, effect.ps(attr));
 				}
 			}

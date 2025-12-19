@@ -9,71 +9,83 @@ class TextureEffect
 {
 public:
 	// the vertex type that will be input into the pipeline
-	class Vertex
-	{
-	public:
-		Vertex() = default;
-		Vertex(const Vec3& pos)
-			:
-			pos(pos)
-		{
-		}
-		Vertex(const Vec3& pos, const Vertex& src)
-			:
-			t(src.t),
-			pos(pos)
-		{
-		}
-		Vertex(const Vec3& pos, const Vec2& t)
-			:
-			t(t),
-			pos(pos)
-		{
-		}
-		Vertex& operator+=(const Vertex& rhs)
-		{
-			pos += rhs.pos;
-			t += rhs.t;
-			return *this;
-		}
-		Vertex operator+(const Vertex& rhs) const
-		{
-			return Vertex(*this) += rhs;
-		}
-		Vertex& operator-=(const Vertex& rhs)
-		{
-			pos -= rhs.pos;
-			t -= rhs.t;
-			return *this;
-		}
-		Vertex operator-(const Vertex& rhs) const
-		{
-			return Vertex(*this) -= rhs;
-		}
-		Vertex& operator*=(float rhs)
-		{
-			pos *= rhs;
-			t *= rhs;
-			return *this;
-		}
-		Vertex operator*(float rhs) const
-		{
-			return Vertex(*this) *= rhs;
-		}
-		Vertex& operator/=(float rhs)
-		{
-			pos /= rhs;
-			t /= rhs;
-			return *this;
-		}
-		Vertex operator/(float rhs) const
-		{
-			return Vertex(*this) /= rhs;
-		}
-	public:
-		Vec3 pos;
-		Vec2 t;
-	};
+    class Vertex
+    {
+    public:
+        Vertex() = default;
+        Vertex(const Vec3& pos3)
+            : 
+            pos(pos3, 1.0f) 
+        {
+        }   
+        Vertex(const Vec4& pos4)
+            : 
+            pos(pos4) 
+        {
+        }
+        Vertex(const Vec3& pos3, const Vertex& src)
+            : 
+            pos(pos3, 1.0f), 
+            t(src.t) 
+        {
+        }
+        Vertex(const Vec4& pos4, const Vertex& src)
+            : 
+            pos(pos4), 
+            t(src.t) 
+        {
+        }
+
+        Vertex(const Vec4& pos4, const Vec2& t)
+            : 
+            pos(pos4), 
+            t(t) 
+        {
+        }
+        Vertex& operator+=(const Vertex& rhs)
+        {
+            pos += rhs.pos;
+            t += rhs.t;
+            return *this;
+        }
+        Vertex operator+(const Vertex& rhs) const
+        {
+            return Vertex(*this) += rhs;
+        }
+        Vertex& operator-=(const Vertex& rhs)
+        {
+            pos -= rhs.pos;
+            t -= rhs.t;
+            return *this;
+        }
+        Vertex operator-(const Vertex& rhs) const
+        { 
+            return Vertex(*this) -= rhs;
+        }
+        Vertex& operator*=(float rhs)
+        {
+            pos *= rhs;
+            t *= rhs;
+            return *this;
+        }
+        Vertex operator*(float rhs) const
+        { 
+            return Vertex(*this) *= rhs; 
+        }
+        Vertex& operator/=(float rhs)
+        {
+            pos /= rhs;
+            t /= rhs;
+            return *this;
+        }
+        Vertex operator/(float rhs) const
+        { 
+            return Vertex(*this) /= rhs;
+        }
+    public:
+        Vec4 pos;
+        Vec2 t;
+    };
 
 	typedef DefaultVertexShader<Vertex> VertexShader;
 
