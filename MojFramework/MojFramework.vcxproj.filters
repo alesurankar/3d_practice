@@ -43,6 +43,12 @@
     <Filter Include="Header Files\Effects">
       <UniqueIdentifier>{4faf1c14-0d2e-4a7e-a6c1-83188aadf37a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\scene2">
+      <UniqueIdentifier>{ef01f5d1-dba0-4c13-abe6-e85dd939f6de}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\scene2">
+      <UniqueIdentifier>{a62f959c-802f-4b86-97c3-45b3a16ba84c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="App.cpp">
@@ -83,6 +89,15 @@
     </ClCompile>
     <ClCompile Include="TestObject.cpp">
       <Filter>Source Files\App</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene2.cpp">
+      <Filter>Source Files\scene2</Filter>
+    </ClCompile>
+    <ClCompile Include="Thing.cpp">
+      <Filter>Source Files\scene2</Filter>
+    </ClCompile>
+    <ClCompile Include="Bullet.cpp">
+      <Filter>Source Files\scene2</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -199,6 +214,15 @@
     </ClInclude>
     <ClInclude Include="ZBuffer.h">
       <Filter>Header Files\Draw\temporary</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene2.h">
+      <Filter>Header Files\scene2</Filter>
+    </ClInclude>
+    <ClInclude Include="Thing.h">
+      <Filter>Header Files\scene2</Filter>
+    </ClInclude>
+    <ClInclude Include="Bullet.h">
+      <Filter>Header Files\scene2</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

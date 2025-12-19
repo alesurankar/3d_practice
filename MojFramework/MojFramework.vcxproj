@@ -90,6 +90,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="App.cpp" />
+    <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="DXErr.cpp" />
     <ClCompile Include="FrameTimer.cpp" />
     <ClCompile Include="GDIPlusManager.cpp" />
@@ -99,11 +100,15 @@
     <ClCompile Include="MainWindow.cpp" />
     <ClCompile Include="Mouse.cpp" />
     <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="Scene2.cpp" />
     <ClCompile Include="Surface.cpp" />
     <ClCompile Include="TestObject.cpp" />
+    <ClCompile Include="Thing.cpp" />
     <ClCompile Include="tiny_obj_loader.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Bullet.h" />
+    <ClInclude Include="Scene2.h" />
     <ClInclude Include="App.h" />
     <ClInclude Include="Box.h" />
     <ClInclude Include="Colors.h" />
@@ -136,6 +141,7 @@
     <ClInclude Include="Sphere.h" />
     <ClInclude Include="Surface.h" />
     <ClInclude Include="TextureEffect.h" />
+    <ClInclude Include="Thing.h" />
     <ClInclude Include="tiny_obj_loader.h" />
     <ClInclude Include="Triangle.h" />
     <ClInclude Include="Vec2.h" />

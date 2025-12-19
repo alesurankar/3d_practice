@@ -64,21 +64,6 @@ void Scene::Update(const Keyboard& kbd, Mouse& mouse, float dt)
 	if (kbd.KeyIsPressed(VK_CONTROL)) {
 		player->Move(0.0f, 0.0f, -speed);
 	}
-	/*while (!mouse.IsEmpty())
-	{
-		Mouse::Event e = mouse.Read();
-
-		switch (e.GetType())
-		{
-		case Mouse::Event::Type::WheelUp:
-			player->Move(0.0f, 0.0f, speed);
-			break;
-
-		case Mouse::Event::Type::WheelDown:
-			player->Move(0.0f, 0.0f, -speed);
-			break;
-		}
-	}*/
 	if (kbd.KeyIsPressed('Q')) {
 		player->Rotate(0.0f, 0.0f, speed);
 	}
