@@ -26,4 +26,8 @@ private:
 	Pipeline<TextureEffect> pipeline;
 	std::vector<std::unique_ptr<TestObject>> objects;
 	TestObject* player = nullptr;
+	static constexpr float aspect = Graphics::ScreenWidth / float(Graphics::ScreenHeight);
+	static constexpr float nearZ = 1.0f;
+	static constexpr float farZ = 100.0f;
+	static constexpr float fieldOfView = 60.0f;
 };

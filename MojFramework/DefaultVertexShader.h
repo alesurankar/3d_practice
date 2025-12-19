@@ -2,7 +2,7 @@ template<class Vertex>
 class DefaultVertexShader
 {
 public:
-    typedef Vertex Output;
+    using Output = Vertex;
 
     void BindWorld(const Mat4& world_in)
     {
@@ -21,13 +21,9 @@ public:
     }
     Output operator()(const Vertex& v) const
     {
-        const Vec4 p4(v.pos, 1.0f);
-        const Vec4 transformed = p4 * worldProj;
+        Vec4 clipPos = v.pos * worldProj;
 
-        const Vec3 ndc(transformed.x / transformed.w,
-            transformed.y / transformed.w,
-            transformed.z / transformed.w);
-        return Output(ndc, v);
+        return Output(clipPos, v);
     }
 
 private:
