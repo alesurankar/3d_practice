@@ -265,9 +265,10 @@ void Graphics::EndFrame()
 	}
 }
 
-void Graphics::BeginFrame()
+void Graphics::BeginFrame(Color bg)
 {
-	sysBuffer.Clear(Colors::Red);
+	// clear the sysbuffer
+	sysBuffer.Fill(bg);
 }
 
 //void Graphics::DrawTriangle(const Vec2& v0, const Vec2& v1, const Vec2& v2, Color c)

@@ -12,7 +12,7 @@ App::App(MainWindow& wnd)
 
 void App::Go()
 {
-	gfx.BeginFrame();
+	gfx.BeginFrame(Colors::MakeRGB(30, 30, 30));
 	UpdateModel();
 	ComposeFrame();
 	gfx.EndFrame();

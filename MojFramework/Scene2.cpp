@@ -5,12 +5,31 @@ Scene2::Scene2(Graphics& gfx)
 	gfx(gfx),
 	pipeline(gfx),
 	rng(rd()),
-	vRand(-0.07f, 0.07f),
+	vRand(-10.0f, 10.0f),
 	pRand(-50.0f, 50.0f),
 	zRand(100.0f, 200.0f)
 {
-	for (int i = 0; i < 100; i++) {
-		objects.emplace_back(std::make_unique<Thing>(gfx, Vec3(pRand(rng), pRand(rng), zRand(rng)), L"Images\\wood.bmp", 3.0f));
+	int a = 0;
+	for (int i = 0; i < 200; i++) {
+		a += 40;
+		switch (a) {
+		case 40:
+			objects.emplace_back(std::make_unique<Thing>(gfx, Vec3(pRand(rng), pRand(rng), zRand(rng)), L"Images\\wood.bmp", 2.0f));
+			break;
+		case 80:
+			objects.emplace_back(std::make_unique<Thing>(gfx, Vec3(pRand(rng), pRand(rng), zRand(rng)), L"Images\\blue.bmp", 2.0f));
+			break; 
+		case 120:
+			objects.emplace_back(std::make_unique<Thing>(gfx, Vec3(pRand(rng), pRand(rng), zRand(rng)), L"Images\\ceiling.jpg", 2.0f));
+			break; 
+		case 160:
+			objects.emplace_back(std::make_unique<Thing>(gfx, Vec3(pRand(rng), pRand(rng), zRand(rng)), L"Images\\stonewall.jpg", 2.0f));
+			break;
+		case 200:
+			objects.emplace_back(std::make_unique<Thing>(gfx, Vec3(pRand(rng), pRand(rng), zRand(rng)), L"Images\\green.bmp", 2.0f));
+			a = 0;
+			break;
+		}
 	}
 	for (auto& obj : objects) {
 		obj->SetVelocity(vRand(rng), vRand(rng), vRand(rng));
@@ -21,7 +40,7 @@ Scene2::Scene2(Graphics& gfx)
 
 void Scene2::Update(const Keyboard& kbd, Mouse& mouse, float dt)
 {
-	while (!mouse.IsEmpty())
+	/*while (!mouse.IsEmpty())
 	{
 		Mouse::Event e = mouse.Read();
 
@@ -30,17 +49,22 @@ void Scene2::Update(const Keyboard& kbd, Mouse& mouse, float dt)
 		case Mouse::Event::Type::LPress:
 			Vec3 spawn = Vec3(0.0f, -1.0f, 2.0f);
 			Vec3 dest = Vec3(GetClickChords(mouse));
-			bullets.emplace_back(std::make_unique<Bullet>(gfx, spawn, dest, L"Images\\white.bmp", 0.1f));
+			bullets.emplace_back(std::make_unique<Bullet>(gfx, spawn, dest, L"Images\\white.bmp", 0.2f));
 			break;
 		}
+	}*/
+	if (mouse.LeftIsPressed()) {
+		Vec3 spawn = Vec3(0.0f, -1.0f, 2.0f);
+		Vec3 dest = Vec3(GetClickChords(mouse));
+		bullets.emplace_back(std::make_unique<Bullet>(gfx, spawn, dest, L"Images\\white.bmp", 0.2f));
 	}
 
 	for (auto& obj : objects)  {
-		obj->Move();
-		obj->Rotate();
+		obj->Move(dt);
+		obj->Rotate(dt);
 	}
 	for (auto& bul : bullets)  {
-		bul->Move();
+		bul->Move(dt);
 	}
 
 	CheckCollisions();

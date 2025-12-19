@@ -24,11 +24,11 @@ void Thing::Move(float x, float y, float z)
 	CheckBorder();
 }
 
-void Thing::Move()
+void Thing::Move(float dt)
 {
-	pos.x += vel.x;
-	pos.y += vel.y;
-	pos.z += vel.z;
+	pos.x += vel.x * dt;
+	pos.y += vel.y * dt;
+	pos.z += vel.z * dt;
 
 	CheckBorder();
 }
@@ -42,11 +42,11 @@ void Thing::Rotate(float x, float y, float z)
 	CheckBorder();
 }
 
-void Thing::Rotate()
+void Thing::Rotate(float dt)
 {
-	ornt.x = wrap_angle(ornt.x + torq.x);
-	ornt.y = wrap_angle(ornt.y + torq.y);
-	ornt.z = wrap_angle(ornt.z + torq.z);
+	ornt.x = wrap_angle(ornt.x + torq.x * dt);
+	ornt.y = wrap_angle(ornt.y + torq.y * dt);
+	ornt.z = wrap_angle(ornt.z + torq.z * dt);
 
 	CheckBorder();
 }

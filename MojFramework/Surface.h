@@ -50,6 +50,16 @@ public:
 	Surface& operator=(const Surface&) = delete;
 	~Surface()
 	{}
+	void Fill(Color c)
+	{
+		for (unsigned int y = 0; y < GetHeight(); ++y)
+		{
+			for (unsigned int x = 0; x < GetWidth(); ++x)
+			{
+				PutPixel(x, y, c);
+			}
+		}
+	}
 	void Clear(Color fillValue)
 	{
 		memset(pBuffer.get(), fillValue.dword, pitch * height * sizeof(Color));

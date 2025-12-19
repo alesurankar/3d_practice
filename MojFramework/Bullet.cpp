@@ -11,14 +11,14 @@ Bullet::Bullet(Graphics& gfx, const Vec3& pos_in, const Vec3& dest, const std::w
 		dir.Normalize();
 	}
 
-	vel = dir * 3.0f;
+	vel = dir * 300.0f;
 }
 
-void Bullet::Move()
+void Bullet::Move(float dt)
 {
-	pos.x += vel.x;
-	pos.y += vel.y;
-	pos.z += vel.z;
+	pos.x += vel.x * dt;
+	pos.y += vel.y * dt;
+	pos.z += vel.z * dt;
 
 	CheckBorder();
 }

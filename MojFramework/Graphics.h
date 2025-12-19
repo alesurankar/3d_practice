@@ -36,7 +36,7 @@ public:
 	Graphics(const Graphics&) = delete;
 	Graphics& operator=(const Graphics&) = delete;
 	void EndFrame();
-	void BeginFrame(); 
+	void BeginFrame(Color bg);
 	//void DrawTriangle(const Vec2& v0, const Vec2& v1, const Vec2& v2, Color c);
 	void DrawLine(const Vec2& p1, const Vec2& p2, Color c)
 	{

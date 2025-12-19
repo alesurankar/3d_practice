@@ -101,7 +101,7 @@ public:
 				(unsigned int)std::min(in.t.x * tex_width + 0.5f, tex_xclamp),
 				(unsigned int)std::min(in.t.y * tex_height + 0.5f, tex_yclamp)
 			);
-			Vec3 tint = { 0.7f, 0.7f, 0.7f };
+			Vec3 tint = { 0.9f, 0.9f, 0.9f };
 			return texColor * tint;
 		}
 		void BindTexture(const Surface& tex)

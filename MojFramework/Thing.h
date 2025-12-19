@@ -15,9 +15,9 @@ public:
 	typedef typename Pipeline::Vertex Vertex;
 	Thing(Graphics& gfx, const Vec3& pos_in, const std::wstring& filename, float size = 1.0f);
 	void Move(float x, float y, float z);
-	void Move();
+	void Move(float dt);
 	void Rotate(float x, float y, float z);
-	void Rotate();
+	void Rotate(float dt);
 	Vec3 GetPos() const;
 	Vec3 GetOrnt() const;
 	const IndexedTriangleList<Vertex>& GetTriangle() const;
