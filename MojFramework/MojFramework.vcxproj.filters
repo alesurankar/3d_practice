@@ -224,6 +224,15 @@
     <ClInclude Include="Bullet.h">
       <Filter>Header Files\scene2</Filter>
     </ClInclude>
+    <ClInclude Include="SolidGeometryEffect.h">
+      <Filter>Header Files\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureLightEffect.h">
+      <Filter>Header Files\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="VertexFlatEffect.h">
+      <Filter>Header Files\Effects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="MojFramework.rc">

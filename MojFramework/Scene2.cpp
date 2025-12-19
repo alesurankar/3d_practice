@@ -14,19 +14,22 @@ Scene2::Scene2(Graphics& gfx)
 		a += 40;
 		switch (a) {
 		case 40:
-			objects.emplace_back(std::make_unique<Thing>(gfx, Vec3(pRand(rng), pRand(rng), zRand(rng)), L"Images\\wood.bmp", 2.0f));
+			objects.emplace_back(std::make_unique<Thing>(gfx, Vec3(pRand(rng), pRand(rng), zRand(rng)), L"Images\\wood.bmp", 1.0f));
 			break;
 		case 80:
-			objects.emplace_back(std::make_unique<Thing>(gfx, Vec3(pRand(rng), pRand(rng), zRand(rng)), L"Images\\blue.bmp", 2.0f));
+			objects.emplace_back(std::make_unique<Thing>(gfx, Vec3(pRand(rng), pRand(rng), zRand(rng)), L"Images\\blue.bmp", 1.0f));
 			break; 
 		case 120:
-			objects.emplace_back(std::make_unique<Thing>(gfx, Vec3(pRand(rng), pRand(rng), zRand(rng)), L"Images\\ceiling.jpg", 2.0f));
+			objects.emplace_back(std::make_unique<Thing>(gfx, Vec3(pRand(rng), pRand(rng), zRand(rng)), L"Images\\ceiling.jpg", 1.0f));
 			break; 
 		case 160:
-			objects.emplace_back(std::make_unique<Thing>(gfx, Vec3(pRand(rng), pRand(rng), zRand(rng)), L"Images\\stonewall.jpg", 2.0f));
+			objects.emplace_back(std::make_unique<Thing>(gfx, Vec3(pRand(rng), pRand(rng), zRand(rng)), L"Images\\stonewall.jpg", 1.0f));
+			break;
+		case 199:
+			objects.emplace_back(std::make_unique<Thing>(gfx, Vec3(pRand(rng), pRand(rng), zRand(rng)), L"Images\\green.bmp", 1.0f));
 			break;
 		case 200:
-			objects.emplace_back(std::make_unique<Thing>(gfx, Vec3(pRand(rng), pRand(rng), zRand(rng)), L"Images\\green.bmp", 2.0f));
+			objects.emplace_back(std::make_unique<Thing>(gfx, Vec3(pRand(rng), pRand(rng), zRand(rng)), L"Images\\red.bmp", 1.0f));
 			a = 0;
 			break;
 		}

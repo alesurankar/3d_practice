@@ -63,8 +63,8 @@ void Thing::CheckBorder()
 		vel.y = -vel.y;
 		torq.y = -torq.y;
 	}
-	if (pos.z < 100.0f) {
-		pos.z = 100.0f;
+	if (pos.z < 10.0f) {
+		pos.z = 10.0f;
 		vel.z = -vel.z;
 		torq.z = -torq.z;
 	}
@@ -78,8 +78,8 @@ void Thing::CheckBorder()
 		vel.y = -vel.y;
 		torq.y = -torq.y;
 	}
-	if (pos.z > 200.0f) {
-		pos.z = 200.0f;
+	if (pos.z > 50.0f) {
+		pos.z = 50.0f;
 		vel.z = -vel.z;
 		torq.z = -torq.z;
 	}
@@ -166,7 +166,7 @@ Vec3 Thing::GetOrnt() const
 	return ornt;
 }
 
-const IndexedTriangleList<TextureEffect::Vertex>& Thing::GetTriangle() const
+const IndexedTriangleList<TextureLightEffect::Vertex>& Thing::GetTriangle() const
 {
 	return triangles;
 }

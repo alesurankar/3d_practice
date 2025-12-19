@@ -27,7 +27,7 @@ private:
 	std::uniform_real_distribution<float> vRand;
 	std::uniform_real_distribution<float> pRand;
 	std::uniform_real_distribution<float> zRand;
-	Pipeline<TextureEffect> pipeline;
+	Pipeline<TextureLightEffect> pipeline;
 	std::vector<std::unique_ptr<Thing>> objects;
 	std::vector<std::unique_ptr<Bullet>> bullets;
 	static constexpr float aspect = Graphics::ScreenWidth / float(Graphics::ScreenHeight);

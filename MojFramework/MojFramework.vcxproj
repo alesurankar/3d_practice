@@ -131,6 +131,7 @@
     <ClInclude Include="MyException.h" />
     <ClInclude Include="MyMath.h" />
     <ClInclude Include="MyWin.h" />
+    <ClInclude Include="SolidGeometryEffect.h" />
     <ClInclude Include="TestObject.h" />
     <ClInclude Include="Pipeline.h" />
     <ClInclude Include="Rect.h" />
@@ -141,12 +142,14 @@
     <ClInclude Include="Sphere.h" />
     <ClInclude Include="Surface.h" />
     <ClInclude Include="TextureEffect.h" />
+    <ClInclude Include="TextureLightEffect.h" />
     <ClInclude Include="Thing.h" />
     <ClInclude Include="tiny_obj_loader.h" />
     <ClInclude Include="Triangle.h" />
     <ClInclude Include="Vec2.h" />
     <ClInclude Include="Vec3.h" />
     <ClInclude Include="Vec4.h" />
+    <ClInclude Include="VertexFlatEffect.h" />
     <ClInclude Include="ZBuffer.h" />
   </ItemGroup>
   <ItemGroup>
