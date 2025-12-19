@@ -12,12 +12,6 @@ public:
 		x(x),
 		y(y)
 	{}
-	template<typename T2>
-	_Vec2(T2 x, T2 y)
-		: 
-		x(static_cast<T>(x)), 
-		y(static_cast<T>(y))
-	{}
 	template <typename T2>
 	explicit operator _Vec2<T2>() const
 	{

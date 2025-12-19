@@ -158,19 +158,7 @@
     <ClInclude Include="Miniball.h">
       <Filter>Header Files\Draw</Filter>
     </ClInclude>
-    <ClInclude Include="NDCScreenTransformer.h">
-      <Filter>Header Files\Draw</Filter>
-    </ClInclude>
-    <ClInclude Include="ZBuffer.h">
-      <Filter>Header Files\Draw</Filter>
-    </ClInclude>
     <ClInclude Include="Sphere.h">
-      <Filter>Header Files\Draw</Filter>
-    </ClInclude>
-    <ClInclude Include="SpecularPhongPointEffect.h">
-      <Filter>Header Files\Draw</Filter>
-    </ClInclude>
-    <ClInclude Include="SpecularPhongPointScene.h">
       <Filter>Header Files\Draw</Filter>
     </ClInclude>
     <ClInclude Include="App.h">
@@ -201,6 +189,15 @@
       <Filter>Header Files\Effects</Filter>
     </ClInclude>
     <ClInclude Include="Triangle.h">
+      <Filter>Header Files\Draw\temporary</Filter>
+    </ClInclude>
+    <ClInclude Include="SpecularPhongPointEffect.h">
+      <Filter>Header Files\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="NDCScreenTransformer.h">
+      <Filter>Header Files\Draw\temporary</Filter>
+    </ClInclude>
+    <ClInclude Include="ZBuffer.h">
       <Filter>Header Files\Draw\temporary</Filter>
     </ClInclude>
   </ItemGroup>
