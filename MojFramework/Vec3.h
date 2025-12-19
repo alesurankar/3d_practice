@@ -17,6 +17,11 @@ public:
         z(z)
     {
     }
+    _Vec3(const _Vec2<T>& v, T z)
+        :
+        _Vec3<T>(v.x, v.y, z)
+    {
+    }
     template <typename T2>
     explicit operator _Vec3<T2>() const
     {

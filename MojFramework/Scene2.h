@@ -19,6 +19,7 @@ private:
 	void CheckCollisions();
 	void CheckDestroyed();
 	void BindAndDraw(const Thing& obj);
+	Vec3 GetClickChords(const Mouse& mouse);
 private:
 	Graphics& gfx;
 	std::random_device rd;
@@ -31,6 +32,6 @@ private:
 	std::vector<std::unique_ptr<Bullet>> bullets;
 	static constexpr float aspect = Graphics::ScreenWidth / float(Graphics::ScreenHeight);
 	static constexpr float nearZ = 1.0f;
-	static constexpr float farZ = 100.0f;
+	static constexpr float farZ = 200.0f;
 	static constexpr float fieldOfView = 60.0f;
 };

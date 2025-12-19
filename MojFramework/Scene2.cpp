@@ -5,12 +5,12 @@ Scene2::Scene2(Graphics& gfx)
 	gfx(gfx),
 	pipeline(gfx),
 	rng(rd()),
-	vRand(-0.05f, 0.05f),
-	pRand(-15.0f, 15.0f),
-	zRand(50.0f, 100.0f)
+	vRand(-0.07f, 0.07f),
+	pRand(-50.0f, 50.0f),
+	zRand(100.0f, 200.0f)
 {
 	for (int i = 0; i < 100; i++) {
-		objects.emplace_back(std::make_unique<Thing>(gfx, Vec3(pRand(rng), pRand(rng), zRand(rng)), L"Images\\wood.bmp", 1.0f));
+		objects.emplace_back(std::make_unique<Thing>(gfx, Vec3(pRand(rng), pRand(rng), zRand(rng)), L"Images\\wood.bmp", 3.0f));
 	}
 	for (auto& obj : objects) {
 		obj->SetVelocity(vRand(rng), vRand(rng), vRand(rng));
@@ -28,7 +28,9 @@ void Scene2::Update(const Keyboard& kbd, Mouse& mouse, float dt)
 		switch (e.GetType())
 		{
 		case Mouse::Event::Type::LPress:
-			bullets.emplace_back(std::make_unique<Bullet>(gfx, Vec3(0.0f, -2.0f, 2.0f), L"Images\\white.bmp", 0.2f));
+			Vec3 spawn = Vec3(0.0f, -1.0f, 2.0f);
+			Vec3 dest = Vec3(GetClickChords(mouse));
+			bullets.emplace_back(std::make_unique<Bullet>(gfx, spawn, dest, L"Images\\white.bmp", 0.1f));
 			break;
 		}
 	}
@@ -38,7 +40,7 @@ void Scene2::Update(const Keyboard& kbd, Mouse& mouse, float dt)
 		obj->Rotate();
 	}
 	for (auto& bul : bullets)  {
-		bul->Move(0.0f,0.0f,1.0f);
+		bul->Move();
 	}
 
 	CheckCollisions();
@@ -130,4 +132,14 @@ void Scene2::BindAndDraw(const Thing& obj)
 	pipeline.effect.vs.BindProjection(proj);
 
 	pipeline.Draw(obj.GetTriangle());
+}
+
+Vec3 Scene2::GetClickChords(const Mouse& mouse)
+{
+	Vec2 mp = Vec2(mouse.GetPos());
+
+	float x = mp.x - Graphics::ScreenWidth * 0.5f;
+	float y = -(mp.y - Graphics::ScreenHeight * 0.5f);
+
+	return Vec3(x, y + 10.0f, 1000.0f);
 }

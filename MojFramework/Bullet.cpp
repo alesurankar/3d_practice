@@ -1,53 +1,62 @@
 #include "Bullet.h"
 
-Bullet::Bullet(Graphics& gfx, const Vec3& pos_in, const std::wstring& filename, float size)
+Bullet::Bullet(Graphics& gfx, const Vec3& pos_in, const Vec3& dest, const std::wstring& filename, float size)
 	:
 	Thing(gfx, pos_in, filename, size)
-{}
-
-void Bullet::Move(float x, float y, float z)
 {
-	pos.x += x;
-	pos.y += y;
-	pos.z += z;
+	Vec3 dir = dest - pos_in;
+
+	if (dir.LenSq() > 0.0001f)
+	{
+		dir.Normalize();
+	}
+
+	vel = dir * 3.0f;
+}
+
+void Bullet::Move()
+{
+	pos.x += vel.x;
+	pos.y += vel.y;
+	pos.z += vel.z;
 
 	CheckBorder();
 }
 
 void Bullet::CheckBorder()
 {
-	if (pos.x < -20.0f) {
-		pos.x = -20.0f;
+	if (pos.x < -60.0f) {
+		pos.x = -60.0f;
 		vel.x = -vel.x;
 		torq.x = -torq.x;
 		destroyed = true;
 	}
-	if (pos.y < -20.0f) {
-		pos.y = -20.0f;
+	if (pos.y < -60.0f) {
+		pos.y = -60.0f;
 		vel.y = -vel.y;
 		torq.y = -torq.y;
 		destroyed = true;
 	}
-	if (pos.z < 2.0f) {
-		pos.z = 2.0f;
+	if (pos.z < 0.0f) {
+		pos.z = 0.0f;
 		vel.z = -vel.z;
 		torq.z = -torq.z;
 		destroyed = true;
 	}
-	if (pos.x > 20.0f) {
-		pos.x = 20.0f;
+	if (pos.x > 60.0f) {
+		pos.x = 60.0f;
 		vel.x = -vel.x;
 		torq.x = -torq.x;
 		destroyed = true;
 	}
-	if (pos.y > 20.0f) {
-		pos.y = 20.0f;
+	if (pos.y > 60.0f) {
+		pos.y = 60.0f;
 		vel.y = -vel.y;
 		torq.y = -torq.y;
 		destroyed = true;
 	}
-	if (pos.z > 120.0f) {
-		pos.z = 120.0f;
+	if (pos.z > 220.0f) {
+		pos.z = 220.0f;
 		vel.z = -vel.z;
 		torq.z = -torq.z;
 		destroyed = true;

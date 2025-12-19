@@ -53,33 +53,33 @@ void Thing::Rotate()
 
 void Thing::CheckBorder()
 {
-	if (pos.x < -20.0f) {
-		pos.x = -20.0f;
+	if (pos.x < -60.0f) {
+		pos.x = -60.0f;
 		vel.x = -vel.x;
 		torq.x = -torq.x;
 	}
-	if (pos.y < -20.0f) {
-		pos.y = -20.0f;
+	if (pos.y < -60.0f) {
+		pos.y = -60.0f;
 		vel.y = -vel.y;
 		torq.y = -torq.y;
 	}
-	if (pos.z < 50.0f) {
-		pos.z = 50.0f;
+	if (pos.z < 100.0f) {
+		pos.z = 100.0f;
 		vel.z = -vel.z;
 		torq.z = -torq.z;
 	}
-	if (pos.x > 20.0f) {
-		pos.x = 20.0f;
+	if (pos.x > 60.0f) {
+		pos.x = 60.0f;
 		vel.x = -vel.x;
 		torq.x = -torq.x;
 	}
-	if (pos.y > 20.0f) {
-		pos.y = 20.0f;
+	if (pos.y > 60.0f) {
+		pos.y = 60.0f;
 		vel.y = -vel.y;
 		torq.y = -torq.y;
 	}
-	if (pos.z > 100.0f) {
-		pos.z = 100.0f;
+	if (pos.z > 200.0f) {
+		pos.z = 200.0f;
 		vel.z = -vel.z;
 		torq.z = -torq.z;
 	}
