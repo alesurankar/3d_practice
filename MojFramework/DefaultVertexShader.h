@@ -6,19 +6,15 @@ class DefaultVertexShader
 public:
 	typedef Vertex Output;
 public:
-	void BindRotation(const Mat3& rotation_in)
+	void BindTransformation(const Mat4& transformation_in)
 	{
-		rotation = rotation_in;
+		transformation = transformation_in;
 	}
-	void BindTranslation(const Vec3& translation_in)
+	Output operator()(const Vertex& v) const
 	{
-		translation = translation_in;
-	}
-	Output operator()(const Vertex& in) const
-	{
-		return{ in.pos * rotation + translation,in };
+		const Vec4 pt = Vec4(v.pos) * transformation;
+		return Output(Vec3(pt.x, pt.y, pt.z), v);
 	}
 private:
-	Mat3 rotation;
-	Vec3 translation;
+	Mat4 transformation;
 };

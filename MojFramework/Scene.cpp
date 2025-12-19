@@ -140,16 +140,13 @@ void Scene::CheckCollisions()
 
 void Scene::BindAndDraw(const TestObject& obj)
 {
-	pipeline.effect.ps.BindTexture(obj.GetTexture());
-	const Mat3 rot =
-		Mat3::RotationX(obj.GetOrnt().x) *
-		Mat3::RotationY(obj.GetOrnt().y) *
-		Mat3::RotationZ(obj.GetOrnt().z);
+    pipeline.effect.ps.BindTexture(obj.GetTexture());
+    pipeline.effect.vs.BindTransformation(
+        Mat4::RotationX(obj.GetOrnt().x) *
+        Mat4::RotationY(obj.GetOrnt().y) *
+        Mat4::RotationZ(obj.GetOrnt().z) *
+        Mat4::Translation(obj.GetPos().x, obj.GetPos().y, obj.GetPos().z)
+    );
 
-	const Vec3 trans = { obj.GetPos().x,obj.GetPos().y,obj.GetPos().z };
-
-	pipeline.effect.vs.BindRotation(rot);
-	pipeline.effect.vs.BindTranslation(trans);
-
-	pipeline.Draw(obj.GetTriangle());
-}
+    pipeline.Draw(obj.GetTriangle());
+} 
