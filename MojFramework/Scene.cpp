@@ -141,7 +141,7 @@ void Scene::CheckCollisions()
 void Scene::BindAndDraw(const TestObject& obj)
 {
     pipeline.effect.ps.BindTexture(obj.GetTexture());
-	const auto proj = Mat4::Projection(2.0f, 2.0f, 1.0f, 100.0f);
+	const auto proj = Mat4::ProjectionHFOV(90.0f, 1.0f, 1.0f, 100.0f);
 	const Mat4 world =
 		Mat4::RotationX(obj.GetOrnt().x) *
 		Mat4::RotationY(obj.GetOrnt().y) *

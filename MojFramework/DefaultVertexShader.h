@@ -15,6 +15,10 @@ public:
         proj = proj_in;
         worldProj = world * proj;
     }
+    const Mat4& GetProj() const
+    {
+        return proj;
+    }
     Output operator()(const Vertex& v) const
     {
         const Vec4 p4(v.pos, 1.0f);

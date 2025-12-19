@@ -23,9 +23,15 @@ public:
 public:
 	Pipeline(Graphics& gfx)
 		:
-		gfx(gfx),
-		zb(gfx.ScreenWidth, gfx.ScreenHeight)
+		Pipeline(gfx, std::make_shared<ZBuffer>(gfx.ScreenWidth, gfx.ScreenHeight))
 	{
+	}
+	Pipeline(Graphics& gfx, std::shared_ptr<ZBuffer> pZb_in)
+		:
+		gfx(gfx),
+		pZb(std::move(pZb_in))
+	{
+		assert(pZb->GetHeight() == gfx.ScreenHeight && pZb->GetWidth() == gfx.ScreenWidth);
 	}
 	void Draw(const IndexedTriangleList<Vertex>& triList)
 	{
@@ -34,7 +40,7 @@ public:
 	// needed to reset the z-buffer and tri idx after each frame
 	void BeginFrame()
 	{
-		zb.Clear();
+		pZb->Clear();
 		triangle_index = 0u;
 	}
 private:
@@ -58,6 +64,7 @@ private:
 	// culls (does not send) back facing triangles
 	void AssembleTriangles(const std::vector<VSOut>& vertices, const std::vector<size_t>& indices)
 	{
+		const auto eyepos = Vec4{ 0.0f,0.0f,0.0f,1.0f } *effect.vs.GetProj();
 		// assemble triangles in the stream and process
 		for (size_t i = 0, end = indices.size() / 3;
 			i < end; i++)
@@ -67,7 +74,7 @@ private:
 			const auto& v1 = vertices[indices[i * 3 + 1]];
 			const auto& v2 = vertices[indices[i * 3 + 2]];
 			// cull backfacing triangles with cross product (%) shenanigans
-			if ((v1.pos - v0.pos) % (v2.pos - v0.pos) * v0.pos <= 0.0f)
+			if ((v1.pos - v0.pos) % (v2.pos - v0.pos) * Vec3(v0.pos - eyepos) <= 0.0f)
 			{
 				// process 3 vertices into a triangle
 				ProcessTriangle(v0, v1, v2, i);
@@ -334,7 +341,7 @@ private:
 
 			for (int x = xStart; x < xEnd; x++, iLine += diLine)
 			{
-				if (zb.TestAndSet(x, y, iLine.pos.z))
+				if (pZb->TestAndSet(x, y, iLine.pos.z))
 				{
 					const float w = 1.0f / iLine.pos.w;
 					const auto attr = iLine * w;
@@ -348,6 +355,6 @@ public:
 private:
 	Graphics& gfx;
 	NDCScreenTransformer nst;
-	ZBuffer zb;
+	std::shared_ptr<ZBuffer> pZb;
 	unsigned int triangle_index;
 };
