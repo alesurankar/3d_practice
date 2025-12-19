@@ -2,7 +2,7 @@
 #include "MyWin.h"
 #include "Graphics.h"
 #include "Triangle.h"
-#include "IndexedTriangleList.h"
+#include "IndexedList.h"
 #include "NDCScreenTransformer.h"
 #include "Mat.h"
 #include "ZBuffer.h"
@@ -23,23 +23,19 @@ public:
 public:
 	Pipeline(Graphics& gfx)
 		:
-		Pipeline(gfx, std::make_shared<ZBuffer>(gfx.ScreenWidth, gfx.ScreenHeight))
-	{}
-	Pipeline(Graphics& gfx, std::shared_ptr<ZBuffer> pZb_in)
-		:
 		gfx(gfx),
-		pZb(std::move(pZb_in))
+		zb(gfx.ScreenWidth, gfx.ScreenHeight)
 	{
-		assert(pZb->GetHeight() == gfx.ScreenHeight && pZb->GetWidth() == gfx.ScreenWidth);
 	}
 	void Draw(const IndexedTriangleList<Vertex>& triList)
 	{
-		ProcessVertices(triList.vertices, triList.indices);
+		ProcessVertices(triList.vert, triList.ind);
 	}
-	// needed to reset the z-buffer after each frame
+	// needed to reset the z-buffer and tri idx after each frame
 	void BeginFrame()
 	{
-		pZb->Clear();
+		zb.Clear();
+		triangle_index = 0u;
 	}
 private:
 	// vertex processing function
@@ -62,7 +58,6 @@ private:
 	// culls (does not send) back facing triangles
 	void AssembleTriangles(const std::vector<VSOut>& vertices, const std::vector<size_t>& indices)
 	{
-		const auto eyepos = Vec4{ 0.0f,0.0f,0.0f,1.0f } *effect.vs.GetProj();
 		// assemble triangles in the stream and process
 		for (size_t i = 0, end = indices.size() / 3;
 			i < end; i++)
@@ -72,7 +67,7 @@ private:
 			const auto& v1 = vertices[indices[i * 3 + 1]];
 			const auto& v2 = vertices[indices[i * 3 + 2]];
 			// cull backfacing triangles with cross product (%) shenanigans
-			if ((v1.pos - v0.pos) % (v2.pos - v0.pos) * Vec3(v0.pos - eyepos) <= 0.0f)
+			if ((v1.pos - v0.pos) % (v2.pos - v0.pos) * v0.pos <= 0.0f)
 			{
 				// process 3 vertices into a triangle
 				ProcessTriangle(v0, v1, v2, i);
@@ -93,33 +88,33 @@ private:
 	void ClipCullTriangle(Triangle<GSOut>& t)
 	{
 		// cull tests
-		if (t.v0.pos.x > t.v0.pos.w &&
-			t.v1.pos.x > t.v1.pos.w &&
-			t.v2.pos.x > t.v2.pos.w)
+		if (t.v0.pos.x > t.v0.pos.z &&
+			t.v1.pos.x > t.v1.pos.z &&
+			t.v2.pos.x > t.v2.pos.z)
 		{
 			return;
 		}
-		if (t.v0.pos.x < -t.v0.pos.w &&
-			t.v1.pos.x < -t.v1.pos.w &&
-			t.v2.pos.x < -t.v2.pos.w)
+		if (t.v0.pos.x < -t.v0.pos.z &&
+			t.v1.pos.x < -t.v1.pos.z &&
+			t.v2.pos.x < -t.v2.pos.z)
 		{
 			return;
 		}
-		if (t.v0.pos.y > t.v0.pos.w &&
-			t.v1.pos.y > t.v1.pos.w &&
-			t.v2.pos.y > t.v2.pos.w)
+		if (t.v0.pos.y > t.v0.pos.z &&
+			t.v1.pos.y > t.v1.pos.z &&
+			t.v2.pos.y > t.v2.pos.z) 
 		{
 			return;
 		}
-		if (t.v0.pos.y < -t.v0.pos.w &&
-			t.v1.pos.y < -t.v1.pos.w &&
-			t.v2.pos.y < -t.v2.pos.w)
+		if (t.v0.pos.y < -t.v0.pos.z &&
+			t.v1.pos.y < -t.v1.pos.z &&
+			t.v2.pos.y < -t.v2.pos.z)
 		{
 			return;
 		}
-		if (t.v0.pos.z > t.v0.pos.w &&
-			t.v1.pos.z > t.v1.pos.w &&
-			t.v2.pos.z > t.v2.pos.w)
+		if (t.v0.pos.z > t.v0.pos.z &&
+			t.v1.pos.z > t.v1.pos.z &&
+			t.v2.pos.z > t.v2.pos.z)
 		{
 			return;
 		}
@@ -205,9 +200,9 @@ private:
 	void PostProcessTriangleVertices(Triangle<GSOut>& triangle)
 	{
 		// perspective divide and screen transform for all 3 vertices
-		pst.Transform(triangle.v0);
-		pst.Transform(triangle.v1);
-		pst.Transform(triangle.v2);
+		nst.Transform(triangle.v0);
+		nst.Transform(triangle.v1);
+		nst.Transform(triangle.v2);
 
 		// draw the triangle
 		DrawTriangle(triangle);
@@ -339,18 +334,10 @@ private:
 
 			for (int x = xStart; x < xEnd; x++, iLine += diLine)
 			{
-				// do z rejection / update of z buffer
-				// skip shading step if z rejected (early z)
-				if (pZb->TestAndSet(x, y, iLine.pos.z))
+				const float z = 1.0f / iLine.pos.z;
+				if (zb.TestAndSet(x, y, z))
 				{
-					// recover interpolated z from interpolated 1/z
-					const float w = 1.0f / iLine.pos.w;
-					// recover interpolated attributes
-					// (wasted effort in multiplying pos (x,y,z) here, but
-					//  not a huge deal, not worth the code complication to fix)
-					const auto attr = iLine * w;
-					// invoke pixel shader with interpolated vertex attributes
-					// and use result to set the pixel color on the screen
+					const auto attr = iLine * z;
 					gfx.PutPixel(x, y, effect.ps(attr));
 				}
 			}
@@ -360,6 +347,7 @@ public:
 	Effect effect;
 private:
 	Graphics& gfx;
-	NDCScreenTransformer pst;
-	std::shared_ptr<ZBuffer> pZb;
+	NDCScreenTransformer nst;
+	ZBuffer zb;
+	unsigned int triangle_index;
 };

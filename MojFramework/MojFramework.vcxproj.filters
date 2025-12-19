@@ -40,6 +40,9 @@
     <Filter Include="Header Files\Draw\temporary">
       <UniqueIdentifier>{b849323e-d973-4239-8073-cc1b55badfb3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Effects">
+      <UniqueIdentifier>{4faf1c14-0d2e-4a7e-a6c1-83188aadf37a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="App.cpp">
@@ -77,6 +80,9 @@
     </ClCompile>
     <ClCompile Include="tiny_obj_loader.cpp">
       <Filter>Source Files\Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="TestObject.cpp">
+      <Filter>Source Files\App</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -161,41 +167,41 @@
     <ClInclude Include="Sphere.h">
       <Filter>Header Files\Draw</Filter>
     </ClInclude>
-    <ClInclude Include="Scene.h">
-      <Filter>Header Files\Draw</Filter>
-    </ClInclude>
-    <ClInclude Include="SolidEffect.h">
-      <Filter>Header Files\Draw</Filter>
-    </ClInclude>
     <ClInclude Include="SpecularPhongPointEffect.h">
       <Filter>Header Files\Draw</Filter>
     </ClInclude>
     <ClInclude Include="SpecularPhongPointScene.h">
       <Filter>Header Files\Draw</Filter>
     </ClInclude>
-    <ClInclude Include="Triangle.h">
-      <Filter>Header Files\Draw</Filter>
-    </ClInclude>
-    <ClInclude Include="Pipeline.h">
-      <Filter>Header Files\Draw</Filter>
-    </ClInclude>
     <ClInclude Include="App.h">
       <Filter>Header Files\App</Filter>
     </ClInclude>
-    <ClInclude Include="CubeScreenTransformer.h">
+    <ClInclude Include="IndexedList.h">
       <Filter>Header Files\Draw\temporary</Filter>
     </ClInclude>
-    <ClInclude Include="Cube.h">
+    <ClInclude Include="TestObject.h">
       <Filter>Header Files\Draw\temporary</Filter>
     </ClInclude>
-    <ClInclude Include="IndexedLineList.h">
+    <ClInclude Include="Box.h">
+      <Filter>Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Drawable.h">
       <Filter>Header Files\Draw\temporary</Filter>
     </ClInclude>
-    <ClInclude Include="MyScene.h">
+    <ClInclude Include="TextureEffect.h">
+      <Filter>Header Files\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="Pipeline.h">
       <Filter>Header Files\Draw\temporary</Filter>
     </ClInclude>
-    <ClInclude Include="Object.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Scene.h">
+      <Filter>Header Files\Draw\temporary</Filter>
+    </ClInclude>
+    <ClInclude Include="SolidEffect.h">
+      <Filter>Header Files\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="Triangle.h">
+      <Filter>Header Files\Draw\temporary</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

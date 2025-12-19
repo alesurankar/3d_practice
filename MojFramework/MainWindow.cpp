@@ -21,7 +21,7 @@ MainWindow::MainWindow(HINSTANCE hInst, wchar_t* pArgs)
 
 	// create window & get hWnd
 	RECT wr;
-	wr.left = 350;
+	wr.left = 150;
 	wr.right = Graphics::ScreenWidth + wr.left;
 	wr.top = 100;
 	wr.bottom = Graphics::ScreenHeight + wr.top;

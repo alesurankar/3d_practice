@@ -35,10 +35,25 @@ public:
 	{
 		return{ float(GetR()),float(GetG()), float(GetB()) };
 	}
+	Color operator*(const Vec3& v) const
+	{
+		unsigned char r = std::min(255, int(GetR() * v.x));
+		unsigned char g = std::min(255, int(GetG() * v.y));
+		unsigned char b = std::min(255, int(GetB() * v.z));
+		return Color(r, g, b);
+	}
 	Color& operator =(Color color)
 	{
 		dword = color.dword;
 		return *this;
+	}
+	bool operator ==(const Color& rhs) const
+	{
+		return dword == rhs.dword;
+	}
+	bool operator!=(const Color& rhs)const
+	{
+		return !(*this == rhs);
 	}
 	constexpr unsigned char GetX() const
 	{
@@ -90,12 +105,20 @@ namespace Colors
 	}
 	static constexpr Color White = MakeRGB(255u, 255u, 255u);
 	static constexpr Color Black = MakeRGB(0u, 0u, 0u);
+	static constexpr Color DarkGray = MakeRGB(30, 30, 30);
 	static constexpr Color Gray = MakeRGB(0x80u, 0x80u, 0x80u);
 	static constexpr Color LightGray = MakeRGB(0xD3u, 0xD3u, 0xD3u);
 	static constexpr Color Red = MakeRGB(255u, 0u, 0u);
+	static constexpr Color DarkRed = MakeRGB(127u, 0u, 0u);
 	static constexpr Color Green = MakeRGB(0u, 255u, 0u);
+	static constexpr Color DarkGreen = MakeRGB(0u, 127u, 0u);
 	static constexpr Color Blue = MakeRGB(0u, 0u, 255u);
+	static constexpr Color DarkBlue = MakeRGB(0u, 0u, 127u);
 	static constexpr Color Yellow = MakeRGB(255u, 255u, 0u);
+	static constexpr Color Yellow2 = MakeRGB(255u, 255u, 0xD3u);
 	static constexpr Color Cyan = MakeRGB(0u, 255u, 255u);
+	static constexpr Color Cyan2 = MakeRGB(0xD3u, 255u, 255u);
 	static constexpr Color Magenta = MakeRGB(255u, 0u, 255u);
+	static constexpr Color Magenta2 = MakeRGB(255u, 0xD3u, 255u);
+	static constexpr Color Pink = MakeRGB(255u, 150u, 255u);
 }

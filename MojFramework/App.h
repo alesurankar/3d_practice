@@ -1,7 +1,7 @@
 #pragma once
 #include "Graphics.h"
 #include "FrameTimer.h"
-#include "MyScene.h"
+#include "Scene.h"
 #include <memory>
 
 class App
@@ -18,5 +18,6 @@ private:
 	MainWindow& wnd;
 	Graphics gfx;
 	FrameTimer ft;
-	std::unique_ptr<MyScene> scene;
+	float time = 0.0f;
+	std::unique_ptr<Scene> scene;
 };

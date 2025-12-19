@@ -7,7 +7,7 @@ App::App(MainWindow& wnd)
 	wnd(wnd),
 	gfx(wnd)
 {
-	scene = std::make_unique<MyScene>(gfx);
+	scene = std::make_unique<Scene>(gfx);
 }
 
 void App::Go()
