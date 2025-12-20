@@ -105,10 +105,12 @@
     <ClCompile Include="Surface.cpp" />
     <ClCompile Include="TestObject.cpp" />
     <ClCompile Include="Thing.cpp" />
+    <ClCompile Include="Thing2.cpp" />
     <ClCompile Include="tiny_obj_loader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bullet.h" />
+    <ClInclude Include="GeometryFlatEffect.h" />
     <ClInclude Include="Scene2.h" />
     <ClInclude Include="App.h" />
     <ClInclude Include="Box.h" />
@@ -146,6 +148,7 @@
     <ClInclude Include="TextureEffect.h" />
     <ClInclude Include="TextureLightEffect.h" />
     <ClInclude Include="Thing.h" />
+    <ClInclude Include="Thing2.h" />
     <ClInclude Include="tiny_obj_loader.h" />
     <ClInclude Include="Triangle.h" />
     <ClInclude Include="Vec2.h" />

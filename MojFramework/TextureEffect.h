@@ -114,7 +114,7 @@ public:
         Output operator()(const Vertex& v) const
         {
             Vec4 clipPos = v.pos * worldProj;
-
+    
             return Output(clipPos, v);
         }
     private:

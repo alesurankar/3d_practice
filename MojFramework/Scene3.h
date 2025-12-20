@@ -3,6 +3,7 @@
 #include "Mouse.h"
 #include "Graphics.h"
 #include "Thing.h"
+#include "Thing2.h"
 #include "Bullet.h"
 #include "Vec2.h"
 #include "Pipeline.h"
@@ -15,11 +16,11 @@ public:
 	void Update(const Keyboard& kbd, Mouse& mouse, float dt);
 	void Draw();
 private:
-	void BindAndDraw(const Thing& obj);
+	void BindAndDraw(const Thing2& obj);
 private:
-	Pipeline<TextureEffect> pipeline;
-	std::vector<std::unique_ptr<Thing>> objects;
-	std::vector<std::unique_ptr<Bullet>> bullets;
+	Pipeline<SolidGeometryEffect> pipeline;
+	std::vector<std::unique_ptr<Thing2>> objects;
+	//std::vector<std::unique_ptr<Bullet>> bullets;
 	static constexpr float aspect = Graphics::ScreenWidth / float(Graphics::ScreenHeight);
 	static constexpr float nearZ = 1.0f;
 	static constexpr float farZ = 200.0f;

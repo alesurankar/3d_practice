@@ -41,7 +41,6 @@ public:
 	void BeginFrame()
 	{
 		pZb->Clear();
-		triangle_index = 0u;
 	}
 private:
 	// vertex processing function
@@ -64,7 +63,7 @@ private:
 	// culls (does not send) back facing triangles
 	void AssembleTriangles(const std::vector<VSOut>& vertices, const std::vector<size_t>& indices)
 	{
-		const auto eyepos = Vec4{ 0.0f,0.0f,0.0f,1.0f } *effect.vs.GetProj();
+		//const auto eyepos = Vec4{ 0.0f,0.0f,0.0f,1.0f } *effect.vs.GetProj();
 		// assemble triangles in the stream and process
 		for (size_t i = 0, end = indices.size() / 3;
 			i < end; i++)
@@ -74,7 +73,7 @@ private:
 			const auto& v1 = vertices[indices[i * 3 + 1]];
 			const auto& v2 = vertices[indices[i * 3 + 2]];
 			// cull backfacing triangles with cross product (%) shenanigans
-			if ((v1.pos - v0.pos) % (v2.pos - v0.pos) * Vec3(v0.pos - eyepos) <= 0.0f)
+			if ((v1.pos - v0.pos) % (v2.pos - v0.pos) * v0.pos/*Vec3(v0.pos - eyepos)*/ <= 0.0f)
 			{
 				// process 3 vertices into a triangle
 				ProcessTriangle(v0, v1, v2, i);
@@ -89,119 +88,120 @@ private:
 		// generate triangle from 3 vertices using gs
 		// and send to clipper
 		auto e = effect.gs(v0, v1, v2, triangle_index);
-		ClipCullTriangle(e);
+		PostProcessTriangleVertices(e);
+		//ClipCullTriangle(e);
 	}
 
-	void ClipCullTriangle(Triangle<GSOut>& t)
-	{
-		// cull tests
-		if (t.v0.pos.x > t.v0.pos.w &&
-			t.v1.pos.x > t.v1.pos.w &&
-			t.v2.pos.x > t.v2.pos.w)
-		{
-			return;
-		}
-		if (t.v0.pos.x < -t.v0.pos.w &&
-			t.v1.pos.x < -t.v1.pos.w &&
-			t.v2.pos.x < -t.v2.pos.w)
-		{
-			return;
-		}
-		if (t.v0.pos.y > t.v0.pos.w &&
-			t.v1.pos.y > t.v1.pos.w &&
-			t.v2.pos.y > t.v2.pos.w) 
-		{
-			return;
-		}
-		if (t.v0.pos.y < -t.v0.pos.w &&
-			t.v1.pos.y < -t.v1.pos.w &&
-			t.v2.pos.y < -t.v2.pos.w)
-		{
-			return;
-		}
-		if (t.v0.pos.z > t.v0.pos.w &&
-			t.v1.pos.z > t.v1.pos.w &&
-			t.v2.pos.z > t.v2.pos.w)
-		{
-			return;
-		}
-		if (t.v0.pos.z < 0.0f &&
-			t.v1.pos.z < 0.0f &&
-			t.v2.pos.z < 0.0f)
-		{
-			return;
-		}
+	//void ClipCullTriangle(Triangle<GSOut>& t)
+	//{
+	//	// cull tests
+	//	if (t.v0.pos.x > t.v0.pos.w &&
+	//		t.v1.pos.x > t.v1.pos.w &&
+	//		t.v2.pos.x > t.v2.pos.w)
+	//	{
+	//		return;
+	//	}
+	//	if (t.v0.pos.x < -t.v0.pos.w &&
+	//		t.v1.pos.x < -t.v1.pos.w &&
+	//		t.v2.pos.x < -t.v2.pos.w)
+	//	{
+	//		return;
+	//	}
+	//	if (t.v0.pos.y > t.v0.pos.w &&
+	//		t.v1.pos.y > t.v1.pos.w &&
+	//		t.v2.pos.y > t.v2.pos.w) 
+	//	{
+	//		return;
+	//	}
+	//	if (t.v0.pos.y < -t.v0.pos.w &&
+	//		t.v1.pos.y < -t.v1.pos.w &&
+	//		t.v2.pos.y < -t.v2.pos.w)
+	//	{
+	//		return;
+	//	}
+	//	if (t.v0.pos.z > t.v0.pos.w &&
+	//		t.v1.pos.z > t.v1.pos.w &&
+	//		t.v2.pos.z > t.v2.pos.w)
+	//	{
+	//		return;
+	//	}
+	//	if (t.v0.pos.z < 0.0f &&
+	//		t.v1.pos.z < 0.0f &&
+	//		t.v2.pos.z < 0.0f)
+	//	{
+	//		return;
+	//	}
 
-		// clipping routines
-		const auto Clip1 = [this](GSOut& v0, GSOut& v1, GSOut& v2)
-			{
-				// calculate alpha values for getting adjusted vertices
-				const float alphaA = (-v0.pos.z) / (v1.pos.z - v0.pos.z);
-				const float alphaB = (-v0.pos.z) / (v2.pos.z - v0.pos.z);
-				// interpolate to get v0a and v0b
-				const auto v0a = interpolate(v0, v1, alphaA);
-				const auto v0b = interpolate(v0, v2, alphaB);
-				// draw triangles
-				{
-					auto t1 = Triangle<GSOut>{ v0a,v1,v2 };
-					PostProcessTriangleVertices(t1);
-				}
-				{
-					auto t1 = Triangle<GSOut>{ v0b,v0a,v2 };
-					PostProcessTriangleVertices(t1);
-				}
-			};
-		const auto Clip2 = [this](GSOut& v0, GSOut& v1, GSOut& v2)
-			{
-				// calculate alpha values for getting adjusted vertices
-				const float alpha0 = (-v0.pos.z) / (v2.pos.z - v0.pos.z);
-				const float alpha1 = (-v1.pos.z) / (v2.pos.z - v1.pos.z);
-				// interpolate to get v0a and v0b
-				v0 = interpolate(v0, v2, alpha0);
-				v1 = interpolate(v1, v2, alpha1);
-				// draw triangles
-				{
-					auto t1 = Triangle<GSOut>{ v0,v1,v2 };
-					PostProcessTriangleVertices(t1);
-				}
-			};
+	//	// clipping routines
+	//	const auto Clip1 = [this](GSOut& v0, GSOut& v1, GSOut& v2)
+	//		{
+	//			// calculate alpha values for getting adjusted vertices
+	//			const float alphaA = (-v0.pos.z) / (v1.pos.z - v0.pos.z);
+	//			const float alphaB = (-v0.pos.z) / (v2.pos.z - v0.pos.z);
+	//			// interpolate to get v0a and v0b
+	//			const auto v0a = interpolate(v0, v1, alphaA);
+	//			const auto v0b = interpolate(v0, v2, alphaB);
+	//			// draw triangles
+	//			{
+	//				auto t1 = Triangle<GSOut>{ v0a,v1,v2 };
+	//				PostProcessTriangleVertices(t1);
+	//			}
+	//			{
+	//				auto t1 = Triangle<GSOut>{ v0b,v0a,v2 };
+	//				PostProcessTriangleVertices(t1);
+	//			}
+	//		};
+	//	const auto Clip2 = [this](GSOut& v0, GSOut& v1, GSOut& v2)
+	//		{
+	//			// calculate alpha values for getting adjusted vertices
+	//			const float alpha0 = (-v0.pos.z) / (v2.pos.z - v0.pos.z);
+	//			const float alpha1 = (-v1.pos.z) / (v2.pos.z - v1.pos.z);
+	//			// interpolate to get v0a and v0b
+	//			v0 = interpolate(v0, v2, alpha0);
+	//			v1 = interpolate(v1, v2, alpha1);
+	//			// draw triangles
+	//			{
+	//				auto t1 = Triangle<GSOut>{ v0,v1,v2 };
+	//				PostProcessTriangleVertices(t1);
+	//			}
+	//		};
 
-		// near clipping tests
-		if (t.v0.pos.z < 0.0f)
-		{
-			if (t.v1.pos.z < 0.0f)
-			{
-				Clip2(t.v0, t.v1, t.v2);
-			}
-			else if (t.v2.pos.z < 0.0f)
-			{
-				Clip2(t.v0, t.v2, t.v1);
-			}
-			else
-			{
-				Clip1(t.v0, t.v1, t.v2);
-			}
-		}
-		else if (t.v1.pos.z < 0.0f)
-		{
-			if (t.v2.pos.z < 0.0f)
-			{
-				Clip2(t.v1, t.v2, t.v0);
-			}
-			else
-			{
-				Clip1(t.v1, t.v0, t.v2);
-			}
-		}
-		else if (t.v2.pos.z < 0.0f)
-		{
-			Clip1(t.v2, t.v0, t.v1);
-		}
-		else // no near clipping necessary
-		{
-			PostProcessTriangleVertices(t);
-		}
-	}
+	//	// near clipping tests
+	//	if (t.v0.pos.z < 0.0f)
+	//	{
+	//		if (t.v1.pos.z < 0.0f)
+	//		{
+	//			Clip2(t.v0, t.v1, t.v2);
+	//		}
+	//		else if (t.v2.pos.z < 0.0f)
+	//		{
+	//			Clip2(t.v0, t.v2, t.v1);
+	//		}
+	//		else
+	//		{
+	//			Clip1(t.v0, t.v1, t.v2);
+	//		}
+	//	}
+	//	else if (t.v1.pos.z < 0.0f)
+	//	{
+	//		if (t.v2.pos.z < 0.0f)
+	//		{
+	//			Clip2(t.v1, t.v2, t.v0);
+	//		}
+	//		else
+	//		{
+	//			Clip1(t.v1, t.v0, t.v2);
+	//		}
+	//	}
+	//	else if (t.v2.pos.z < 0.0f)
+	//	{
+	//		Clip1(t.v2, t.v0, t.v1);
+	//	}
+	//	else // no near clipping necessary
+	//	{
+	//		PostProcessTriangleVertices(t);
+	//	}
+	//}
 	// vertex post-processing function
 	// perform perspective and viewport transformations
 	void PostProcessTriangleVertices(Triangle<GSOut>& triangle)
@@ -343,11 +343,20 @@ private:
 			{
 				if (pZb->TestAndSet(x, y, iLine.pos.z))
 				{
-					const float w = 1.0f / iLine.pos.w;
-					const auto attr = iLine * w;
+					const float z = 1.0f / iLine.pos.z;
+					const auto attr = iLine * z;
 					gfx.PutPixel(x, y, effect.ps(attr));
 				}
 			}
+			//for (int x = xStart; x < xEnd; x++, iLine += diLine)
+			//{
+			//	if (pZb->TestAndSet(x, y, iLine.pos.z))
+			//	{
+			//		const float w = 1.0f / iLine.pos.w;
+			//		const auto attr = iLine * w;
+			//		gfx.PutPixel(x, y, effect.ps(attr));
+			//	}
+			//}
 		}
 	}
 public:
@@ -356,5 +365,4 @@ private:
 	Graphics& gfx;
 	NDCScreenTransformer nst;
 	std::shared_ptr<ZBuffer> pZb;
-	unsigned int triangle_index;
 };

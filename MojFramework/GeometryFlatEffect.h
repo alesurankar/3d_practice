@@ -1,10 +1,14 @@
 #pragma once
+
 #include "Pipeline.h"
 #include "DefaultVertexShader.h"
+#include "DefaultGeometryShader.h"
 
-class SolidGeometryEffect
+// flat shading with face normals calculated in gs
+class GeometryFlatEffect
 {
 public:
+	// the vertex type that will be input into the pipeline
 	class Vertex
 	{
 	public:
@@ -16,23 +20,12 @@ public:
 		}
 		Vertex(const Vec3& pos, const Vertex& src)
 			:
-			pos(pos),
-			n(src.n),
-			t(src.t)
-		{
-		}
-		Vertex(const Vec3& pos, const Vec3& normal, const Vec2& t)
-			:
-			pos(pos),
-			n(normal),
-			t(t)
+			pos(pos)
 		{
 		}
 		Vertex& operator+=(const Vertex& rhs)
 		{
 			pos += rhs.pos;
-			n += rhs.n;
-			t += rhs.t;
 			return *this;
 		}
 		Vertex operator+(const Vertex& rhs) const
@@ -42,8 +35,6 @@ public:
 		Vertex& operator-=(const Vertex& rhs)
 		{
 			pos -= rhs.pos;
-			n -= rhs.n;
-			t -= rhs.t;
 			return *this;
 		}
 		Vertex operator-(const Vertex& rhs) const
@@ -53,8 +44,6 @@ public:
 		Vertex& operator*=(float rhs)
 		{
 			pos *= rhs;
-			n *= rhs;
-			t *= rhs;
 			return *this;
 		}
 		Vertex operator*(float rhs) const
@@ -64,8 +53,6 @@ public:
 		Vertex& operator/=(float rhs)
 		{
 			pos /= rhs;
-			n /= rhs;
-			t /= rhs;
 			return *this;
 		}
 		Vertex operator/(float rhs) const
@@ -74,41 +61,9 @@ public:
 		}
 	public:
 		Vec3 pos;
-		Vec3 n;
-		Vec2 t;
 	};
 
 	typedef DefaultVertexShader<Vertex> VertexShader;
-
-	//class VertexShader
-	//{
-	//public:
-	//	using Output = Vertex;
-	//	void BindWorld(const Mat4& world_in)
-	//	{
-	//		world = world_in;
-	//		worldProj = world * proj;
-	//	}
-	//	void BindProjection(const Mat4& proj_in)
-	//	{
-	//		proj = proj_in;
-	//		worldProj = world * proj;
-	//	}
-	//	const Mat4& GetProj() const
-	//	{
-	//		return proj;
-	//	}
-	//	Output operator()(const Vertex& v) const
-	//	{
-	//		Vec4 clipPos = v.pos * worldProj;
-	//
-	//		return Output(clipPos, v);
-	//	}
-	//private:
-	//	Mat4 world = Mat4::Identity();
-	//	Mat4 proj = Mat4::Identity();
-	//	Mat4 worldProj = Mat4::Identity();
-	//};
 
 	class GeometryShader
 	{
@@ -177,19 +132,43 @@ public:
 	public:
 		Triangle<Output> operator()(const VertexShader::Output& in0, const VertexShader::Output& in1, const VertexShader::Output& in2, size_t triangle_index) const
 		{
-			return{
-				{ in0.pos,triangle_colors[triangle_index / 2] },
-				{ in1.pos,triangle_colors[triangle_index / 2] },
-				{ in2.pos,triangle_colors[triangle_index / 2] }
-			};
-		};
-		void BindColors(std::vector<Color> colors)
+			// calculate face normal
+			const auto n = ((in1.pos - in0.pos) % (in2.pos - in0.pos)).GetNormalized();
+			// calculate intensity based on angle of incidence
+			const auto d = diffuse * std::max(0.0f, -n * dir);
+			// add diffuse+ambient, filter by material color, saturate and scale
+			const auto c = Color(color.GetHadamard(d + ambient).Saturate() * 255.0f);
+			return{ {in0.pos,c},{in1.pos,c},{in2.pos,c} };
+		}
+		void SetDiffuseLight(const Vec3& c)
 		{
-			triangle_colors = std::move(colors);
+			diffuse = { c.x,c.y,c.z };
+		}
+		void SetAmbientLight(const Vec3& c)
+		{
+			ambient = { c.x,c.y,c.z };
+		}
+		void SetLightDirection(const Vec3& dl)
+		{
+			assert(dl.LenSq() >= 0.001f);
+			dir = dl.GetNormalized();
+		}
+		void SetMaterialColor(Color c)
+		{
+			color = Vec3(c);
 		}
 	private:
-		std::vector<Color> triangle_colors;
+		Mat3 rotation;
+		Vec3 translation;
+		Vec3 dir = { 0.0f,0.0f,1.0f };
+		Vec3 diffuse = { 1.0f,1.0f,1.0f };
+		Vec3 ambient = { 0.1f,0.1f,0.1f };
+		Vec3 color = { 0.8f,0.85f,1.0f };
 	};
+	// invoked for each pixel of a triangle
+	// takes an input of attributes that are the
+	// result of interpolating vertex attributes
+	// and outputs a color
 	class PixelShader
 	{
 	public:
