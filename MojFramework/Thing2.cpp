@@ -9,10 +9,11 @@ Thing2::Thing2(Graphics& gfx, const Vec3& pos_in, float size_in)
 	vel({ 0.0f,0.0f,0.0f }),
 	torq({ 0.0f,0.0f,0.0f }),
 	size(size_in),
-	itlist(Drawable::GetPlain<Vertex>(size)),
+	//itlist(Drawable::GetPlain<Vertex>(size)),                   //SolidGeometryEffect
+	itlist(Drawable::GetIndependentFacesNormals<Vertex>(size)),   //VertexFlatEffect
 	triangles(itlist)
 {
-	//pTexture = std::make_shared<Surface>(Surface::FromFile(filename_in)); 
+	//pTexture = std::make_shared<Surface>(Surface::FromFile(filename_in));   //TextureEffect
 }
 
 void Thing2::Move(float x, float y, float z)
@@ -161,7 +162,7 @@ Vec3 Thing2::GetOrnt() const
 	return ornt;
 }
 
-const IndexedTriangleList<SolidGeometryEffect::Vertex>& Thing2::GetTriangle() const
+const IndexedTriangleList<VertexFlatEffect::Vertex>& Thing2::GetTriangle() const
 {
 	return triangles;
 }

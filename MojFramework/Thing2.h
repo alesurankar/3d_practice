@@ -6,12 +6,13 @@
 #include "Mat.h"
 #include "Pipeline.h"
 #include "SolidGeometryEffect.h"
+#include "VertexFlatEffect.h"
 #include <memory>
 
 class Thing2
 {
 public:
-	typedef Pipeline<SolidGeometryEffect> Pipeline;
+	typedef Pipeline<VertexFlatEffect> Pipeline;
 	typedef typename Pipeline::Vertex Vertex;
 	Thing2(Graphics& gfx, const Vec3& pos_in, float size = 1.0f);
 	void Move(float x, float y, float z);
