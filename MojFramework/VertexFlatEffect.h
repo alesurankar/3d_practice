@@ -3,11 +3,10 @@
 #include "DefaultVertexShader.h"
 #include "DefaultGeometryShader.h"
 
-// flat shading with vertex normals
+
 class VertexFlatEffect
 {
 public:
-	// the vertex type that will be input into the pipeline
 	class Vertex
 	{
 	public:
@@ -73,8 +72,7 @@ public:
 		Vec3 pos;
 		Vec3 n;
 	};
-	// calculate color based on normal to light angle
-	// no interpolation of color attribute
+
 	class VertexShader
 	{
 	public:
@@ -181,12 +179,9 @@ public:
 		Vec3 ambient = { 0.1f,0.1f,0.1f };
 		Vec3 color = { 0.8f,0.85f,1.0f };
 	};
-	// default gs passes vertices through and outputs triangle
+
 	typedef DefaultGeometryShader<VertexShader::Output> GeometryShader;
-	// invoked for each pixel of a triangle
-	// takes an input of attributes that are the
-	// result of interpolating vertex attributes
-	// and outputs a color
+
 	class PixelShader
 	{
 	public:

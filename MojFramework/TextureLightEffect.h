@@ -8,7 +8,6 @@ public:
     class Vertex
     {
     public:
-
         Vertex() = default;
         Vertex(const Vec3& pos3, const Vec3& normal, const Vec2& tex)
             :

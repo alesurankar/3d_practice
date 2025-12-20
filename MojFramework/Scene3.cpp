@@ -64,8 +64,8 @@ void Scene3::BindAndDraw(const Thing2& obj)
 		Mat3::RotationX(obj.GetOrnt().x + 1.0f) *											   // VertexFlatEffect
 		Mat3::RotationY(obj.GetOrnt().y + 1.0f) *											   // VertexFlatEffect
 		Mat3::RotationZ(obj.GetOrnt().z + 1.0f);											   // VertexFlatEffect
-	Vec3 light_dir = { 0.2f,-0.5f,1.0f };                                                      // VertexFlatEffect
-	pipeline.effect.vs.SetLightDirection(light_dir * light_rot);							   // VertexFlatEffect
+	//Vec3 light_dir = { 0.2f,-0.5f,1.0f };                                                    // VertexFlatEffect
+	//pipeline.effect.vs.SetLightDirection(light_dir * light_rot);							   // VertexFlatEffect
    
 	pipeline.Draw(obj.GetTriangle());
 }
