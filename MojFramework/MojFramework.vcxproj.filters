@@ -49,6 +49,12 @@
     <Filter Include="Source Files\scene2">
       <UniqueIdentifier>{a62f959c-802f-4b86-97c3-45b3a16ba84c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\scene3">
+      <UniqueIdentifier>{b427c440-e5e8-4c23-86a8-f21a5e900e86}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\scene3">
+      <UniqueIdentifier>{97b9253a-02fc-433e-b7c9-884929f70c25}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="App.cpp">
@@ -98,6 +104,9 @@
     </ClCompile>
     <ClCompile Include="Bullet.cpp">
       <Filter>Source Files\scene2</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene3.cpp">
+      <Filter>Source Files\scene3</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -232,6 +241,9 @@
     </ClInclude>
     <ClInclude Include="VertexFlatEffect.h">
       <Filter>Header Files\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene3.h">
+      <Filter>Header Files\scene3</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

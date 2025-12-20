@@ -3,6 +3,7 @@
 #include "FrameTimer.h"
 #include "Scene.h"
 #include "Scene2.h"
+#include "Scene3.h"
 #include <memory>
 
 class App
@@ -20,5 +21,5 @@ private:
 	Graphics gfx;
 	FrameTimer ft;
 	float time = 0.0f;
-	std::unique_ptr<Scene2> scene;
+	std::unique_ptr<Scene3> scene;
 };

@@ -101,6 +101,7 @@
     <ClCompile Include="Mouse.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Scene2.cpp" />
+    <ClCompile Include="Scene3.cpp" />
     <ClCompile Include="Surface.cpp" />
     <ClCompile Include="TestObject.cpp" />
     <ClCompile Include="Thing.cpp" />
@@ -131,6 +132,7 @@
     <ClInclude Include="MyException.h" />
     <ClInclude Include="MyMath.h" />
     <ClInclude Include="MyWin.h" />
+    <ClInclude Include="Scene3.h" />
     <ClInclude Include="SolidGeometryEffect.h" />
     <ClInclude Include="TestObject.h" />
     <ClInclude Include="Pipeline.h" />
