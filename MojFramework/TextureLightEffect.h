@@ -155,7 +155,7 @@ public:
         Color operator()(const Input& in) const
         {
             Color tex = pTex->GetPixel(
-                (unsigned)std::min(in.t.x * texW + 0.5f, texW - 1),
+                (unsigned int)std::min(in.t.x * tex_width + 0.5f, tex_xclamp),
                 (unsigned)std::min(in.t.y * texH + 0.5f, texH - 1)
             );
             return tex * Vec3(in.color);
