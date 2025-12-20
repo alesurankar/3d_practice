@@ -8,13 +8,14 @@ Thing2::Thing2(Graphics& gfx, const Vec3& pos_in, float size_in)
 	ornt({ 0.0f,0.0f,0.0f }),
 	vel({ 0.0f,0.0f,0.0f }),
 	torq({ 0.0f,0.0f,0.0f }),
-	size(size_in),
-	//itlist(Drawable::GetPlain<Vertex>(size)),                     //SolidGeometryEffect
-	//itlist(Drawable::GetIndependentFacesNormals<Vertex>(size)),   //VertexFlatEffect
-	itlist(Drawable::GetPlain<Vertex>(size)),                       //GeometryFlatEffect
-	triangles(itlist)
+	size(size_in)
+	//itlist(Drawable::GetPlain<Vertex>(size))                     //SolidGeometryEffect
+	//itlist(Drawable::GetIndependentFacesNormals<Vertex>(size))   //VertexFlatEffect
+	//itlist(Drawable::GetPlain<Vertex>(size))                       //GeometryFlatEffect
 {
 	//pTexture = std::make_shared<Surface>(Surface::FromFile(filename_in));   //TextureEffect
+	itlist = IndexedTriangleList<Vertex>::Load("models\\suzanne.obj");
+	triangles = itlist;
 }
 
 void Thing2::Move(float x, float y, float z)
@@ -55,8 +56,8 @@ void Thing2::Rotate(float dt)
 
 void Thing2::CheckBorder()
 {
-	if (pos.x < -8.0f) {
-		pos.x = -8.0f;
+	if (pos.x < -6.0) {
+		pos.x = -6.0f;
 		vel.x = -vel.x;
 		torq.x = -torq.x;
 	}
@@ -65,13 +66,13 @@ void Thing2::CheckBorder()
 		vel.y = -vel.y;
 		torq.y = -torq.y;
 	}
-	if (pos.z < 20.0f) {
-		pos.z = 20.0f;
+	if (pos.z < 3.0f) {
+		pos.z = 3.0f;
 		vel.z = -vel.z;
 		torq.z = -torq.z;
 	}
-	if (pos.x > 8.0f) {
-		pos.x = 8.0f;
+	if (pos.x > 6.0f) {
+		pos.x = 6.0f;
 		vel.x = -vel.x;
 		torq.x = -torq.x;
 	}
@@ -80,8 +81,8 @@ void Thing2::CheckBorder()
 		vel.y = -vel.y;
 		torq.y = -torq.y;
 	}
-	if (pos.z > 40.0f) {
-		pos.z = 40.0f;
+	if (pos.z > 20.0f) {
+		pos.z = 20.0f;
 		vel.z = -vel.z;
 		torq.z = -torq.z;
 	}

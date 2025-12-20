@@ -1,5 +1,4 @@
 #pragma once
-
 #include "Pipeline.h"
 #include "DefaultVertexShader.h"
 #include "DefaultGeometryShader.h"

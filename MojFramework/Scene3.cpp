@@ -5,9 +5,10 @@ Scene3::Scene3(Graphics& gfx)
 	pipeline(gfx)
 {
 	//objects.emplace_back(std::make_unique<Thing>(gfx, Vec3(0.0f, 0.0f, 0.0f), L"Images\\stonewall.jpg", 4.0f));   //TextureEffect
-	objects.emplace_back(std::make_unique<Thing2>(gfx, Vec3(0.0f, 0.0f, 0.0f), 4.0f));								//SolidGeometryEffect
+	//objects.emplace_back(std::make_unique<Thing2>(gfx, Vec3(0.0f, 0.0f, 0.0f), 4.0f));							//SolidGeometryEffect
+	objects.emplace_back(std::make_unique<Thing2>(gfx, Vec3(0.0f, 0.0f, 0.0f), 4.0f));
 	for (auto& obj : objects) {
-		obj->SetVelocity(2.0f, -3.0f, 4.0f);
+		obj->SetVelocity(1.0f, -1.0f, 1.0f);
 		obj->SetTorque(0.3f, 0.3f, 0.3f);
 	}
 }
