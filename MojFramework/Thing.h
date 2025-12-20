@@ -12,7 +12,7 @@
 class Thing
 {
 public:
-	typedef Pipeline<TextureLightEffect> Pipeline;
+	typedef Pipeline<TextureEffect> Pipeline;
 	typedef typename Pipeline::Vertex Vertex;
 	Thing(Graphics& gfx, const Vec3& pos_in, const std::wstring& filename, float size = 1.0f);
 	void Move(float x, float y, float z);

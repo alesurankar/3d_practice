@@ -53,33 +53,33 @@ void Thing::Rotate(float dt)
 
 void Thing::CheckBorder()
 {
-	if (pos.x < -60.0f) {
-		pos.x = -60.0f;
+	if (pos.x < -10.0f) {
+		pos.x = -10.0f;
 		vel.x = -vel.x;
 		torq.x = -torq.x;
 	}
-	if (pos.y < -60.0f) {
-		pos.y = -60.0f;
+	if (pos.y < -10.0f) {
+		pos.y = -10.0f;
 		vel.y = -vel.y;
 		torq.y = -torq.y;
 	}
-	if (pos.z < 10.0f) {
-		pos.z = 10.0f;
+	if (pos.z < 20.0f) {
+		pos.z = 20.0f;
 		vel.z = -vel.z;
 		torq.z = -torq.z;
 	}
-	if (pos.x > 60.0f) {
-		pos.x = 60.0f;
+	if (pos.x > 10.0f) {
+		pos.x = 10.0f;
 		vel.x = -vel.x;
 		torq.x = -torq.x;
 	}
-	if (pos.y > 60.0f) {
-		pos.y = 60.0f;
+	if (pos.y > 10.0f) {
+		pos.y = 10.0f;
 		vel.y = -vel.y;
 		torq.y = -torq.y;
 	}
-	if (pos.z > 50.0f) {
-		pos.z = 50.0f;
+	if (pos.z > 40.0f) {
+		pos.z = 40.0f;
 		vel.z = -vel.z;
 		torq.z = -torq.z;
 	}
@@ -166,7 +166,7 @@ Vec3 Thing::GetOrnt() const
 	return ornt;
 }
 
-const IndexedTriangleList<TextureLightEffect::Vertex>& Thing::GetTriangle() const
+const IndexedTriangleList<TextureEffect::Vertex>& Thing::GetTriangle() const
 {
 	return triangles;
 }

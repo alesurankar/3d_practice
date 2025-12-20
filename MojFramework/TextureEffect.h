@@ -8,43 +8,45 @@
 class TextureEffect
 {
 public:
-	// the vertex type that will be input into the pipeline
     class Vertex
     {
     public:
         Vertex() = default;
         Vertex(const Vec3& pos3)
-            : 
-            pos(pos3, 1.0f) 
+            :
+            pos(pos3, 1.0f)
         {
-        }   
+        }
         Vertex(const Vec4& pos4)
-            : 
-            pos(pos4) 
+            :
+            pos(pos4)
         {
         }
         Vertex(const Vec3& pos3, const Vertex& src)
-            : 
-            pos(pos3, 1.0f), 
-            t(src.t) 
+            :
+            pos(pos3, 1.0f),
+            n(src.n),
+            t(src.t)
         {
         }
         Vertex(const Vec4& pos4, const Vertex& src)
-            : 
-            pos(pos4), 
-            t(src.t) 
+            :
+            pos(pos4),
+            n(src.n),
+            t(src.t)
         {
         }
-
-        Vertex(const Vec4& pos4, const Vec2& t)
-            : 
-            pos(pos4), 
-            t(t) 
+        Vertex(const Vec4& pos4, const Vec3& normal, const Vec2& t)
+            :
+            pos(pos4),
+            n(normal),
+            t(t)
         {
         }
         Vertex& operator+=(const Vertex& rhs)
         {
             pos += rhs.pos;
+            n += rhs.n;
             t += rhs.t;
             return *this;
         }
@@ -55,35 +57,39 @@ public:
         Vertex& operator-=(const Vertex& rhs)
         {
             pos -= rhs.pos;
+            n -= rhs.n;
             t -= rhs.t;
             return *this;
         }
         Vertex operator-(const Vertex& rhs) const
-        { 
+        {
             return Vertex(*this) -= rhs;
         }
         Vertex& operator*=(float rhs)
         {
             pos *= rhs;
+            n *= rhs;
             t *= rhs;
             return *this;
         }
         Vertex operator*(float rhs) const
-        { 
-            return Vertex(*this) *= rhs; 
+        {
+            return Vertex(*this) *= rhs;
         }
         Vertex& operator/=(float rhs)
         {
             pos /= rhs;
+            n /= rhs;
             t /= rhs;
             return *this;
         }
         Vertex operator/(float rhs) const
-        { 
+        {
             return Vertex(*this) /= rhs;
         }
     public:
         Vec4 pos;
+        Vec3 n;
         Vec2 t;
     };
 
