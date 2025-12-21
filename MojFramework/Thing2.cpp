@@ -10,11 +10,8 @@ Thing2::Thing2(Graphics& gfx, const Vec3& pos_in, IndexedTriangleList<SceneVerte
 	torq({ 0.0f,0.0f,0.0f }),
 	size(size_in),
 	itlist(std::move(tl))
-	//itlist(Drawable::GetPlain<Vertex>(size))                     //SolidGeometryEffect
-	//itlist(Drawable::GetIndependentFacesNormals<Vertex>(size))   //VertexFlatEffect
 {
 	//pTexture = std::make_shared<Surface>(Surface::FromFile(filename_in));   //TextureEffect
-	//itlist = IndexedTriangleList<Vertex>::Load("models\\suzanne.obj");
 	itlist.AdjustToTrueCenter();
 	pos.x = itlist.GetRadius();
 	triangles = itlist;
