@@ -65,8 +65,8 @@ public:
 		Vec3 pos;
 		Color color;
 	};
-
-	class VertexShader
+	typedef DefaultVertexShader<Vertex> VertexShader;
+	// default gs passes vertices through and outputs triangle
 	{
 	public:
 		class Output
