@@ -88,120 +88,120 @@ private:
 		// generate triangle from 3 vertices using gs
 		// and send to clipper
 		auto e = effect.gs(v0, v1, v2, triangle_index);
-		PostProcessTriangleVertices(e);
-		//ClipCullTriangle(e);
+		//PostProcessTriangleVertices(e);
+		ClipCullTriangle(e);
 	}
 
-	//void ClipCullTriangle(Triangle<GSOut>& t)
-	//{
-	//	// cull tests
-	//	if (t.v0.pos.x > t.v0.pos.w &&
-	//		t.v1.pos.x > t.v1.pos.w &&
-	//		t.v2.pos.x > t.v2.pos.w)
-	//	{
-	//		return;
-	//	}
-	//	if (t.v0.pos.x < -t.v0.pos.w &&
-	//		t.v1.pos.x < -t.v1.pos.w &&
-	//		t.v2.pos.x < -t.v2.pos.w)
-	//	{
-	//		return;
-	//	}
-	//	if (t.v0.pos.y > t.v0.pos.w &&
-	//		t.v1.pos.y > t.v1.pos.w &&
-	//		t.v2.pos.y > t.v2.pos.w) 
-	//	{
-	//		return;
-	//	}
-	//	if (t.v0.pos.y < -t.v0.pos.w &&
-	//		t.v1.pos.y < -t.v1.pos.w &&
-	//		t.v2.pos.y < -t.v2.pos.w)
-	//	{
-	//		return;
-	//	}
-	//	if (t.v0.pos.z > t.v0.pos.w &&
-	//		t.v1.pos.z > t.v1.pos.w &&
-	//		t.v2.pos.z > t.v2.pos.w)
-	//	{
-	//		return;
-	//	}
-	//	if (t.v0.pos.z < 0.0f &&
-	//		t.v1.pos.z < 0.0f &&
-	//		t.v2.pos.z < 0.0f)
-	//	{
-	//		return;
-	//	}
+	void ClipCullTriangle(Triangle<GSOut>& t)
+	{
+		// cull tests
+		if (t.v0.pos.x > t.v0.pos.w &&
+			t.v1.pos.x > t.v1.pos.w &&
+			t.v2.pos.x > t.v2.pos.w)
+		{
+			return;
+		}
+		if (t.v0.pos.x < -t.v0.pos.w &&
+			t.v1.pos.x < -t.v1.pos.w &&
+			t.v2.pos.x < -t.v2.pos.w)
+		{
+			return;
+		}
+		if (t.v0.pos.y > t.v0.pos.w &&
+			t.v1.pos.y > t.v1.pos.w &&
+			t.v2.pos.y > t.v2.pos.w) 
+		{
+			return;
+		}
+		if (t.v0.pos.y < -t.v0.pos.w &&
+			t.v1.pos.y < -t.v1.pos.w &&
+			t.v2.pos.y < -t.v2.pos.w)
+		{
+			return;
+		}
+		if (t.v0.pos.z > t.v0.pos.w &&
+			t.v1.pos.z > t.v1.pos.w &&
+			t.v2.pos.z > t.v2.pos.w)
+		{
+			return;
+		}
+		if (t.v0.pos.z < 0.0f &&
+			t.v1.pos.z < 0.0f &&
+			t.v2.pos.z < 0.0f)
+		{
+			return;
+		}
 
-	//	// clipping routines
-	//	const auto Clip1 = [this](GSOut& v0, GSOut& v1, GSOut& v2)
-	//		{
-	//			// calculate alpha values for getting adjusted vertices
-	//			const float alphaA = (-v0.pos.z) / (v1.pos.z - v0.pos.z);
-	//			const float alphaB = (-v0.pos.z) / (v2.pos.z - v0.pos.z);
-	//			// interpolate to get v0a and v0b
-	//			const auto v0a = interpolate(v0, v1, alphaA);
-	//			const auto v0b = interpolate(v0, v2, alphaB);
-	//			// draw triangles
-	//			{
-	//				auto t1 = Triangle<GSOut>{ v0a,v1,v2 };
-	//				PostProcessTriangleVertices(t1);
-	//			}
-	//			{
-	//				auto t1 = Triangle<GSOut>{ v0b,v0a,v2 };
-	//				PostProcessTriangleVertices(t1);
-	//			}
-	//		};
-	//	const auto Clip2 = [this](GSOut& v0, GSOut& v1, GSOut& v2)
-	//		{
-	//			// calculate alpha values for getting adjusted vertices
-	//			const float alpha0 = (-v0.pos.z) / (v2.pos.z - v0.pos.z);
-	//			const float alpha1 = (-v1.pos.z) / (v2.pos.z - v1.pos.z);
-	//			// interpolate to get v0a and v0b
-	//			v0 = interpolate(v0, v2, alpha0);
-	//			v1 = interpolate(v1, v2, alpha1);
-	//			// draw triangles
-	//			{
-	//				auto t1 = Triangle<GSOut>{ v0,v1,v2 };
-	//				PostProcessTriangleVertices(t1);
-	//			}
-	//		};
+		// clipping routines
+		const auto Clip1 = [this](GSOut& v0, GSOut& v1, GSOut& v2)
+			{
+				// calculate alpha values for getting adjusted vertices
+				const float alphaA = (-v0.pos.z) / (v1.pos.z - v0.pos.z);
+				const float alphaB = (-v0.pos.z) / (v2.pos.z - v0.pos.z);
+				// interpolate to get v0a and v0b
+				const auto v0a = interpolate(v0, v1, alphaA);
+				const auto v0b = interpolate(v0, v2, alphaB);
+				// draw triangles
+				{
+					auto t1 = Triangle<GSOut>{ v0a,v1,v2 };
+					PostProcessTriangleVertices(t1);
+				}
+				{
+					auto t1 = Triangle<GSOut>{ v0b,v0a,v2 };
+					PostProcessTriangleVertices(t1);
+				}
+			};
+		const auto Clip2 = [this](GSOut& v0, GSOut& v1, GSOut& v2)
+			{
+				// calculate alpha values for getting adjusted vertices
+				const float alpha0 = (-v0.pos.z) / (v2.pos.z - v0.pos.z);
+				const float alpha1 = (-v1.pos.z) / (v2.pos.z - v1.pos.z);
+				// interpolate to get v0a and v0b
+				v0 = interpolate(v0, v2, alpha0);
+				v1 = interpolate(v1, v2, alpha1);
+				// draw triangles
+				{
+					auto t1 = Triangle<GSOut>{ v0,v1,v2 };
+					PostProcessTriangleVertices(t1);
+				}
+			};
 
-	//	// near clipping tests
-	//	if (t.v0.pos.z < 0.0f)
-	//	{
-	//		if (t.v1.pos.z < 0.0f)
-	//		{
-	//			Clip2(t.v0, t.v1, t.v2);
-	//		}
-	//		else if (t.v2.pos.z < 0.0f)
-	//		{
-	//			Clip2(t.v0, t.v2, t.v1);
-	//		}
-	//		else
-	//		{
-	//			Clip1(t.v0, t.v1, t.v2);
-	//		}
-	//	}
-	//	else if (t.v1.pos.z < 0.0f)
-	//	{
-	//		if (t.v2.pos.z < 0.0f)
-	//		{
-	//			Clip2(t.v1, t.v2, t.v0);
-	//		}
-	//		else
-	//		{
-	//			Clip1(t.v1, t.v0, t.v2);
-	//		}
-	//	}
-	//	else if (t.v2.pos.z < 0.0f)
-	//	{
-	//		Clip1(t.v2, t.v0, t.v1);
-	//	}
-	//	else // no near clipping necessary
-	//	{
-	//		PostProcessTriangleVertices(t);
-	//	}
-	//}
+		// near clipping tests
+		if (t.v0.pos.z < 0.0f)
+		{
+			if (t.v1.pos.z < 0.0f)
+			{
+				Clip2(t.v0, t.v1, t.v2);
+			}
+			else if (t.v2.pos.z < 0.0f)
+			{
+				Clip2(t.v0, t.v2, t.v1);
+			}
+			else
+			{
+				Clip1(t.v0, t.v1, t.v2);
+			}
+		}
+		else if (t.v1.pos.z < 0.0f)
+		{
+			if (t.v2.pos.z < 0.0f)
+			{
+				Clip2(t.v1, t.v2, t.v0);
+			}
+			else
+			{
+				Clip1(t.v1, t.v0, t.v2);
+			}
+		}
+		else if (t.v2.pos.z < 0.0f)
+		{
+			Clip1(t.v2, t.v0, t.v1);
+		}
+		else // no near clipping necessary
+		{
+			PostProcessTriangleVertices(t);
+		}
+	}
 	// vertex post-processing function
 	// perform perspective and viewport transformations
 	void PostProcessTriangleVertices(Triangle<GSOut>& triangle)

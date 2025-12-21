@@ -52,7 +52,7 @@
     <Filter Include="Source Files\scene3">
       <UniqueIdentifier>{97b9253a-02fc-433e-b7c9-884929f70c25}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\App\pipeline">
+    <Filter Include="Header Files\pipeline">
       <UniqueIdentifier>{f2639954-e788-4825-ac57-95122c26e1dc}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -99,9 +99,6 @@
     <ClCompile Include="Scene2.cpp">
       <Filter>Source Files\scene2</Filter>
     </ClCompile>
-    <ClCompile Include="Thing.cpp">
-      <Filter>Source Files\scene2</Filter>
-    </ClCompile>
     <ClCompile Include="Bullet.cpp">
       <Filter>Source Files\scene2</Filter>
     </ClCompile>
@@ -109,6 +106,9 @@
       <Filter>Source Files\scene3</Filter>
     </ClCompile>
     <ClCompile Include="Thing2.cpp">
+      <Filter>Source Files\scene3</Filter>
+    </ClCompile>
+    <ClCompile Include="Thing.cpp">
       <Filter>Source Files\scene3</Filter>
     </ClCompile>
   </ItemGroup>
@@ -197,9 +197,6 @@
     <ClInclude Include="Scene2.h">
       <Filter>Header Files\scene2</Filter>
     </ClInclude>
-    <ClInclude Include="Thing.h">
-      <Filter>Header Files\scene2</Filter>
-    </ClInclude>
     <ClInclude Include="Bullet.h">
       <Filter>Header Files\scene2</Filter>
     </ClInclude>
@@ -249,22 +246,25 @@
       <Filter>Header Files\Draw</Filter>
     </ClInclude>
     <ClInclude Include="NDCScreenTransformer.h">
-      <Filter>Header Files\App\pipeline</Filter>
+      <Filter>Header Files\pipeline</Filter>
     </ClInclude>
     <ClInclude Include="IndexedList.h">
-      <Filter>Header Files\App\pipeline</Filter>
+      <Filter>Header Files\pipeline</Filter>
     </ClInclude>
     <ClInclude Include="ZBuffer.h">
-      <Filter>Header Files\App\pipeline</Filter>
+      <Filter>Header Files\pipeline</Filter>
     </ClInclude>
     <ClInclude Include="Triangle.h">
-      <Filter>Header Files\App\pipeline</Filter>
+      <Filter>Header Files\pipeline</Filter>
     </ClInclude>
     <ClInclude Include="Pipeline.h">
-      <Filter>Header Files\App\pipeline</Filter>
+      <Filter>Header Files\pipeline</Filter>
     </ClInclude>
     <ClInclude Include="SceneEffect.h">
-      <Filter>Header Files\App\pipeline</Filter>
+      <Filter>Header Files\pipeline</Filter>
+    </ClInclude>
+    <ClInclude Include="Thing.h">
+      <Filter>Header Files\scene3</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
