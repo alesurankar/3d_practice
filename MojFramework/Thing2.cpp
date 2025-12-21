@@ -13,7 +13,7 @@ Thing2::Thing2(Graphics& gfx, const Vec3& pos_in, IndexedTriangleList<SceneVerte
 {
 	//pTexture = std::make_shared<Surface>(Surface::FromFile(filename_in));   //TextureEffect
 	itlist.AdjustToTrueCenter();
-	pos.x = itlist.GetRadius();
+	pos.z = itlist.GetRadius() * 1.6f;
 	triangles = itlist;
 }
 

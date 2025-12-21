@@ -203,9 +203,6 @@
     <ClInclude Include="SolidGeometryEffect.h">
       <Filter>Header Files\Effects</Filter>
     </ClInclude>
-    <ClInclude Include="TextureLightEffect.h">
-      <Filter>Header Files\Effects</Filter>
-    </ClInclude>
     <ClInclude Include="VertexFlatEffect.h">
       <Filter>Header Files\Effects</Filter>
     </ClInclude>

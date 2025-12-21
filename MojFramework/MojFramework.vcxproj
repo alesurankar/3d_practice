@@ -150,7 +150,6 @@
     <ClInclude Include="Sphere.h" />
     <ClInclude Include="Surface.h" />
     <ClInclude Include="TextureEffect.h" />
-    <ClInclude Include="TextureLightEffect.h" />
     <ClInclude Include="Thing.h" />
     <ClInclude Include="Thing2.h" />
     <ClInclude Include="tiny_obj_loader.h" />
