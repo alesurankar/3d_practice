@@ -112,6 +112,7 @@
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="GeometryFlatEffect.h" />
     <ClInclude Include="GouraudEffect.h" />
+    <ClInclude Include="GouraudPointEffect.h" />
     <ClInclude Include="Scene2.h" />
     <ClInclude Include="App.h" />
     <ClInclude Include="Box.h" />

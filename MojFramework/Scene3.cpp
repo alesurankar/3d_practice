@@ -2,17 +2,20 @@
 
 Scene3::Scene3(Graphics& gfx)
 	:
-	pipeline(gfx)
+	sharedZ(std::make_shared<ZBuffer>(gfx.ScreenWidth, gfx.ScreenHeight)),
+	litPipeline(gfx, sharedZ),
+	unlitPipeline(gfx, sharedZ)
 {
 	//objects.emplace_back(std::make_unique<Thing>(gfx, Vec3(0.0f, 0.0f, 0.0f), L"Images\\stonewall.jpg", 4.0f));   //TextureEffect
 	//objects.emplace_back(std::make_unique<Thing2>(gfx, Vec3(0.0f, 0.0f, 0.0f), 4.0f));							//SolidGeometryEffect
 	//objects.emplace_back(std::make_unique<Thing2>(gfx, Vec3(0.0f, 0.0f, 0.0f), Sphere::GetPlain<SceneVertex>()));
 	//objects.emplace_back(std::make_unique<Thing2>(gfx, Vec3(0.0f, 0.0f, 0.0f), Sphere::GetPlainNormals<SceneVertex>()));
 	//objects.emplace_back(std::make_unique<Thing2>(gfx, Vec3(0.0f, 0.0f, 0.0f), Drawable::GetPlain<SceneVertex>()));
-	objects.emplace_back(std::make_unique<Thing2>(gfx, Vec3(0.0f, 0.0f, 0.0f), IndexedTriangleList<SceneVertex>::LoadNormals("models\\suzanne.obj")));
-	objects[0]->Move(0.0f, 0.0f, 0.0f);
-	objects[0]->Rotate(0.0f, 0.0f, 0.0f);
-	player = objects.back().get();
+	lights.emplace_back(std::make_unique<Thing>(gfx, Vec3(0.0f, 0.0f, 0.0f), Sphere::GetPlainColor<SolidVertex>(0.1f)));
+	lights[0]->Move(0.0f, 0.0f, 0.0f);
+	lights[0]->Rotate(0.0f, 0.0f, 0.0f);
+	player = lights.back().get();
+	objects.emplace_back(std::make_unique<Thing2>(gfx, Vec3(0.0f, 0.0f, 4.0f), IndexedTriangleList<SceneVertex>::LoadNormals("models\\suzanne.obj")));
 	//for (auto& obj : objects) {
 	//	obj->SetVelocity(1.0f, -1.0f, 1.0f);
 	//	obj->SetTorque(0.3f, 0.3f, 0.3f);
@@ -58,13 +61,17 @@ void Scene3::Update(const Keyboard& kbd, Mouse& mouse, float dt)
 
 void Scene3::Draw()
 {
-	pipeline.BeginFrame();
+	litPipeline.BeginFrame();
+	unlitPipeline.BeginFrame();
 	for (auto& obj : objects) {
-		BindAndDraw(*obj);
+		BindAndDrawObjects(*obj);
+	}
+	for (auto& lit : lights) {
+		BindAndDrawLights(*lit);
 	}
 }
 
-void Scene3::BindAndDraw(const Thing2& obj)
+void Scene3::BindAndDrawObjects(const Thing2& obj)
 {
 	//pipeline.effect.ps.BindTexture(obj.GetTexture());                                          //TextureEffect
 	
@@ -92,15 +99,33 @@ void Scene3::BindAndDraw(const Thing2& obj)
 
 	const Vec3 trans = { obj.GetPos().x, obj.GetPos().y, obj.GetPos().z };
 
-	pipeline.effect.vs.BindRotation(rot);
-	pipeline.effect.vs.BindTranslation(trans);
+	litPipeline.effect.vs.BindRotation(rot);
+	litPipeline.effect.vs.BindTranslation(trans);
 
-	const Mat3 light_rot =                                                                     // GeometryFlatEffect
-		Mat3::RotationX(obj.GetOrnt().x + 1.0f) *											   // GeometryFlatEffect
-		Mat3::RotationY(obj.GetOrnt().y + 1.0f) *											   // GeometryFlatEffect
-		Mat3::RotationZ(obj.GetOrnt().z + 1.0f);											   // GeometryFlatEffect
+	litPipeline.effect.vs.SetLightPosition({ player->GetPos().x, player->GetPos().y, player->GetPos().z });
+
+	//const Mat3 light_rot =                                                                     // GeometryFlatEffect
+	//	Mat3::RotationX(obj.GetOrnt().x + 1.0f) *											   // GeometryFlatEffect
+	//	Mat3::RotationY(obj.GetOrnt().y + 1.0f) *											   // GeometryFlatEffect
+	//	Mat3::RotationZ(obj.GetOrnt().z + 1.0f);											   // GeometryFlatEffect
 	//Vec3 light_dir = { 0.2f,-0.5f,1.0f };                                                    // VertexFlatEffect
 	//pipeline.effect.vs.SetLightDirection(light_dir * light_rot);							   // VertexFlatEffect
-   
-	pipeline.Draw(obj.GetTriangle());
+
+	litPipeline.Draw(obj.GetTriangle());
+}
+
+void Scene3::BindAndDrawLights(const Thing& obj)
+{
+	const Mat3 rot =
+		Mat3::RotationX(obj.GetOrnt().x) *
+		Mat3::RotationY(obj.GetOrnt().y) *
+		Mat3::RotationZ(obj.GetOrnt().z);
+
+	const Vec3 trans = { obj.GetPos().x, obj.GetPos().y, obj.GetPos().z };
+
+	unlitPipeline.effect.vs.BindRotation(rot);
+	unlitPipeline.effect.vs.BindTranslation(trans);
+
+
+	unlitPipeline.Draw(obj.GetTriangle());
 }

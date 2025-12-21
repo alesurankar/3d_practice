@@ -341,9 +341,9 @@ private:
 
 			for (int x = xStart; x < xEnd; x++, iLine += diLine)
 			{
-				if (pZb->TestAndSet(x, y, iLine.pos.z))
+				const float z = 1.0f / iLine.pos.z;
+				if (pZb->TestAndSet(x, y, z))
 				{
-					const float z = 1.0f / iLine.pos.z;
 					const auto attr = iLine * z;
 					gfx.PutPixel(x, y, effect.ps(attr));
 				}

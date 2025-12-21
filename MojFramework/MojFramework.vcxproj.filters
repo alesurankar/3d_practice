@@ -260,6 +260,9 @@
     <ClInclude Include="Thing2.h">
       <Filter>Header Files\scene3</Filter>
     </ClInclude>
+    <ClInclude Include="GouraudPointEffect.h">
+      <Filter>Header Files\Effects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="MojFramework.rc">

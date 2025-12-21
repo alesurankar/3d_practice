@@ -2,17 +2,19 @@
 #include "App.h"
 #include <utility>
 
-Thing::Thing(Graphics& gfx, const Vec3& pos_in, const std::wstring& filename_in, float size_in)
+Thing::Thing(Graphics& gfx, const Vec3& pos_in, IndexedTriangleList<SolidVertex> tl, float size_in)
 	:
 	pos(pos_in),
 	ornt({ 0.0f,0.0f,0.0f }),
 	vel({ 0.0f,0.0f,0.0f }),
 	torq({ 0.0f,0.0f,0.0f }),
 	size(size_in),
-	itlist(Drawable::GetSkinned<Vertex>(size)),
-	triangles(itlist)
+	itlist(std::move(tl))
 {
-	pTexture = std::make_shared<Surface>(Surface::FromFile(filename_in));
+	//pTexture = std::make_shared<Surface>(Surface::FromFile(filename_in));   //TextureEffect
+	itlist.AdjustToTrueCenter();
+	pos.x = itlist.GetRadius();
+	triangles = itlist;
 }
 
 void Thing::Move(float x, float y, float z)
@@ -53,33 +55,33 @@ void Thing::Rotate(float dt)
 
 void Thing::CheckBorder()
 {
-	if (pos.x < -10.0f) {
-		pos.x = -10.0f;
+	if (pos.x < -6.0) {
+		pos.x = -6.0f;
 		vel.x = -vel.x;
 		torq.x = -torq.x;
 	}
-	if (pos.y < -10.0f) {
-		pos.y = -10.0f;
+	if (pos.y < -6.0f) {
+		pos.y = -6.0f;
 		vel.y = -vel.y;
 		torq.y = -torq.y;
 	}
-	if (pos.z < 20.0f) {
-		pos.z = 20.0f;
+	if (pos.z < 3.0f) {
+		pos.z = 3.0f;
 		vel.z = -vel.z;
 		torq.z = -torq.z;
 	}
-	if (pos.x > 10.0f) {
-		pos.x = 10.0f;
+	if (pos.x > 6.0f) {
+		pos.x = 6.0f;
 		vel.x = -vel.x;
 		torq.x = -torq.x;
 	}
-	if (pos.y > 10.0f) {
-		pos.y = 10.0f;
+	if (pos.y > 6.0f) {
+		pos.y = 6.0f;
 		vel.y = -vel.y;
 		torq.y = -torq.y;
 	}
-	if (pos.z > 40.0f) {
-		pos.z = 40.0f;
+	if (pos.z > 20.0f) {
+		pos.z = 20.0f;
 		vel.z = -vel.z;
 		torq.z = -torq.z;
 	}
@@ -119,11 +121,6 @@ BoxF Thing::GetWorldBoundingBox() const
 		local.bottom + p.y,
 		local.back + p.z
 	);
-}
-
-const Surface& Thing::GetTexture() const
-{
-	return *pTexture;
 }
 
 void Thing::SetCollisionFlag()
@@ -166,7 +163,7 @@ Vec3 Thing::GetOrnt() const
 	return ornt;
 }
 
-const IndexedTriangleList<TextureEffect::Vertex>& Thing::GetTriangle() const
+const IndexedTriangleList<SolidVertex>& Thing::GetTriangle() const
 {
 	return triangles;
 }

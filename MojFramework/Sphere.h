@@ -1,4 +1,5 @@
 #pragma once
+#include "Colors.h"
 #include "Vec3.h"
 #include "Mat.h"
 #include "IndexedList.h"
@@ -88,6 +89,16 @@ public:
 		for (auto& v : sphere.vert)
 		{
 			v.n = v.pos.GetNormalized();
+		}
+		return sphere;
+	}
+	template<class V>
+	static IndexedTriangleList<V> GetPlainColor(float radius = 1.0f, int latDiv = 12, int longDiv = 24, const Color& color = Colors::White)
+	{
+		auto sphere = GetPlain<V>(radius, latDiv, longDiv);
+		for (auto& v : sphere.vert)
+		{
+			v.color = color;
 		}
 		return sphere;
 	}

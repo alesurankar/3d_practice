@@ -16,12 +16,15 @@ public:
 	void Update(const Keyboard& kbd, Mouse& mouse, float dt);
 	void Draw();
 private:
-	void BindAndDraw(const Thing2& obj);
+	void BindAndDrawObjects(const Thing2& obj);
+	void BindAndDrawLights(const Thing& obj);
 private:
-	Pipeline<SceneEffect> pipeline;
+	std::shared_ptr<ZBuffer> sharedZ; 
+	Pipeline<SceneEffect> litPipeline; 
+	Pipeline<SolidEffect> unlitPipeline;
 	std::vector<std::unique_ptr<Thing2>> objects; 
-	Thing2* player = nullptr;
-	//std::vector<std::unique_ptr<Bullet>> bullets;
+	std::vector<std::unique_ptr<Thing>> lights; 
+	Thing* player = nullptr;
 	static constexpr float aspect = Graphics::ScreenWidth / float(Graphics::ScreenHeight);
 	static constexpr float nearZ = 1.0f;
 	static constexpr float farZ = 200.0f;
