@@ -3,7 +3,7 @@
 #include "Box.h"
 #include "IndexedList.h"
 
-class Drawable
+class Squere
 {
 public:
 	static BoxF GetLocalBoundingBox(float size = 1.0f)

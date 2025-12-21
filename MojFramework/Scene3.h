@@ -28,6 +28,6 @@ private:
 	static constexpr float aspect = Graphics::ScreenWidth / float(Graphics::ScreenHeight);
 	static constexpr float nearZ = 1.0f;
 	static constexpr float farZ = 200.0f;
-	static constexpr float fieldOfView = 60.0f;
+	static constexpr float fieldOfView = 70.0f;
 	const Mat4 proj = Mat4::ProjectionHFOV(fieldOfView, aspect, nearZ, farZ);
 };

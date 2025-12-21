@@ -110,7 +110,7 @@ void Thing::ChangeTorque()
 
 BoxF Thing::GetWorldBoundingBox() const
 {
-	BoxF local = Drawable::GetLocalBoundingBox(size);
+	BoxF local = Squere::GetLocalBoundingBox(size);
 
 	const Vec3& p = pos;
 	return BoxF(

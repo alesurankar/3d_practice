@@ -37,9 +37,6 @@
     <Filter Include="Header Files\App">
       <UniqueIdentifier>{2a6e4225-9bf3-4331-820f-c84899e574a0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Draw\temporary">
-      <UniqueIdentifier>{b849323e-d973-4239-8073-cc1b55badfb3}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Effects">
       <UniqueIdentifier>{4faf1c14-0d2e-4a7e-a6c1-83188aadf37a}</UniqueIdentifier>
     </Filter>
@@ -54,6 +51,9 @@
     </Filter>
     <Filter Include="Source Files\scene3">
       <UniqueIdentifier>{97b9253a-02fc-433e-b7c9-884929f70c25}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\App\pipeline">
+      <UniqueIdentifier>{f2639954-e788-4825-ac57-95122c26e1dc}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -179,47 +179,20 @@
     <ClInclude Include="MouseTracker.h">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
-    <ClInclude Include="IndexedTriangleList.h">
-      <Filter>Header Files\Draw</Filter>
-    </ClInclude>
     <ClInclude Include="App.h">
       <Filter>Header Files\App</Filter>
-    </ClInclude>
-    <ClInclude Include="IndexedList.h">
-      <Filter>Header Files\Draw\temporary</Filter>
-    </ClInclude>
-    <ClInclude Include="TestObject.h">
-      <Filter>Header Files\Draw\temporary</Filter>
     </ClInclude>
     <ClInclude Include="Box.h">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
-    <ClInclude Include="Drawable.h">
-      <Filter>Header Files\Draw\temporary</Filter>
-    </ClInclude>
     <ClInclude Include="TextureEffect.h">
       <Filter>Header Files\Effects</Filter>
-    </ClInclude>
-    <ClInclude Include="Pipeline.h">
-      <Filter>Header Files\Draw\temporary</Filter>
-    </ClInclude>
-    <ClInclude Include="Scene.h">
-      <Filter>Header Files\Draw\temporary</Filter>
     </ClInclude>
     <ClInclude Include="SolidEffect.h">
       <Filter>Header Files\Effects</Filter>
     </ClInclude>
-    <ClInclude Include="Triangle.h">
-      <Filter>Header Files\Draw\temporary</Filter>
-    </ClInclude>
     <ClInclude Include="SpecularPhongPointEffect.h">
       <Filter>Header Files\Effects</Filter>
-    </ClInclude>
-    <ClInclude Include="NDCScreenTransformer.h">
-      <Filter>Header Files\Draw\temporary</Filter>
-    </ClInclude>
-    <ClInclude Include="ZBuffer.h">
-      <Filter>Header Files\Draw\temporary</Filter>
     </ClInclude>
     <ClInclude Include="Scene2.h">
       <Filter>Header Files\scene2</Filter>
@@ -245,17 +218,8 @@
     <ClInclude Include="GeometryFlatEffect.h">
       <Filter>Header Files\Effects</Filter>
     </ClInclude>
-    <ClInclude Include="Miniball.h">
-      <Filter>Header Files\Draw\temporary</Filter>
-    </ClInclude>
-    <ClInclude Include="Sphere.h">
-      <Filter>Header Files\Draw\temporary</Filter>
-    </ClInclude>
     <ClInclude Include="GouraudEffect.h">
       <Filter>Header Files\Effects</Filter>
-    </ClInclude>
-    <ClInclude Include="SceneEffect.h">
-      <Filter>Header Files\Draw\temporary</Filter>
     </ClInclude>
     <ClInclude Include="Thing2.h">
       <Filter>Header Files\scene3</Filter>
@@ -263,11 +227,44 @@
     <ClInclude Include="GouraudPointEffect.h">
       <Filter>Header Files\Effects</Filter>
     </ClInclude>
-    <ClInclude Include="Plane.h">
-      <Filter>Header Files\Draw\temporary</Filter>
-    </ClInclude>
     <ClInclude Include="PhongPointEffect.h">
       <Filter>Header Files\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="Squere.h">
+      <Filter>Header Files\Draw</Filter>
+    </ClInclude>
+    <ClInclude Include="Miniball.h">
+      <Filter>Header Files\Draw</Filter>
+    </ClInclude>
+    <ClInclude Include="Plane.h">
+      <Filter>Header Files\Draw</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>Header Files\Draw</Filter>
+    </ClInclude>
+    <ClInclude Include="Sphere.h">
+      <Filter>Header Files\Draw</Filter>
+    </ClInclude>
+    <ClInclude Include="TestObject.h">
+      <Filter>Header Files\Draw</Filter>
+    </ClInclude>
+    <ClInclude Include="NDCScreenTransformer.h">
+      <Filter>Header Files\App\pipeline</Filter>
+    </ClInclude>
+    <ClInclude Include="IndexedList.h">
+      <Filter>Header Files\App\pipeline</Filter>
+    </ClInclude>
+    <ClInclude Include="ZBuffer.h">
+      <Filter>Header Files\App\pipeline</Filter>
+    </ClInclude>
+    <ClInclude Include="Triangle.h">
+      <Filter>Header Files\App\pipeline</Filter>
+    </ClInclude>
+    <ClInclude Include="Pipeline.h">
+      <Filter>Header Files\App\pipeline</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneEffect.h">
+      <Filter>Header Files\App\pipeline</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
