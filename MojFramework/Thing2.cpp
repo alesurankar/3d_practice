@@ -8,13 +8,14 @@ Thing2::Thing2(Graphics& gfx, const Vec3& pos_in, float size_in)
 	ornt({ 0.0f,0.0f,0.0f }),
 	vel({ 0.0f,0.0f,0.0f }),
 	torq({ 0.0f,0.0f,0.0f }),
-	size(size_in)
+	size(size_in),
 	//itlist(Drawable::GetPlain<Vertex>(size))                     //SolidGeometryEffect
+	itlist(Sphere::GetPlain<Vertex>(size))                         //GeometryFlatEffect
 	//itlist(Drawable::GetIndependentFacesNormals<Vertex>(size))   //VertexFlatEffect
-	//itlist(Drawable::GetPlain<Vertex>(size))                       //GeometryFlatEffect
+	//itlist(Drawable::GetPlain<Vertex>(size))                     //GeometryFlatEffect
 {
 	//pTexture = std::make_shared<Surface>(Surface::FromFile(filename_in));   //TextureEffect
-	itlist = IndexedTriangleList<Vertex>::Load("models\\suzanne.obj");
+	//itlist = IndexedTriangleList<Vertex>::Load("models\\suzanne.obj");
 	itlist.AdjustToTrueCenter();
 	pos.x = itlist.GetRadius();
 	triangles = itlist;

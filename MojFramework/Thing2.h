@@ -1,5 +1,6 @@
 #pragma once
 #include "Drawable.h"
+#include "Sphere.h"
 #include "NDCScreenTransformer.h"
 #include "Graphics.h"
 #include "Vec3.h"
