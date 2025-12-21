@@ -19,7 +19,8 @@ private:
 	void BindAndDraw(const Thing2& obj);
 private:
 	Pipeline<GeometryFlatEffect> pipeline;
-	std::vector<std::unique_ptr<Thing2>> objects;
+	std::vector<std::unique_ptr<Thing2>> objects; 
+	Thing2* player = nullptr;
 	//std::vector<std::unique_ptr<Bullet>> bullets;
 	static constexpr float aspect = Graphics::ScreenWidth / float(Graphics::ScreenHeight);
 	static constexpr float nearZ = 1.0f;

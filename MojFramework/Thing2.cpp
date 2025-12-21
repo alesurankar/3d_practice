@@ -15,6 +15,8 @@ Thing2::Thing2(Graphics& gfx, const Vec3& pos_in, float size_in)
 {
 	//pTexture = std::make_shared<Surface>(Surface::FromFile(filename_in));   //TextureEffect
 	itlist = IndexedTriangleList<Vertex>::Load("models\\suzanne.obj");
+	itlist.AdjustToTrueCenter();
+	pos.x = itlist.GetRadius();
 	triangles = itlist;
 }
 

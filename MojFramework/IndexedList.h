@@ -4,6 +4,7 @@
 #include <utility>
 #include <cassert>
 #include "tiny_obj_loader.h"
+#include "Miniball.h"
 #include <fstream>
 #include <cctype>
 #include <sstream>
@@ -31,9 +32,7 @@ public:
 			std::ifstream file(filename);
 			std::string firstline;
 			std::getline(file, firstline);
-			std::transform(firstline.begin(), firstline.end(), firstline.begin(),
-				[](char c) { return static_cast<char>(std::tolower(c)); });
-
+			std::transform(firstline.begin(), firstline.end(), firstline.begin(), [](char c) { return static_cast<char>(std::tolower(c)); });
 			if (firstline.find("ccw") != std::string::npos)
 			{
 				isCCW = true;
@@ -101,6 +100,39 @@ public:
 		}
 
 		return tl;
+	}
+	void AdjustToTrueCenter()
+	{
+		// used to enable miniball to access vertex pos info
+		struct VertexAccessor
+		{
+			typedef std::vector<T>::const_iterator Pit;
+			typedef const float* Cit;
+			Cit operator()(Pit it) const
+			{
+				return &it->pos.x;
+			}
+		};
+
+		// solve the minimum bounding sphere
+		Miniball::Miniball<VertexAccessor> mb(3, vert.cbegin(), vert.cend());
+		// result is a pointer to float[3] (what a shitty fuckin interface)
+		const auto pc = mb.center();
+		const Vec3 center = { *pc,*std::next(pc),*std::next(pc,2) };
+		// adjust all vertices so that center of minimal sphere is at 0,0
+		for (auto& v : vert)
+		{
+			v.pos -= center;
+		}
+	}
+	float GetRadius() const
+	{
+		return std::max_element(vert.begin(), vert.end(),
+			[](const T& v0, const T& v1)
+			{
+				return v0.pos.LenSq() < v1.pos.LenSq();
+			}
+		)->pos.Len();
 	}
 	std::vector<T> vert;
 	std::vector<size_t> ind;

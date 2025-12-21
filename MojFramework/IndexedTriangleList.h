@@ -6,6 +6,7 @@
 #include <fstream>
 #include <cctype>
 #include <algorithm>
+#include <sstream>
 
 template<class T>
 class IndexedTriangleList
