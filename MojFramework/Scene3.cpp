@@ -6,7 +6,8 @@ Scene3::Scene3(Graphics& gfx)
 {
 	//objects.emplace_back(std::make_unique<Thing>(gfx, Vec3(0.0f, 0.0f, 0.0f), L"Images\\stonewall.jpg", 4.0f));   //TextureEffect
 	//objects.emplace_back(std::make_unique<Thing2>(gfx, Vec3(0.0f, 0.0f, 0.0f), 4.0f));							//SolidGeometryEffect
-	objects.emplace_back(std::make_unique<Thing2>(gfx, Vec3(0.0f, 0.0f, 0.0f), 4.0f));
+	objects.emplace_back(std::make_unique<Thing2>(gfx, Vec3(0.0f, 0.0f, 0.0f), Sphere::GetPlain<SceneVertex>()));
+	//objects.emplace_back(std::make_unique<Thing2>(gfx, Vec3(0.0f, 0.0f, 0.0f), Drawable::GetPlain<SceneVertex>()));
 	objects[0]->Move(0.0f, 0.0f, 0.0f);
 	objects[0]->Rotate(0.0f, 0.0f, 0.0f);
 	player = objects.back().get();
@@ -92,10 +93,10 @@ void Scene3::BindAndDraw(const Thing2& obj)
 	pipeline.effect.vs.BindRotation(rot);
 	pipeline.effect.vs.BindTranslation(trans);
 
-	const Mat3 light_rot =                                                                     // VertexFlatEffect
-		Mat3::RotationX(obj.GetOrnt().x + 1.0f) *											   // VertexFlatEffect
-		Mat3::RotationY(obj.GetOrnt().y + 1.0f) *											   // VertexFlatEffect
-		Mat3::RotationZ(obj.GetOrnt().z + 1.0f);											   // VertexFlatEffect
+	const Mat3 light_rot =                                                                     // GeometryFlatEffect
+		Mat3::RotationX(obj.GetOrnt().x + 1.0f) *											   // GeometryFlatEffect
+		Mat3::RotationY(obj.GetOrnt().y + 1.0f) *											   // GeometryFlatEffect
+		Mat3::RotationZ(obj.GetOrnt().z + 1.0f);											   // GeometryFlatEffect
 	//Vec3 light_dir = { 0.2f,-0.5f,1.0f };                                                    // VertexFlatEffect
 	//pipeline.effect.vs.SetLightDirection(light_dir * light_rot);							   // VertexFlatEffect
    

@@ -6,24 +6,22 @@
 #include "Vec3.h"
 #include "Mat.h"
 #include "Pipeline.h"
-#include "SolidGeometryEffect.h"
-#include "VertexFlatEffect.h"
-#include "GeometryFlatEffect.h"
+#include "SceneEffect.h"
 #include <memory>
 
 class Thing2
 {
 public:
-	typedef Pipeline<GeometryFlatEffect> Pipeline;
-	typedef typename Pipeline::Vertex Vertex;
-	Thing2(Graphics& gfx, const Vec3& pos_in, float size = 1.0f);
+	using Effect = SceneEffect;
+	using Pipeline = Pipeline<Effect>;
+	Thing2(Graphics& gfx, const Vec3& pos_in, IndexedTriangleList<SceneVertex> tl, float size = 1.0f);
 	void Move(float x, float y, float z);
 	void Move(float dt);
 	void Rotate(float x, float y, float z);
 	void Rotate(float dt);
 	Vec3 GetPos() const;
 	Vec3 GetOrnt() const;
-	const IndexedTriangleList<Vertex>& GetTriangle() const;
+	const IndexedTriangleList<SceneVertex>& GetTriangle() const;
 	void SetVelocity(float vx, float vy, float vz);
 	void ChangeVelocity();
 	void SetTorque(float roll, float pitch, float yaw);
@@ -43,8 +41,8 @@ public:
 	Vec3 vel;
 	Vec3 torq;
 	float size;
-	IndexedTriangleList<Vertex> itlist;
-	IndexedTriangleList<Vertex> triangles;
+	IndexedTriangleList<SceneVertex> itlist;
+	IndexedTriangleList<SceneVertex> triangles;
 	bool collisionFlag = false;
 	bool moved = true;
 	bool destroyed = false;

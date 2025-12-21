@@ -2,17 +2,16 @@
 #include "App.h"
 #include <utility>
 
-Thing2::Thing2(Graphics& gfx, const Vec3& pos_in, float size_in)
+Thing2::Thing2(Graphics& gfx, const Vec3& pos_in, IndexedTriangleList<SceneVertex> tl, float size_in)
 	:
 	pos(pos_in),
 	ornt({ 0.0f,0.0f,0.0f }),
 	vel({ 0.0f,0.0f,0.0f }),
 	torq({ 0.0f,0.0f,0.0f }),
 	size(size_in),
+	itlist(std::move(tl))
 	//itlist(Drawable::GetPlain<Vertex>(size))                     //SolidGeometryEffect
-	itlist(Sphere::GetPlain<Vertex>(size))                         //GeometryFlatEffect
 	//itlist(Drawable::GetIndependentFacesNormals<Vertex>(size))   //VertexFlatEffect
-	//itlist(Drawable::GetPlain<Vertex>(size))                     //GeometryFlatEffect
 {
 	//pTexture = std::make_shared<Surface>(Surface::FromFile(filename_in));   //TextureEffect
 	//itlist = IndexedTriangleList<Vertex>::Load("models\\suzanne.obj");
@@ -167,7 +166,7 @@ Vec3 Thing2::GetOrnt() const
 	return ornt;
 }
 
-const IndexedTriangleList<GeometryFlatEffect::Vertex>& Thing2::GetTriangle() const
+const IndexedTriangleList<SceneVertex>& Thing2::GetTriangle() const
 {
 	return triangles;
 }

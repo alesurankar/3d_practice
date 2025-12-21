@@ -111,6 +111,7 @@
   <ItemGroup>
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="GeometryFlatEffect.h" />
+    <ClInclude Include="GouraudEffect.h" />
     <ClInclude Include="Scene2.h" />
     <ClInclude Include="App.h" />
     <ClInclude Include="Box.h" />
@@ -135,6 +136,7 @@
     <ClInclude Include="MyMath.h" />
     <ClInclude Include="MyWin.h" />
     <ClInclude Include="Scene3.h" />
+    <ClInclude Include="SceneEffect.h" />
     <ClInclude Include="SolidGeometryEffect.h" />
     <ClInclude Include="TestObject.h" />
     <ClInclude Include="Pipeline.h" />

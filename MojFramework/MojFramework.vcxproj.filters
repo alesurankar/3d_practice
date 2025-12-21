@@ -254,6 +254,12 @@
     <ClInclude Include="Miniball.h">
       <Filter>Header Files\Draw\temporary</Filter>
     </ClInclude>
+    <ClInclude Include="GouraudEffect.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneEffect.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="MojFramework.rc">

@@ -18,7 +18,7 @@ public:
 private:
 	void BindAndDraw(const Thing2& obj);
 private:
-	Pipeline<GeometryFlatEffect> pipeline;
+	Pipeline<SceneEffect> pipeline;
 	std::vector<std::unique_ptr<Thing2>> objects; 
 	Thing2* player = nullptr;
 	//std::vector<std::unique_ptr<Bullet>> bullets;

@@ -1,12 +1,15 @@
 #pragma once
+
+#pragma once
+
 #include "Pipeline.h"
-#include "DefaultVertexShader.h"
 #include "DefaultGeometryShader.h"
 
-
-class VertexFlatEffect
+// flat shading with vertex normals
+class GouraudEffect
 {
 public:
+	// the vertex type that will be input into the pipeline
 	class Vertex
 	{
 	public:
@@ -68,7 +71,8 @@ public:
 		Vec3 pos;
 		Vec3 n;
 	};
-
+	// calculate color based on normal to light angle
+	// no interpolation of color attribute
 	class VertexShader
 	{
 	public:
@@ -87,7 +91,7 @@ public:
 				pos(pos)
 			{
 			}
-			Output(const Vec3& pos, const Color& color)
+			Output(const Vec3& pos, const Vec3& color)
 				:
 				color(color),
 				pos(pos)
@@ -96,6 +100,7 @@ public:
 			Output& operator+=(const Output& rhs)
 			{
 				pos += rhs.pos;
+				color += rhs.color;
 				return *this;
 			}
 			Output operator+(const Output& rhs) const
@@ -105,6 +110,7 @@ public:
 			Output& operator-=(const Output& rhs)
 			{
 				pos -= rhs.pos;
+				color -= rhs.color;
 				return *this;
 			}
 			Output operator-(const Output& rhs) const
@@ -114,6 +120,7 @@ public:
 			Output& operator*=(float rhs)
 			{
 				pos *= rhs;
+				color *= rhs;
 				return *this;
 			}
 			Output operator*(float rhs) const
@@ -123,6 +130,7 @@ public:
 			Output& operator/=(float rhs)
 			{
 				pos /= rhs;
+				color /= rhs;
 				return *this;
 			}
 			Output operator/(float rhs) const
@@ -131,7 +139,7 @@ public:
 			}
 		public:
 			Vec3 pos;
-			Color color;
+			Vec3 color;
 		};
 	public:
 		void BindRotation(const Mat3& rotation_in)
@@ -148,7 +156,7 @@ public:
 			const auto d = diffuse * std::max(0.0f, -(v.n * rotation) * dir);
 			// add diffuse+ambient, filter by material color, saturate and scale
 			const auto c = color.GetHadamard(d + ambient).Saturate() * 255.0f;
-			return{ v.pos * rotation + translation,Color(c) };
+			return{ v.pos * rotation + translation,c };
 		}
 		void SetDiffuseLight(const Vec3& c)
 		{
@@ -175,16 +183,19 @@ public:
 		Vec3 ambient = { 0.1f,0.1f,0.1f };
 		Vec3 color = { 0.8f,0.85f,1.0f };
 	};
-
+	// default gs passes vertices through and outputs triangle
 	typedef DefaultGeometryShader<VertexShader::Output> GeometryShader;
-
+	// invoked for each pixel of a triangle
+	// takes an input of attributes that are the
+	// result of interpolating vertex attributes
+	// and outputs a color
 	class PixelShader
 	{
 	public:
 		template<class Input>
 		Color operator()(const Input& in) const
 		{
-			return in.color;
+			return Color(in.color);
 		}
 	};
 public:
