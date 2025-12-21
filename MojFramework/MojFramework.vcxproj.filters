@@ -263,6 +263,9 @@
     <ClInclude Include="GouraudPointEffect.h">
       <Filter>Header Files\Effects</Filter>
     </ClInclude>
+    <ClInclude Include="Plane.h">
+      <Filter>Header Files\Draw\temporary</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="MojFramework.rc">

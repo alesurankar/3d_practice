@@ -16,6 +16,7 @@ Scene3::Scene3(Graphics& gfx)
 	lights[0]->Rotate(0.0f, 0.0f, 0.0f);
 	player = lights.back().get();
 	objects.emplace_back(std::make_unique<Thing2>(gfx, Vec3(0.0f, 0.0f, 4.0f), IndexedTriangleList<SceneVertex>::LoadNormals("models\\suzanne.obj")));
+	objects.emplace_back(std::make_unique<Thing2>(gfx, Vec3(0.0f, 4.0f, 4.0f), Plane::GetNormals<SceneVertex>(20,4)));
 	//for (auto& obj : objects) {
 	//	obj->SetVelocity(1.0f, -1.0f, 1.0f);
 	//	obj->SetTorque(0.3f, 0.3f, 0.3f);
