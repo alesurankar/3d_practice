@@ -15,8 +15,8 @@ Scene3::Scene3(Graphics& gfx)
 	lights[0]->Move(0.0f, 0.0f, 0.0f);
 	lights[0]->Rotate(0.0f, 0.0f, 0.0f);
 	player = lights.back().get();
-	objects.emplace_back(std::make_unique<Thing2>(gfx, Vec3(0.0f, 0.0f, 4.0f), IndexedTriangleList<SceneVertex>::LoadNormals("models\\suzanne.obj")));
-	objects.emplace_back(std::make_unique<Thing2>(gfx, Vec3(0.0f, 4.0f, 4.0f), Plane::GetNormals<SceneVertex>(10,4)));
+	objects.emplace_back(std::make_unique<Thing2>(gfx, Vec3(0.0f, 0.0f, 8.0f), IndexedTriangleList<SceneVertex>::LoadNormals("models\\suzanne.obj")));
+	objects.emplace_back(std::make_unique<Thing2>(gfx, Vec3(0.0f, 1.0f, 8.0f), Plane::GetNormals<SceneVertex>(10,4)));
 	//for (auto& obj : objects) {
 	//	obj->SetVelocity(1.0f, -1.0f, 1.0f);
 	//	obj->SetTorque(0.3f, 0.3f, 0.3f);
@@ -81,22 +81,14 @@ void Scene3::BindAndDrawObjects(const Thing2& obj)
 	//);																						 //SolidGeometryEffect
 
 	
-	//const auto proj = Mat4::ProjectionHFOV(fieldOfView, aspect, nearZ, farZ);
-	//const Mat4 world =
-	//	Mat4::RotationX(obj.GetOrnt().x) *
-	//	Mat4::RotationY(obj.GetOrnt().y) *
-	//	Mat4::RotationZ(obj.GetOrnt().z) *
-	//	Mat4::Translation(obj.GetPos().x, obj.GetPos().y, obj.GetPos().z);
-	//
-	//pipeline.effect.vs.BindWorld(world);
-	//pipeline.effect.vs.BindProjection(proj);
-
-
-	litPipeline.effect.vs.BindTransformation(
+	const Mat4 world =
 		Mat4::RotationX(obj.GetOrnt().x) *
 		Mat4::RotationY(obj.GetOrnt().y) *
 		Mat4::RotationZ(obj.GetOrnt().z) *
-		Mat4::Translation(obj.GetPos().x, obj.GetPos().y, obj.GetPos().z));
+		Mat4::Translation(obj.GetPos().x, obj.GetPos().y, obj.GetPos().z);
+	
+	litPipeline.effect.vs.BindWorld(world);
+	litPipeline.effect.vs.BindProjection(proj);
 
 	//litPipeline.effect.vs.SetLightPosition({ player->GetPos().x, player->GetPos().y, player->GetPos().z });   //GouraudEffect
 	litPipeline.effect.ps.SetLightPosition({ player->GetPos().x, player->GetPos().y, player->GetPos().z });   //PhongEffect
@@ -113,16 +105,8 @@ void Scene3::BindAndDrawObjects(const Thing2& obj)
 
 void Scene3::BindAndDrawLights(const Thing& obj)
 {
-	const Mat3 rot =
-		Mat3::RotationX(obj.GetOrnt().x) *
-		Mat3::RotationY(obj.GetOrnt().y) *
-		Mat3::RotationZ(obj.GetOrnt().z);
-
-	const Vec3 trans = { obj.GetPos().x, obj.GetPos().y, obj.GetPos().z };
-
-	unlitPipeline.effect.vs.BindRotation(rot);
-	unlitPipeline.effect.vs.BindTranslation(trans);
-
+	unlitPipeline.effect.vs.BindWorld(Mat4::Translation(obj.GetPos().x, obj.GetPos().y, obj.GetPos().z));
+	unlitPipeline.effect.vs.BindProjection(proj);
 
 	unlitPipeline.Draw(obj.GetTriangle());
 }

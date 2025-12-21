@@ -3,11 +3,9 @@
 #include "DefaultGeometryShader.h"
 
 
-// flat shading with vertex normals
 class SpecularPhongPointEffect
 {
 public:
-	// the vertex type that will be input into the pipeline
 	class Vertex
 	{
 	public:
@@ -30,8 +28,7 @@ public:
 		Vec3 pos;
 		Vec3 n;
 	};
-	// calculate color based on normal to light angle
-	// no interpolation of color attribute
+
 	class VertexShader
 	{
 	public:
@@ -39,17 +36,17 @@ public:
 		{
 		public:
 			Output() = default;
-			Output(const Vec3& pos)
+			Output(const Vec4& pos)
 				:
 				pos(pos)
 			{}
-			Output(const Vec3& pos, const Output& src)
+			Output(const Vec4& pos, const Output& src)
 				:
 				n(src.n),
 				worldPos(src.worldPos),
 				pos(pos)
 			{}
-			Output(const Vec3& pos, const Vec3& n, const Vec3& worldPos)
+			Output(const Vec4& pos, const Vec3& n, const Vec3& worldPos)
 				:
 				n(n),
 				pos(pos),
@@ -101,28 +98,37 @@ public:
 			}
 		public:
 			Vec4 pos;
-			Vec4 n;
+			Vec3 n;
 			Vec3 worldPos;
 		};
 	public:
-		void BindTransformation(const Mat4& transformation_in)
+		void BindWorld(const Mat4& transformation_in)
 		{
-			transformation = transformation_in;
+			world = transformation_in;
+			worldProj = world * proj;
+		}
+		void BindProjection(const Mat4& transformation_in)
+		{
+			proj = transformation_in;
+			worldProj = world * proj;
+		}
+		const Mat4& GetProj() const
+		{
+			return proj;
 		}
 		Output operator()(const Vertex& v) const
 		{
-			const auto pt = Vec4(v.pos) * transformation;
-			return{ pt,Vec4(v.n,0.0f) * transformation,pt };
+			const auto p4 = Vec4(v.pos);
+			return { p4 * worldProj,Vec4{ v.n,0.0f } *world,p4 * world };
 		}
 	private:
-		Mat4 transformation;
+		Mat4 world = Mat4::Identity();
+		Mat4 proj = Mat4::Identity();
+		Mat4 worldProj = Mat4::Identity();
 	};
-	// default gs passes vertices through and outputs triangle
+
 	typedef DefaultGeometryShader<VertexShader::Output> GeometryShader;
-	// invoked for each pixel of a triangle
-	// takes an input of attributes that are the
-	// result of interpolating vertex attributes
-	// and outputs a color
+
 	class PixelShader
 	{
 	public:
