@@ -267,7 +267,7 @@
       <Filter>Header Files\Draw\temporary</Filter>
     </ClInclude>
     <ClInclude Include="PhongPointEffect.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Effects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

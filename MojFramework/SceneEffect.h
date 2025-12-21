@@ -5,10 +5,11 @@
 #include "GouraudEffect.h"
 #include "GouraudPointEffect.h"
 #include "PhongPointEffect.h"
+#include "SpecularPhongPointEffect.h"
 #include "SolidEffect.h"
 
 
-using SceneEffect = PhongPointEffect;
+using SceneEffect = SpecularPhongPointEffect;
 using SceneVertex = SceneEffect::Vertex;
 
 using SolidVertex = SolidEffect::Vertex;
