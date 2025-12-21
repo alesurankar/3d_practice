@@ -266,6 +266,9 @@
     <ClInclude Include="Plane.h">
       <Filter>Header Files\Draw\temporary</Filter>
     </ClInclude>
+    <ClInclude Include="PhongPointEffect.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="MojFramework.rc">

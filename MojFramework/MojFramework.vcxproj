@@ -113,6 +113,7 @@
     <ClInclude Include="GeometryFlatEffect.h" />
     <ClInclude Include="GouraudEffect.h" />
     <ClInclude Include="GouraudPointEffect.h" />
+    <ClInclude Include="PhongPointEffect.h" />
     <ClInclude Include="Plane.h" />
     <ClInclude Include="Scene2.h" />
     <ClInclude Include="App.h" />

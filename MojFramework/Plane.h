@@ -13,7 +13,6 @@ public:
 	{
 		const int nVerticesSide = divisions + 1;
 		std::vector<V> vertices(sq(nVerticesSide + 1));
-		// give V a ctor for pos only %%%improvements
 		{
 			const float side = size / 2.0f;
 			const float divisionSize = size / float(divisions);
