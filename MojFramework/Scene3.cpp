@@ -92,16 +92,11 @@ void Scene3::BindAndDrawObjects(const Thing2& obj)
 	//pipeline.effect.vs.BindProjection(proj);
 
 
-	
-	const Mat3 rot =
-		Mat3::RotationX(obj.GetOrnt().x) *
-		Mat3::RotationY(obj.GetOrnt().y) *
-		Mat3::RotationZ(obj.GetOrnt().z);
-
-	const Vec3 trans = { obj.GetPos().x, obj.GetPos().y, obj.GetPos().z };
-
-	litPipeline.effect.vs.BindRotation(rot);
-	litPipeline.effect.vs.BindTranslation(trans);
+	litPipeline.effect.vs.BindTransformation(
+		Mat4::RotationX(obj.GetOrnt().x) *
+		Mat4::RotationY(obj.GetOrnt().y) *
+		Mat4::RotationZ(obj.GetOrnt().z) *
+		Mat4::Translation(obj.GetPos().x, obj.GetPos().y, obj.GetPos().z));
 
 	//litPipeline.effect.vs.SetLightPosition({ player->GetPos().x, player->GetPos().y, player->GetPos().z });   //GouraudEffect
 	litPipeline.effect.ps.SetLightPosition({ player->GetPos().x, player->GetPos().y, player->GetPos().z });   //PhongEffect
