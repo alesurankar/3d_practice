@@ -109,7 +109,7 @@
       <Filter>Source Files\scene3</Filter>
     </ClCompile>
     <ClCompile Include="Thing2.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\scene3</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -182,9 +182,6 @@
     <ClInclude Include="IndexedTriangleList.h">
       <Filter>Header Files\Draw</Filter>
     </ClInclude>
-    <ClInclude Include="Sphere.h">
-      <Filter>Header Files\Draw</Filter>
-    </ClInclude>
     <ClInclude Include="App.h">
       <Filter>Header Files\App</Filter>
     </ClInclude>
@@ -248,17 +245,20 @@
     <ClInclude Include="GeometryFlatEffect.h">
       <Filter>Header Files\Effects</Filter>
     </ClInclude>
-    <ClInclude Include="Thing2.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Miniball.h">
       <Filter>Header Files\Draw\temporary</Filter>
     </ClInclude>
+    <ClInclude Include="Sphere.h">
+      <Filter>Header Files\Draw\temporary</Filter>
+    </ClInclude>
     <ClInclude Include="GouraudEffect.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Effects</Filter>
     </ClInclude>
     <ClInclude Include="SceneEffect.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Draw\temporary</Filter>
+    </ClInclude>
+    <ClInclude Include="Thing2.h">
+      <Filter>Header Files\scene3</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
