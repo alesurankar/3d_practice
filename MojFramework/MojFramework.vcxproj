@@ -109,6 +109,7 @@
     <ClCompile Include="tiny_obj_loader.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BasePhongShader.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="GeometryFlatEffect.h" />
     <ClInclude Include="GouraudEffect.h" />
