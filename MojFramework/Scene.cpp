@@ -1,6 +1,6 @@
-#include "Scene3.h"
+#include "Scene.h"
 
-Scene3::Scene3(Graphics& gfx)
+Scene::Scene(Graphics& gfx)
 	:
 	pZb(std::make_shared<ZBuffer>(gfx.ScreenWidth, gfx.ScreenHeight)),
 	unlitPipeline(gfx, pZb),
@@ -29,7 +29,7 @@ Scene3::Scene3(Graphics& gfx)
 }
 
 
-void Scene3::Update(const Keyboard& kbd, Mouse& mouse, float dt)
+void Scene::Update(const Keyboard& kbd, Mouse& mouse, float dt)
 {
 	//Light Position
 	float speed = dt / 2;
@@ -118,7 +118,7 @@ void Scene3::Update(const Keyboard& kbd, Mouse& mouse, float dt)
 	}
 }
 
-void Scene3::Draw()
+void Scene::Draw()
 {
 	litPipeline.BeginFrame();
 	light_pos = (light->GetPos());
@@ -134,7 +134,7 @@ void Scene3::Draw()
 	}
 }
 
-void Scene3::BindAndDrawLights(const Thing1& obj)
+void Scene::BindAndDrawLights(const Thing1& obj)
 {
 	const Mat4 world = Mat4::Translation(light_pos);
 
@@ -145,7 +145,7 @@ void Scene3::BindAndDrawLights(const Thing1& obj)
 	unlitPipeline.Draw(obj.GetTriangle());
 }
 
-void Scene3::BindAndDrawObjects(const Thing2& obj)
+void Scene::BindAndDrawObjects(const Thing2& obj)
 {
 	const Mat4 world =
 		Mat4::RotationX(obj.GetOrnt().x) *
@@ -161,7 +161,7 @@ void Scene3::BindAndDrawObjects(const Thing2& obj)
 	litPipeline.Draw(obj.GetTriangle());
 }
 
-void Scene3::BindAndDrawTexture(const Thing3& obj)
+void Scene::BindAndDrawTexture(const Thing3& obj)
 {
 	texPipeline.effect.ps.BindTexture(obj.GetTexture()); 
 

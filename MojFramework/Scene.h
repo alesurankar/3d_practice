@@ -12,10 +12,10 @@
 #include <memory>
 #include <random>
 
-class Scene3
+class Scene
 {
 public:
-	Scene3(Graphics& gfx);
+	Scene(Graphics& gfx);
 	void Update(const Keyboard& kbd, Mouse& mouse, float dt);
 	void Draw();
 private:

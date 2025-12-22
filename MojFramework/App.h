@@ -19,5 +19,5 @@ private:
 	Graphics gfx;
 	FrameTimer ft;
 	float time = 0.0f;
-	std::unique_ptr<Scene3> scene;
+	std::unique_ptr<Scene> scene;
 };
