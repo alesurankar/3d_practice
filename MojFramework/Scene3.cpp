@@ -21,10 +21,10 @@ Scene3::Scene3(Graphics& gfx)
 		obj->SetVelocity(3 * vRand(rng), 3 * vRand(rng), 3 * vRand(rng));
 		obj->SetAngle(vRand(rng), vRand(rng), vRand(rng));
 	}
-	textures.emplace_back(std::make_unique<Thing3>(gfx, Vec3(0.0f, 0.0f, 4.0f), Plane::GetSkinnedNormals<VertexLightTexturedVertex>(10), L"Images\\red.bmp"));
+	textures.emplace_back(std::make_unique<Thing3>(gfx, Vec3(0.0f, 0.0f, 5.0f), Plane::GetSkinnedNormals<VertexLightTexturedVertex>(10, 2.0f), L"Images\\stonewall.jpg"));
 	for (auto& tex : textures) {
 		tex->SetVelocity(vRand(rng), vRand(rng), vRand(rng));
-		tex->SetAngle(10 * vRand(rng), 10 * vRand(rng), 10 * vRand(rng));
+		tex->SetAngle(vRand(rng), vRand(rng), vRand(rng));
 	}
 }
 
@@ -47,6 +47,12 @@ void Scene3::Update(const Keyboard& kbd, Mouse& mouse, float dt)
 	}
 	if (kbd.KeyIsPressed(VK_RIGHT)) {
 		light->Move(speed, 0.0f, 0.0f);
+	}
+	if (kbd.KeyIsPressed('N')) {
+		light->Move(0.0f, 0.0f, -speed);
+	}
+	if (kbd.KeyIsPressed('M')) {
+		light->Move(0.0f, 0.0f, speed);
 	}
 	
 	//Camera position
@@ -117,15 +123,26 @@ void Scene3::Draw()
 	litPipeline.BeginFrame();
 	light_pos = (light->GetPos());
 	view = Mat4::Translation(-cam_pos) * cam_rot;
-	//for (auto& obj : objects) {
-	//	BindAndDrawObjects(*obj);
-	//}
 	for (auto& lit : lights) {
 		BindAndDrawLights(*lit);
+	}
+	for (auto& obj : objects) {
+		BindAndDrawObjects(*obj);
 	}
 	for (auto& tex : textures) {
 		BindAndDrawTexture(*tex);
 	}
+}
+
+void Scene3::BindAndDrawLights(const Thing& obj)
+{
+	const Mat4 world = Mat4::Translation(light_pos);
+
+	unlitPipeline.effect.vs.BindWorld(world);
+	unlitPipeline.effect.vs.BindView(view);
+	unlitPipeline.effect.vs.BindProjection(proj);
+
+	unlitPipeline.Draw(obj.GetTriangle());
 }
 
 void Scene3::BindAndDrawObjects(const Thing2& obj)
@@ -144,36 +161,20 @@ void Scene3::BindAndDrawObjects(const Thing2& obj)
 	litPipeline.Draw(obj.GetTriangle());
 }
 
-void Scene3::BindAndDrawLights(const Thing& obj)
-{
-	const Mat4 world = Mat4::Translation(light_pos);
-
-	unlitPipeline.effect.vs.BindWorld(world);
-	unlitPipeline.effect.vs.BindView(view);
-	unlitPipeline.effect.vs.BindProjection(proj);
-
-	unlitPipeline.Draw(obj.GetTriangle());
-}
-
 void Scene3::BindAndDrawTexture(const Thing3& obj)
 {
 	texPipeline.effect.ps.BindTexture(obj.GetTexture()); 
 
-	//const Mat4 world =
-	//	Mat4::RotationX(obj.GetOrnt().x) *
-	//	Mat4::RotationY(obj.GetOrnt().y) *
-	//	Mat4::RotationZ(obj.GetOrnt().z) *
-	//	Mat4::Translation(obj.GetPos());
-
-	//const Mat4 world = Mat4::Translation(Vec3(0.0f,0.0f,4.0f));
-	const Mat4 world = Mat4::RotationX(to_rad(180.0f)) * Mat4::Translation(Vec3(0.0f, 0.0f, 4.0f));
-
+	const Mat4 world =
+		Mat4::RotationX(obj.GetOrnt().x) *
+		Mat4::RotationY(obj.GetOrnt().y) *
+		Mat4::RotationZ(obj.GetOrnt().z) *
+		Mat4::Translation(obj.GetPos());
 
 	texPipeline.effect.vs.BindWorld(world);
-	texPipeline.effect.vs.BindView(view);
+	texPipeline.effect.vs.BindView(view); 
 	texPipeline.effect.vs.BindProjection(proj);
 	texPipeline.effect.vs.SetLightPosition(light_pos);
 
 	texPipeline.Draw(obj.GetTriangle());
-
 }

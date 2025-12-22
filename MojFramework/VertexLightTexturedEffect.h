@@ -182,7 +182,7 @@ public:
 			const Vec3 dir = v_to_l / dist;
 
 			// normal (world space)
-			const Vec3 n_world = Vec3(Vec4(v.n, 0.0f) * world).GetNormalized();
+			const Vec3 n_world = Vec3(Vec4(v.n, 0.0f) * worldView).GetNormalized();
 
 			// attenuation
 			const float attenuation =
@@ -196,7 +196,8 @@ public:
 
 			const Vec3 l = d + light_ambient;
 
-			return { v.pos * worldViewProj, v.t, l };
+			const Vec4 p = Vec4(v.pos.x, v.pos.y, v.pos.z, 1.0f);
+			return { p * worldViewProj, v.t, l };
 		}
 		void SetDiffuseLight(const Vec3& c)
 		{
@@ -213,7 +214,7 @@ public:
 	private:
 		Vec4 light_pos = { 0.0f,0.0f,0.5f,1.0f };
 		Vec3 light_diffuse = { 1.0f,1.0f,1.0f };
-		Vec3 light_ambient = { 0.1f,0.1f,0.1f };
+		Vec3 light_ambient = { 0.2f,0.2f,0.2f };
 		float linear_attenuation = 2.0f;
 		float quadradic_attenuation = 2.619f;
 		float constant_attenuation = 0.682f;
@@ -227,17 +228,15 @@ public:
 		template<class Input>
 		Color operator()(const Input& in) const
 		{
-			Vec3 materialColor = Vec3(pTex->GetPixel(
+			const Vec3 materialColor = Vec3(pTex->GetPixel(
 				(unsigned int)std::min(in.t.x * tex_width + 0.5f, tex_xclamp),
 				(unsigned int)std::min(in.t.y * tex_height + 0.5f, tex_yclamp)
 			));
 
 			Vec3 tint = { 0.9f, 0.9f, 0.9f };
-			Vec3 texColor = materialColor.GetHadamard(in.l).GetHadamard(tint).GetSaturated();
+			Vec3 texColor = materialColor.GetHadamard(in.l).GetHadamard(tint);
 			
-			//return Color(texColor);
-			//return Color(materialColor);
-			return Color(255u, 0u, 0u);
+			return Color(texColor);
 		}
 		void BindTexture(const Surface& tex)
 		{

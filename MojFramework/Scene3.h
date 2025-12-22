@@ -19,8 +19,8 @@ public:
 	void Update(const Keyboard& kbd, Mouse& mouse, float dt);
 	void Draw();
 private:
-	void BindAndDrawObjects(const Thing2& obj);
 	void BindAndDrawLights(const Thing& obj);
+	void BindAndDrawObjects(const Thing2& obj);
 	void BindAndDrawTexture(const Thing3& obj);
 private:
 	std::random_device rd;
@@ -33,8 +33,8 @@ private:
 	Pipeline<SolidEffect> unlitPipeline;
 	Pipeline<VertexLightTexturedEffect> texPipeline;
 	MouseTracker mt;
+	std::vector<std::unique_ptr<Thing>> lights;
 	std::vector<std::unique_ptr<Thing2>> objects; 
-	std::vector<std::unique_ptr<Thing>> lights; 
 	std::vector<std::unique_ptr<Thing3>> textures; 
 	Thing* light = nullptr;
 	static constexpr float aspect_ratio = Graphics::ScreenWidth / float(Graphics::ScreenHeight);
