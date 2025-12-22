@@ -3,25 +3,25 @@
 Scene3::Scene3(Graphics& gfx)
 	:
 	pZb(std::make_shared<ZBuffer>(gfx.ScreenWidth, gfx.ScreenHeight)),
-	litPipeline(gfx, pZb),
 	unlitPipeline(gfx, pZb),
+	litPipeline(gfx, pZb),
 	texPipeline(gfx, pZb),
 	rng(rd()),
 	vRand(-0.2f, 0.2f),
 	pRand(-50.0f, 50.0f),
 	zRand(100.0f, 200.0f)
 {
-	lights.emplace_back(std::make_unique<Thing>(gfx, Vec3(0.0f, 0.0f, 0.0f), Sphere::GetPlainColor<SolidVertex>(0.1f)));
+	lights.emplace_back(std::make_unique<Thing1>(gfx, Vec3(0.0f, 0.0f, 0.0f), Sphere::GetPlainColor<Thing1::Effect::Vertex>(0.1f)));
 	lights[0]->Move(0.0f, 0.0f, 0.0f);
 	lights[0]->Rotate(0.0f, 0.0f, 0.0f);
 	light = lights.back().get();
-	objects.emplace_back(std::make_unique<Thing2>(gfx, Vec3(0.0f, 0.0f, 10.0f), IndexedTriangleList<SpecularPhongPointVertex>::LoadNormals("models\\suzanne.obj")));
-	objects.emplace_back(std::make_unique<Thing2>(gfx, Vec3(0.0f, 1.0f, 10.0f), Plane::GetNormals<SpecularPhongPointVertex>(4, 2)));
+	objects.emplace_back(std::make_unique<Thing2>(gfx, Vec3(0.0f, 0.0f, 10.0f), IndexedTriangleList<Thing2::Effect::Vertex>::LoadNormals("models\\suzanne.obj")));
+	objects.emplace_back(std::make_unique<Thing2>(gfx, Vec3(0.0f, 1.0f, 10.0f), Plane::GetNormals<Thing2::Effect::Vertex>(4, 2)));
 	for (auto& obj : objects) {
 		obj->SetVelocity(3 * vRand(rng), 3 * vRand(rng), 3 * vRand(rng));
 		obj->SetAngle(vRand(rng), vRand(rng), vRand(rng));
 	}
-	textures.emplace_back(std::make_unique<Thing3>(gfx, Vec3(0.0f, 0.0f, 5.0f), Plane::GetSkinnedNormals<VertexLightTexturedVertex>(10, 2.0f), L"Images\\stonewall.jpg"));
+	textures.emplace_back(std::make_unique<Thing3>(gfx, Vec3(0.0f, 0.0f, 5.0f), Plane::GetSkinnedNormals<Thing3::Effect::Vertex>(10, 2.0f), L"Images\\stonewall.jpg"));
 	for (auto& tex : textures) {
 		tex->SetVelocity(vRand(rng), vRand(rng), vRand(rng));
 		tex->SetAngle(vRand(rng), vRand(rng), vRand(rng));
@@ -134,7 +134,7 @@ void Scene3::Draw()
 	}
 }
 
-void Scene3::BindAndDrawLights(const Thing& obj)
+void Scene3::BindAndDrawLights(const Thing1& obj)
 {
 	const Mat4 world = Mat4::Translation(light_pos);
 

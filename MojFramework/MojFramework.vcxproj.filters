@@ -108,7 +108,7 @@
     <ClCompile Include="Thing2.cpp">
       <Filter>Source Files\scene3</Filter>
     </ClCompile>
-    <ClCompile Include="Thing.cpp">
+    <ClCompile Include="Thing1.cpp">
       <Filter>Source Files\scene3</Filter>
     </ClCompile>
     <ClCompile Include="Thing3.cpp">
@@ -239,10 +239,7 @@
     <ClInclude Include="Pipeline.h">
       <Filter>Header Files\pipeline</Filter>
     </ClInclude>
-    <ClInclude Include="SceneEffect.h">
-      <Filter>Header Files\pipeline</Filter>
-    </ClInclude>
-    <ClInclude Include="Thing.h">
+    <ClInclude Include="Thing1.h">
       <Filter>Header Files\scene3</Filter>
     </ClInclude>
     <ClInclude Include="BasePhongShader.h">
@@ -252,6 +249,9 @@
       <Filter>Header Files\Effects</Filter>
     </ClInclude>
     <ClInclude Include="Thing3.h">
+      <Filter>Header Files\scene3</Filter>
+    </ClInclude>
+    <ClInclude Include="Thing.h">
       <Filter>Header Files\scene3</Filter>
     </ClInclude>
   </ItemGroup>

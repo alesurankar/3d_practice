@@ -104,7 +104,7 @@
     <ClCompile Include="Scene3.cpp" />
     <ClCompile Include="Surface.cpp" />
     <ClCompile Include="TestObject.cpp" />
-    <ClCompile Include="Thing.cpp" />
+    <ClCompile Include="Thing1.cpp" />
     <ClCompile Include="Thing2.cpp" />
     <ClCompile Include="Thing3.cpp" />
     <ClCompile Include="tiny_obj_loader.cpp" />
@@ -136,7 +136,6 @@
     <ClInclude Include="MyMath.h" />
     <ClInclude Include="MyWin.h" />
     <ClInclude Include="Scene3.h" />
-    <ClInclude Include="SceneEffect.h" />
     <ClInclude Include="TestObject.h" />
     <ClInclude Include="Pipeline.h" />
     <ClInclude Include="Rect.h" />
@@ -147,6 +146,7 @@
     <ClInclude Include="Sphere.h" />
     <ClInclude Include="Surface.h" />
     <ClInclude Include="Thing.h" />
+    <ClInclude Include="Thing1.h" />
     <ClInclude Include="Thing2.h" />
     <ClInclude Include="Thing3.h" />
     <ClInclude Include="tiny_obj_loader.h" />

@@ -2,7 +2,7 @@
 #include "Keyboard.h"
 #include "Mouse.h"
 #include "Graphics.h"
-#include "Thing.h"
+#include "Thing1.h"
 #include "Thing2.h"
 #include "Thing3.h"
 #include "Plane.h"
@@ -19,7 +19,7 @@ public:
 	void Update(const Keyboard& kbd, Mouse& mouse, float dt);
 	void Draw();
 private:
-	void BindAndDrawLights(const Thing& obj);
+	void BindAndDrawLights(const Thing1& obj);
 	void BindAndDrawObjects(const Thing2& obj);
 	void BindAndDrawTexture(const Thing3& obj);
 private:
@@ -29,14 +29,14 @@ private:
 	std::uniform_real_distribution<float> pRand;
 	std::uniform_real_distribution<float> zRand;
 	std::shared_ptr<ZBuffer> pZb;
-	Pipeline<SpecularPhongPointEffect> litPipeline;
-	Pipeline<SolidEffect> unlitPipeline;
-	Pipeline<VertexLightTexturedEffect> texPipeline;
+	Pipeline<Thing1::Effect> unlitPipeline;
+	Pipeline<Thing2::Effect> litPipeline;
+	Pipeline<Thing3::Effect> texPipeline;
 	MouseTracker mt;
-	std::vector<std::unique_ptr<Thing>> lights;
+	std::vector<std::unique_ptr<Thing1>> lights;
 	std::vector<std::unique_ptr<Thing2>> objects; 
 	std::vector<std::unique_ptr<Thing3>> textures; 
-	Thing* light = nullptr;
+	Thing1* light = nullptr;
 	static constexpr float aspect_ratio = Graphics::ScreenWidth / float(Graphics::ScreenHeight);
 	static constexpr float nearZ = 1.0f;
 	static constexpr float farZ = 200.0f; 
