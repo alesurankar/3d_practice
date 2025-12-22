@@ -106,14 +106,12 @@
     <ClCompile Include="TestObject.cpp" />
     <ClCompile Include="Thing.cpp" />
     <ClCompile Include="Thing2.cpp" />
+    <ClCompile Include="Thing3.cpp" />
     <ClCompile Include="tiny_obj_loader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BasePhongShader.h" />
     <ClInclude Include="Bullet.h" />
-    <ClInclude Include="GeometryFlatEffect.h" />
-    <ClInclude Include="GouraudEffect.h" />
-    <ClInclude Include="GouraudPointEffect.h" />
     <ClInclude Include="Plane.h" />
     <ClInclude Include="Scene2.h" />
     <ClInclude Include="App.h" />
@@ -139,7 +137,6 @@
     <ClInclude Include="MyWin.h" />
     <ClInclude Include="Scene3.h" />
     <ClInclude Include="SceneEffect.h" />
-    <ClInclude Include="SolidGeometryEffect.h" />
     <ClInclude Include="TestObject.h" />
     <ClInclude Include="Pipeline.h" />
     <ClInclude Include="Rect.h" />
@@ -149,15 +146,15 @@
     <ClInclude Include="SpecularPhongPointEffect.h" />
     <ClInclude Include="Sphere.h" />
     <ClInclude Include="Surface.h" />
-    <ClInclude Include="TextureEffect.h" />
     <ClInclude Include="Thing.h" />
     <ClInclude Include="Thing2.h" />
+    <ClInclude Include="Thing3.h" />
     <ClInclude Include="tiny_obj_loader.h" />
     <ClInclude Include="Triangle.h" />
     <ClInclude Include="Vec2.h" />
     <ClInclude Include="Vec3.h" />
     <ClInclude Include="Vec4.h" />
-    <ClInclude Include="VertexFlatEffect.h" />
+    <ClInclude Include="VertexLightTexturedEffect.h" />
     <ClInclude Include="ZBuffer.h" />
   </ItemGroup>
   <ItemGroup>

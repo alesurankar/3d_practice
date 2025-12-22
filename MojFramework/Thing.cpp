@@ -7,11 +7,10 @@ Thing::Thing(Graphics& gfx, const Vec3& pos_in, IndexedTriangleList<SolidVertex>
 	pos(pos_in),
 	ornt({ 0.0f,0.0f,0.0f }),
 	vel({ 0.0f,0.0f,0.0f }),
-	torq({ 0.0f,0.0f,0.0f }),
+	ang({ 0.0f,0.0f,0.0f }),
 	size(size_in),
 	itlist(std::move(tl))
 {
-	//pTexture = std::make_shared<Surface>(Surface::FromFile(filename_in));   //TextureEffect
 	itlist.AdjustToTrueCenter();
 	pos.z = itlist.GetRadius() * 1.6f;
 	triangles = itlist;
@@ -46,9 +45,9 @@ void Thing::Rotate(float x, float y, float z)
 
 void Thing::Rotate(float dt)
 {
-	ornt.x = wrap_angle(ornt.x + torq.x * dt);
-	ornt.y = wrap_angle(ornt.y + torq.y * dt);
-	ornt.z = wrap_angle(ornt.z + torq.z * dt);
+	ornt.x = wrap_angle(ornt.x + ang.x * dt);
+	ornt.y = wrap_angle(ornt.y + ang.y * dt);
+	ornt.z = wrap_angle(ornt.z + ang.z * dt);
 
 	CheckBorder();
 }
@@ -58,32 +57,32 @@ void Thing::CheckBorder()
 	if (pos.x < -6.0) {
 		pos.x = -6.0f;
 		vel.x = -vel.x;
-		torq.x = -torq.x;
+		ang.x = -ang.x;
 	}
 	if (pos.y < -6.0f) {
 		pos.y = -6.0f;
 		vel.y = -vel.y;
-		torq.y = -torq.y;
+		ang.y = -ang.y;
 	}
 	if (pos.z < 3.0f) {
 		pos.z = 3.0f;
 		vel.z = -vel.z;
-		torq.z = -torq.z;
+		ang.z = -ang.z;
 	}
 	if (pos.x > 6.0f) {
 		pos.x = 6.0f;
 		vel.x = -vel.x;
-		torq.x = -torq.x;
+		ang.x = -ang.x;
 	}
 	if (pos.y > 6.0f) {
 		pos.y = 6.0f;
 		vel.y = -vel.y;
-		torq.y = -torq.y;
+		ang.y = -ang.y;
 	}
 	if (pos.z > 20.0f) {
 		pos.z = 20.0f;
 		vel.z = -vel.z;
-		torq.z = -torq.z;
+		ang.z = -ang.z;
 	}
 	triangles = itlist;
 }
@@ -98,14 +97,14 @@ void Thing::ChangeVelocity()
 	vel = -vel;
 }
 
-void Thing::SetTorque(float tx, float ty, float tz)
+void Thing::SetAngle(float ax, float ay, float az)
 {
-	torq = Vec3(tx, ty, tz);
+	ang = Vec3(ax, ay, az);
 }
 
-void Thing::ChangeTorque()
+void Thing::ChangeAngle()
 {
-	torq = -torq;
+	ang = -ang;
 }
 
 BoxF Thing::GetWorldBoundingBox() const

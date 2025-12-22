@@ -1,14 +1,11 @@
 #pragma once
-//#include "GeometryFlatEffect.h"
-//#include "SolidGeometryEffect.h"
-//#include "VertexFlatEffect.h"
-//#include "GouraudEffect.h"
-//#include "GouraudPointEffect.h"
+#include "VertexLightTexturedEffect.h"
 #include "SpecularPhongPointEffect.h"
 #include "SolidEffect.h"
 
 
-using SceneEffect = SpecularPhongPointEffect;
-using SceneVertex = SceneEffect::Vertex;
+using SpecularPhongPointVertex = SpecularPhongPointEffect::Vertex;
 
 using SolidVertex = SolidEffect::Vertex;
+
+using VertexLightTexturedVertex = VertexLightTexturedEffect::Vertex;

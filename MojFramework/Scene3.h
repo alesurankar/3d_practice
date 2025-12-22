@@ -4,6 +4,7 @@
 #include "Graphics.h"
 #include "Thing.h"
 #include "Thing2.h"
+#include "Thing3.h"
 #include "Plane.h"
 #include "Vec2.h"
 #include "Pipeline.h"
@@ -20,19 +21,22 @@ public:
 private:
 	void BindAndDrawObjects(const Thing2& obj);
 	void BindAndDrawLights(const Thing& obj);
+	void BindAndDrawTexture(const Thing3& obj);
 private:
 	std::random_device rd;
 	std::mt19937 rng;
 	std::uniform_real_distribution<float> vRand;
 	std::uniform_real_distribution<float> pRand;
 	std::uniform_real_distribution<float> zRand;
-	std::shared_ptr<ZBuffer> sharedZ; 
-	Pipeline<SceneEffect> litPipeline; 
+	std::shared_ptr<ZBuffer> pZb;
+	Pipeline<SpecularPhongPointEffect> litPipeline;
 	Pipeline<SolidEffect> unlitPipeline;
+	Pipeline<VertexLightTexturedEffect> texPipeline;
 	MouseTracker mt;
 	std::vector<std::unique_ptr<Thing2>> objects; 
 	std::vector<std::unique_ptr<Thing>> lights; 
-	Thing* player = nullptr;
+	std::vector<std::unique_ptr<Thing3>> textures; 
+	Thing* light = nullptr;
 	static constexpr float aspect_ratio = Graphics::ScreenWidth / float(Graphics::ScreenHeight);
 	static constexpr float nearZ = 1.0f;
 	static constexpr float farZ = 200.0f; 

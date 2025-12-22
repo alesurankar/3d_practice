@@ -1,8 +1,8 @@
-#include "Thing2.h"
+#include "Thing3.h"
 #include "App.h"
 #include <utility>
 
-Thing2::Thing2(Graphics& gfx, const Vec3& pos_in, IndexedTriangleList<SpecularPhongPointVertex> tl, float size_in)
+Thing3::Thing3(Graphics& gfx, const Vec3& pos_in, IndexedTriangleList<VertexLightTexturedVertex> tl, const std::wstring& filename, float size_in)
 	:
 	pos(pos_in),
 	ornt({ 0.0f,0.0f,0.0f }),
@@ -11,12 +11,13 @@ Thing2::Thing2(Graphics& gfx, const Vec3& pos_in, IndexedTriangleList<SpecularPh
 	size(size_in),
 	itlist(std::move(tl))
 {
+	pTexture = std::make_shared<Surface>(Surface::FromFile(filename));
 	itlist.AdjustToTrueCenter();
 	pos.z = itlist.GetRadius() * 1.6f;
 	triangles = itlist;
 }
 
-void Thing2::Move(float x, float y, float z)
+void Thing3::Move(float x, float y, float z)
 {
 	pos.x += x;
 	pos.y += y;
@@ -25,7 +26,7 @@ void Thing2::Move(float x, float y, float z)
 	CheckBorder();
 }
 
-void Thing2::Move(float dt)
+void Thing3::Move(float dt)
 {
 	pos.x += vel.x * dt;
 	pos.y += vel.y * dt;
@@ -34,7 +35,7 @@ void Thing2::Move(float dt)
 	CheckBorder();
 }
 
-void Thing2::Rotate(float x, float y, float z)
+void Thing3::Rotate(float x, float y, float z)
 {
 	ornt.x = wrap_angle(ornt.x + x);
 	ornt.y = wrap_angle(ornt.y + y);
@@ -43,7 +44,7 @@ void Thing2::Rotate(float x, float y, float z)
 	CheckBorder();
 }
 
-void Thing2::Rotate(float dt)
+void Thing3::Rotate(float dt)
 {
 	ornt.x = wrap_angle(ornt.x + ang.x * dt);
 	ornt.y = wrap_angle(ornt.y + ang.y * dt);
@@ -52,7 +53,7 @@ void Thing2::Rotate(float dt)
 	CheckBorder();
 }
 
-void Thing2::CheckBorder()
+void Thing3::CheckBorder()
 {
 	if (pos.x < -6.0) {
 		pos.x = -6.0f;
@@ -87,27 +88,27 @@ void Thing2::CheckBorder()
 	triangles = itlist;
 }
 
-void Thing2::SetVelocity(float vx, float vy, float vz)
+void Thing3::SetVelocity(float vx, float vy, float vz)
 {
 	vel = Vec3(vx, vy, vz);
 }
 
-void Thing2::ChangeVelocity()
+void Thing3::ChangeVelocity()
 {
 	vel = -vel;
 }
 
-void Thing2::SetAngle(float ax, float ay, float az)
+void Thing3::SetAngle(float ax, float ay, float az)
 {
 	ang = Vec3(ax, ay, az);
 }
 
-void Thing2::ChangeAngle()
+void Thing3::ChangeAngle()
 {
 	ang = -ang;
 }
 
-BoxF Thing2::GetWorldBoundingBox() const
+BoxF Thing3::GetWorldBoundingBox() const
 {
 	BoxF local = Squere::GetLocalBoundingBox(size);
 
@@ -122,47 +123,52 @@ BoxF Thing2::GetWorldBoundingBox() const
 	);
 }
 
-void Thing2::SetCollisionFlag()
+const Surface& Thing3::GetTexture() const
+{
+	return *pTexture;
+}
+
+void Thing3::SetCollisionFlag()
 {
 	collisionFlag = true;
 }
 
-void Thing2::ResetCollisionFlag()
+void Thing3::ResetCollisionFlag()
 {
 	collisionFlag = false;
 }
 
-bool Thing2::CheckCollisionFlag()
+bool Thing3::CheckCollisionFlag()
 {
 	return collisionFlag;
 }
 
-void Thing2::SetMoved()
+void Thing3::SetMoved()
 {
 	moved = true;
 }
 
-void Thing2::ResetMoved()
+void Thing3::ResetMoved()
 {
 	moved = false;
 }
 
-bool Thing2::CheckMoved()
+bool Thing3::CheckMoved()
 {
 	return moved;
 }
 
-Vec3 Thing2::GetPos() const
+Vec3 Thing3::GetPos() const
 {
 	return pos;
 }
 
-Vec3 Thing2::GetOrnt() const
+Vec3 Thing3::GetOrnt() const
 {
 	return ornt;
 }
 
-const IndexedTriangleList<SpecularPhongPointVertex>& Thing2::GetTriangle() const
+const IndexedTriangleList<VertexLightTexturedVertex>& Thing3::GetTriangle() const
 {
 	return triangles;
 }

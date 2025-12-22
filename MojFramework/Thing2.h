@@ -12,20 +12,20 @@
 class Thing2
 {
 public:
-	using Effect = SceneEffect;
+	using Effect = SpecularPhongPointEffect;
 	using Pipeline = Pipeline<Effect>;
-	Thing2(Graphics& gfx, const Vec3& pos_in, IndexedTriangleList<SceneVertex> tl, float size = 1.0f);
+	Thing2(Graphics& gfx, const Vec3& pos_in, IndexedTriangleList<SpecularPhongPointVertex> tl, float size = 1.0f);
 	void Move(float x, float y, float z);
 	void Move(float dt);
 	void Rotate(float x, float y, float z);
 	void Rotate(float dt);
 	Vec3 GetPos() const;
 	Vec3 GetOrnt() const;
-	const IndexedTriangleList<SceneVertex>& GetTriangle() const;
+	const IndexedTriangleList<SpecularPhongPointVertex>& GetTriangle() const;
 	void SetVelocity(float vx, float vy, float vz);
 	void ChangeVelocity();
-	void SetTorque(float roll, float pitch, float yaw);
-	void ChangeTorque();
+	void SetAngle(float roll, float pitch, float yaw);
+	void ChangeAngle();
 	BoxF GetWorldBoundingBox() const;
 	void SetCollisionFlag();
 	void ResetCollisionFlag();
@@ -39,10 +39,10 @@ public:
 	Vec3 pos;
 	Vec3 ornt;
 	Vec3 vel;
-	Vec3 torq;
+	Vec3 ang;
 	float size;
-	IndexedTriangleList<SceneVertex> itlist;
-	IndexedTriangleList<SceneVertex> triangles;
+	IndexedTriangleList<SpecularPhongPointVertex> itlist;
+	IndexedTriangleList<SpecularPhongPointVertex> triangles;
 	bool collisionFlag = false;
 	bool moved = true;
 	bool destroyed = false;

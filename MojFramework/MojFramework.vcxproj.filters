@@ -111,6 +111,9 @@
     <ClCompile Include="Thing.cpp">
       <Filter>Source Files\scene3</Filter>
     </ClCompile>
+    <ClCompile Include="Thing3.cpp">
+      <Filter>Source Files\scene3</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Colors.h">
@@ -185,9 +188,6 @@
     <ClInclude Include="Box.h">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
-    <ClInclude Include="TextureEffect.h">
-      <Filter>Header Files\Effects</Filter>
-    </ClInclude>
     <ClInclude Include="SolidEffect.h">
       <Filter>Header Files\Effects</Filter>
     </ClInclude>
@@ -200,26 +200,11 @@
     <ClInclude Include="Bullet.h">
       <Filter>Header Files\scene2</Filter>
     </ClInclude>
-    <ClInclude Include="SolidGeometryEffect.h">
-      <Filter>Header Files\Effects</Filter>
-    </ClInclude>
-    <ClInclude Include="VertexFlatEffect.h">
-      <Filter>Header Files\Effects</Filter>
-    </ClInclude>
     <ClInclude Include="Scene3.h">
       <Filter>Header Files\scene3</Filter>
     </ClInclude>
-    <ClInclude Include="GeometryFlatEffect.h">
-      <Filter>Header Files\Effects</Filter>
-    </ClInclude>
-    <ClInclude Include="GouraudEffect.h">
-      <Filter>Header Files\Effects</Filter>
-    </ClInclude>
     <ClInclude Include="Thing2.h">
       <Filter>Header Files\scene3</Filter>
-    </ClInclude>
-    <ClInclude Include="GouraudPointEffect.h">
-      <Filter>Header Files\Effects</Filter>
     </ClInclude>
     <ClInclude Include="Squere.h">
       <Filter>Header Files\Draw</Filter>
@@ -262,6 +247,12 @@
     </ClInclude>
     <ClInclude Include="BasePhongShader.h">
       <Filter>Header Files\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="VertexLightTexturedEffect.h">
+      <Filter>Header Files\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="Thing3.h">
+      <Filter>Header Files\scene3</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
