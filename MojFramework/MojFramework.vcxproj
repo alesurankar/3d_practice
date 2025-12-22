@@ -90,7 +90,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="App.cpp" />
-    <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="DXErr.cpp" />
     <ClCompile Include="FrameTimer.cpp" />
     <ClCompile Include="GDIPlusManager.cpp" />
@@ -100,20 +99,12 @@
     <ClCompile Include="MainWindow.cpp" />
     <ClCompile Include="Mouse.cpp" />
     <ClCompile Include="Scene.cpp" />
-    <ClCompile Include="Scene2.cpp" />
-    <ClCompile Include="Scene3.cpp" />
     <ClCompile Include="Surface.cpp" />
-    <ClCompile Include="TestObject.cpp" />
-    <ClCompile Include="Thing1.cpp" />
-    <ClCompile Include="Thing2.cpp" />
-    <ClCompile Include="Thing3.cpp" />
     <ClCompile Include="tiny_obj_loader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BasePhongShader.h" />
-    <ClInclude Include="Bullet.h" />
     <ClInclude Include="Plane.h" />
-    <ClInclude Include="Scene2.h" />
     <ClInclude Include="App.h" />
     <ClInclude Include="Box.h" />
     <ClInclude Include="Colors.h" />
@@ -135,12 +126,10 @@
     <ClInclude Include="MyException.h" />
     <ClInclude Include="MyMath.h" />
     <ClInclude Include="MyWin.h" />
-    <ClInclude Include="Scene3.h" />
-    <ClInclude Include="TestObject.h" />
+    <ClInclude Include="Scene.h" />
     <ClInclude Include="Pipeline.h" />
     <ClInclude Include="Rect.h" />
     <ClInclude Include="Resource.h" />
-    <ClInclude Include="Scene.h" />
     <ClInclude Include="SolidEffect.h" />
     <ClInclude Include="SpecularPhongPointEffect.h" />
     <ClInclude Include="Sphere.h" />

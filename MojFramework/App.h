@@ -2,8 +2,6 @@
 #include "Graphics.h"
 #include "FrameTimer.h"
 #include "Scene.h"
-#include "Scene2.h"
-#include "Scene3.h"
 #include <memory>
 
 class App

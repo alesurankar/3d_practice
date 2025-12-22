@@ -22,12 +22,6 @@
     <Filter Include="Header Files\Utility">
       <UniqueIdentifier>{31dc1a98-7402-4816-9ce0-c0eceaf2472f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Shaders">
-      <UniqueIdentifier>{ce2685a3-fccf-4356-ba29-6e8f1a720130}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Draw">
-      <UniqueIdentifier>{526d6233-986c-4c12-a5a6-136c9150fe94}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Framework">
       <UniqueIdentifier>{841c6136-ce94-4b1a-bfc0-acb07b8c391e}</UniqueIdentifier>
     </Filter>
@@ -37,23 +31,17 @@
     <Filter Include="Header Files\App">
       <UniqueIdentifier>{2a6e4225-9bf3-4331-820f-c84899e574a0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Effects">
-      <UniqueIdentifier>{4faf1c14-0d2e-4a7e-a6c1-83188aadf37a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\scene2">
-      <UniqueIdentifier>{ef01f5d1-dba0-4c13-abe6-e85dd939f6de}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\scene2">
-      <UniqueIdentifier>{a62f959c-802f-4b86-97c3-45b3a16ba84c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\scene3">
-      <UniqueIdentifier>{b427c440-e5e8-4c23-86a8-f21a5e900e86}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\scene3">
-      <UniqueIdentifier>{97b9253a-02fc-433e-b7c9-884929f70c25}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\pipeline">
       <UniqueIdentifier>{f2639954-e788-4825-ac57-95122c26e1dc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\pipeline\Effects">
+      <UniqueIdentifier>{4faf1c14-0d2e-4a7e-a6c1-83188aadf37a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\pipeline\Shaders">
+      <UniqueIdentifier>{ce2685a3-fccf-4356-ba29-6e8f1a720130}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\pipeline\Draw">
+      <UniqueIdentifier>{526d6233-986c-4c12-a5a6-136c9150fe94}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -84,35 +72,14 @@
     <ClCompile Include="Mouse.cpp">
       <Filter>Source Files\Framework</Filter>
     </ClCompile>
-    <ClCompile Include="Scene.cpp">
-      <Filter>Source Files\App</Filter>
-    </ClCompile>
     <ClCompile Include="Surface.cpp">
       <Filter>Source Files\Framework</Filter>
     </ClCompile>
     <ClCompile Include="tiny_obj_loader.cpp">
       <Filter>Source Files\Framework</Filter>
     </ClCompile>
-    <ClCompile Include="TestObject.cpp">
+    <ClCompile Include="Scene.cpp">
       <Filter>Source Files\App</Filter>
-    </ClCompile>
-    <ClCompile Include="Scene2.cpp">
-      <Filter>Source Files\scene2</Filter>
-    </ClCompile>
-    <ClCompile Include="Bullet.cpp">
-      <Filter>Source Files\scene2</Filter>
-    </ClCompile>
-    <ClCompile Include="Scene3.cpp">
-      <Filter>Source Files\scene3</Filter>
-    </ClCompile>
-    <ClCompile Include="Thing2.cpp">
-      <Filter>Source Files\scene3</Filter>
-    </ClCompile>
-    <ClCompile Include="Thing1.cpp">
-      <Filter>Source Files\scene3</Filter>
-    </ClCompile>
-    <ClCompile Include="Thing3.cpp">
-      <Filter>Source Files\scene3</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -168,10 +135,10 @@
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
     <ClInclude Include="DefaultGeometryShader.h">
-      <Filter>Header Files\Shaders</Filter>
+      <Filter>Header Files\pipeline\Shaders</Filter>
     </ClInclude>
     <ClInclude Include="BaseVertexShader.h">
-      <Filter>Header Files\Shaders</Filter>
+      <Filter>Header Files\pipeline\Shaders</Filter>
     </ClInclude>
     <ClInclude Include="tiny_obj_loader.h">
       <Filter>Header Files\Utility</Filter>
@@ -189,40 +156,19 @@
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
     <ClInclude Include="SolidEffect.h">
-      <Filter>Header Files\Effects</Filter>
+      <Filter>Header Files\pipeline\Effects</Filter>
     </ClInclude>
     <ClInclude Include="SpecularPhongPointEffect.h">
-      <Filter>Header Files\Effects</Filter>
-    </ClInclude>
-    <ClInclude Include="Scene2.h">
-      <Filter>Header Files\scene2</Filter>
-    </ClInclude>
-    <ClInclude Include="Bullet.h">
-      <Filter>Header Files\scene2</Filter>
-    </ClInclude>
-    <ClInclude Include="Scene3.h">
-      <Filter>Header Files\scene3</Filter>
-    </ClInclude>
-    <ClInclude Include="Thing2.h">
-      <Filter>Header Files\scene3</Filter>
+      <Filter>Header Files\pipeline\Effects</Filter>
     </ClInclude>
     <ClInclude Include="Squere.h">
-      <Filter>Header Files\Draw</Filter>
-    </ClInclude>
-    <ClInclude Include="Miniball.h">
-      <Filter>Header Files\Draw</Filter>
+      <Filter>Header Files\pipeline\Draw</Filter>
     </ClInclude>
     <ClInclude Include="Plane.h">
-      <Filter>Header Files\Draw</Filter>
-    </ClInclude>
-    <ClInclude Include="Scene.h">
-      <Filter>Header Files\Draw</Filter>
+      <Filter>Header Files\pipeline\Draw</Filter>
     </ClInclude>
     <ClInclude Include="Sphere.h">
-      <Filter>Header Files\Draw</Filter>
-    </ClInclude>
-    <ClInclude Include="TestObject.h">
-      <Filter>Header Files\Draw</Filter>
+      <Filter>Header Files\pipeline\Draw</Filter>
     </ClInclude>
     <ClInclude Include="NDCScreenTransformer.h">
       <Filter>Header Files\pipeline</Filter>
@@ -239,20 +185,29 @@
     <ClInclude Include="Pipeline.h">
       <Filter>Header Files\pipeline</Filter>
     </ClInclude>
-    <ClInclude Include="Thing1.h">
-      <Filter>Header Files\scene3</Filter>
-    </ClInclude>
     <ClInclude Include="BasePhongShader.h">
-      <Filter>Header Files\Shaders</Filter>
+      <Filter>Header Files\pipeline\Shaders</Filter>
     </ClInclude>
     <ClInclude Include="VertexLightTexturedEffect.h">
-      <Filter>Header Files\Effects</Filter>
+      <Filter>Header Files\pipeline\Effects</Filter>
     </ClInclude>
-    <ClInclude Include="Thing3.h">
-      <Filter>Header Files\scene3</Filter>
+    <ClInclude Include="Scene.h">
+      <Filter>Header Files\App</Filter>
     </ClInclude>
     <ClInclude Include="Thing.h">
-      <Filter>Header Files\scene3</Filter>
+      <Filter>Header Files\App</Filter>
+    </ClInclude>
+    <ClInclude Include="Thing1.h">
+      <Filter>Header Files\App</Filter>
+    </ClInclude>
+    <ClInclude Include="Thing2.h">
+      <Filter>Header Files\App</Filter>
+    </ClInclude>
+    <ClInclude Include="Thing3.h">
+      <Filter>Header Files\App</Filter>
+    </ClInclude>
+    <ClInclude Include="Miniball.h">
+      <Filter>Header Files\Utility</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
