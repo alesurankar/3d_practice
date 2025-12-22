@@ -167,7 +167,7 @@
     <ClInclude Include="DefaultGeometryShader.h">
       <Filter>Header Files\Shaders</Filter>
     </ClInclude>
-    <ClInclude Include="DefaultVertexShader.h">
+    <ClInclude Include="BaseVertexShader.h">
       <Filter>Header Files\Shaders</Filter>
     </ClInclude>
     <ClInclude Include="tiny_obj_loader.h">
@@ -219,9 +219,6 @@
       <Filter>Header Files\scene3</Filter>
     </ClInclude>
     <ClInclude Include="GouraudPointEffect.h">
-      <Filter>Header Files\Effects</Filter>
-    </ClInclude>
-    <ClInclude Include="PhongPointEffect.h">
       <Filter>Header Files\Effects</Filter>
     </ClInclude>
     <ClInclude Include="Squere.h">

@@ -123,14 +123,11 @@ void Scene3::BindAndDrawObjects(const Thing2& obj)
 	//	{ Colors::Red,Colors::Green,Colors::Blue,Colors::Magenta,Colors::Yellow,Colors::Cyan }   //SolidGeometryEffect
 	//);																						 //SolidGeometryEffect
 
-	const Mat4 world =
-		Mat4::RotationX(obj.GetOrnt().x) *
-		Mat4::RotationY(obj.GetOrnt().y) *
-		Mat4::RotationZ(obj.GetOrnt().z) *
-		Mat4::Translation(obj.GetPos());
-
-	litPipeline.effect.vs.BindWorld(world);
-	litPipeline.effect.vs.BindView(view);
+	litPipeline.effect.vs.BindWorldView(
+		Mat4::RotationX(obj.GetOrnt().x) * 
+		Mat4::RotationY(obj.GetOrnt().y) * 
+		Mat4::RotationZ(obj.GetOrnt().z) * 
+		Mat4::Translation(obj.GetPos()) * view);
 	litPipeline.effect.vs.BindProjection(proj);
 
 	//litPipeline.effect.vs.SetLightPosition(player->GetPos());   //GouraudEffect

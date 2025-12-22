@@ -113,7 +113,6 @@
     <ClInclude Include="GeometryFlatEffect.h" />
     <ClInclude Include="GouraudEffect.h" />
     <ClInclude Include="GouraudPointEffect.h" />
-    <ClInclude Include="PhongPointEffect.h" />
     <ClInclude Include="Plane.h" />
     <ClInclude Include="Scene2.h" />
     <ClInclude Include="App.h" />
@@ -124,7 +123,7 @@
     <ClInclude Include="MouseTracker.h" />
     <ClInclude Include="NDCScreenTransformer.h" />
     <ClInclude Include="DefaultGeometryShader.h" />
-    <ClInclude Include="DefaultVertexShader.h" />
+    <ClInclude Include="BaseVertexShader.h" />
     <ClInclude Include="DXErr.h" />
     <ClInclude Include="FrameTimer.h" />
     <ClInclude Include="GDIPlusManager.h" />

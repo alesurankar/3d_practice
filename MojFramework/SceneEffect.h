@@ -1,10 +1,9 @@
 #pragma once
-#include "GeometryFlatEffect.h"
-#include "SolidGeometryEffect.h"
-#include "VertexFlatEffect.h"
-#include "GouraudEffect.h"
-#include "GouraudPointEffect.h"
-#include "PhongPointEffect.h"
+//#include "GeometryFlatEffect.h"
+//#include "SolidGeometryEffect.h"
+//#include "VertexFlatEffect.h"
+//#include "GouraudEffect.h"
+//#include "GouraudPointEffect.h"
 #include "SpecularPhongPointEffect.h"
 #include "SolidEffect.h"
 
