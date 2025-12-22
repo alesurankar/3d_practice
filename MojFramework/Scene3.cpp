@@ -34,16 +34,16 @@ void Scene3::Update(const Keyboard& kbd, Mouse& mouse, float dt)
 	if (kbd.KeyIsPressed(VK_SPACE)) {
 		speed = 2 * dt;
 	}
-	if (kbd.KeyIsPressed('W')) {
+	if (kbd.KeyIsPressed(VK_UP)) {
 		player->Move(0.0f, speed, 0.0f);
 	}
-	if (kbd.KeyIsPressed('S')) {
+	if (kbd.KeyIsPressed(VK_DOWN)) {
 		player->Move(0.0f, -speed, 0.0f);
 	}
-	if (kbd.KeyIsPressed('A')) {
+	if (kbd.KeyIsPressed(VK_LEFT)) {
 		player->Move(-speed, 0.0f, 0.0f);
 	}
-	if (kbd.KeyIsPressed('D')) {
+	if (kbd.KeyIsPressed(VK_RIGHT)) {
 		player->Move(speed, 0.0f, 0.0f);
 	}
 	if (kbd.KeyIsPressed(VK_SHIFT)) {
@@ -52,45 +52,61 @@ void Scene3::Update(const Keyboard& kbd, Mouse& mouse, float dt)
 	if (kbd.KeyIsPressed(VK_CONTROL)) {
 		player->Move(0.0f, 0.0f, -speed);
 	}
-	if (kbd.KeyIsPressed('Q')) {
-		player->Rotate(0.0f, 0.0f, speed);
-	}
-	if (kbd.KeyIsPressed('E')) {
-		player->Rotate(0.0f, 0.0f, -speed);
-	}
 	for (auto& obj : objects) {
 		obj->Move(dt);
 		obj->Rotate(dt);
 	}
-	if (kbd.KeyIsPressed(VK_SPACE)) {
-		speed = 2 * dt;
+	if (kbd.KeyIsPressed('W')) {
+		cam_pos += Vec4{ 0.0f,1.0f,0.0f,0.0f } *!cam_rot * speed;
 	}
-	if (kbd.KeyIsPressed(VK_UP)) {
-		cam_pos.y += speed;
+	if (kbd.KeyIsPressed('S')) {
+		cam_pos += Vec4{ 0.0f,-1.0f,0.0f,0.0f } *!cam_rot * speed;
 	}
-	if (kbd.KeyIsPressed(VK_DOWN)) {
-		cam_pos.y -= speed;
+	if (kbd.KeyIsPressed('A')) {
+		cam_pos += Vec4{ -1.0f,0.0f,0.0f,0.0f } *!cam_rot * speed;
 	}
-	if (kbd.KeyIsPressed(VK_LEFT)) {
-		cam_pos.x -= speed;
+	if (kbd.KeyIsPressed('D')) {
+		cam_pos += Vec4{ 1.0f,0.0f,0.0f,0.0f } *!cam_rot * speed;
 	}
-	if (kbd.KeyIsPressed(VK_RIGHT)) {
-		cam_pos.x += speed;
+	if (kbd.KeyIsPressed('Q'))
+	{
+		cam_rot = cam_rot * Mat4::RotationZ(speed);
 	}
-	if (kbd.KeyIsPressed('K')) {
-		cam_pos.z -= speed;
+	if (kbd.KeyIsPressed('E'))
+	{
+		cam_rot = cam_rot * Mat4::RotationZ(-speed);
 	}
-	if (kbd.KeyIsPressed('L')) {
-		cam_pos.z += speed;
+
+
+	while (!mouse.IsEmpty())
+	{
+		const auto e = mouse.Read();
+		switch (e.GetType())
+		{
+		case Mouse::Event::Type::LPress:
+			mt.Engage(e.GetPos());
+			break;
+		case Mouse::Event::Type::LRelease:
+			mt.Release();
+			break;
+		case Mouse::Event::Type::Move:
+			if (mt.Engaged())
+			{
+				const auto delta = mt.Move(e.GetPos());
+				cam_rot = cam_rot
+					* Mat4::RotationY((float)-delta.x * htrack)
+					* Mat4::RotationX((float)-delta.y * vtrack);
+			}
+			break;
+		}
 	}
 }
 
 void Scene3::Draw()
 {
 	litPipeline.BeginFrame();
-	unlitPipeline.BeginFrame();
 	light_pos = (player->GetPos());
-	view = Mat4::Translation(-cam_pos);
+	view = Mat4::Translation(-cam_pos) * cam_rot;
 	for (auto& obj : objects) {
 		BindAndDrawObjects(*obj);
 	}
@@ -118,7 +134,7 @@ void Scene3::BindAndDrawObjects(const Thing2& obj)
 	litPipeline.effect.vs.BindProjection(proj);
 
 	//litPipeline.effect.vs.SetLightPosition(player->GetPos());   //GouraudEffect
-	litPipeline.effect.ps.SetLightPosition(light_pos);   //PhongEffect
+	litPipeline.effect.ps.SetLightPosition(light_pos);     //PhongEffect
 
 	litPipeline.Draw(obj.GetTriangle());
 }
