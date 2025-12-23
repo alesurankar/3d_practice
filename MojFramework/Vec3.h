@@ -33,7 +33,7 @@ public:
     }
     T Len() const
     {
-        return sqrt(LenSq());
+        return static_cast<T>(sqrt(LenSq()));
     }
     _Vec3& Normalize()
     {

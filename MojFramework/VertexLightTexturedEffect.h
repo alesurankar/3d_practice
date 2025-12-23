@@ -116,7 +116,7 @@ public:
 		Output operator()(const Vertex& v) const
 		{
 			// world position
-			const Vec4 worldPos = v.pos * world;
+			const Vec4 worldPos = v.pos * this->worldView;
 
 			// light vector (world space)
 			const Vec3 v_to_l = Vec3(light_pos - worldPos);
@@ -125,16 +125,16 @@ public:
 
 			// attenuation
 			const float attenuation =
-				1.0f / (constant_attenuation +
-					linear_attenuation * dist +
-					quadradic_attenuation * dist * dist);
+				1.0f / (DefaultPointDiffuseParams::constant_attenuation +
+					DefaultPointDiffuseParams::linear_attenuation * dist +
+					DefaultPointDiffuseParams::quadradic_attenuation * dist * dist);
 
 			// diffuse lighting
-			const Vec3 d = light_diffuse * attenuation * std::max(0.0f, static_cast<Vec3>(Vec4(v.n, 0.0f) * worldView) * dir);
+			const Vec3 d = light_diffuse * attenuation * std::max(0.0f, static_cast<Vec3>(Vec4(v.n, 0.0f) * this->worldView) * dir);
 			const Vec3 l = d + light_ambient;
-			const Vec4 p = Vec4(v.pos.x, v.pos.y, v.pos.z, 1.0f);
+			const Vec4 pos = Vec4(v.pos.x, v.pos.y, v.pos.z, 1.0f);
 			
-			return { p * worldViewProj, v.t, l };
+			return { pos * this->worldViewProj, v.t, l };
 		}
 		void SetDiffuseLight(const Vec3& c)
 		{
@@ -144,7 +144,7 @@ public:
 		{
 			light_ambient = c;
 		}
-		void SetLightPosition(const Vec3& pos_in)
+		void SetLightPosition(const Vec4& pos_in)
 		{
 			light_pos = pos_in;
 		}
@@ -152,9 +152,6 @@ public:
 		Vec4 light_pos = { 0.0f,0.0f,0.5f,1.0f };
 		Vec3 light_diffuse = { 1.0f,1.0f,1.0f };
 		Vec3 light_ambient = { 0.2f,0.2f,0.2f };
-		float linear_attenuation = 2.0f;
-		float quadradic_attenuation = 2.619f;
-		float constant_attenuation = 0.682f;
 	};
 
 	typedef DefaultGeometryShader<VertexShader::Output> GeometryShader;
@@ -166,10 +163,10 @@ public:
 		Color operator()(const Input& in) const
 		{
 			const Vec3 materialColor = Vec3(pTex->GetPixel(
-				(unsigned int)std::min(in.t.x * tex_width + 0.5f, tex_xclamp),
-				(unsigned int)std::min(in.t.y * tex_height + 0.5f, tex_yclamp)
+				static_cast<unsigned int>(in.t.x * tex_width + 0.5f) % tex_width,
+				static_cast<unsigned int>(in.t.y * tex_height + 0.5f) % tex_width
 			)) / 255.0f;
-
+			
 			Vec3 tint = { 0.9f, 0.9f, 0.9f };
 			Vec3 texColor = materialColor.GetHadamard(in.l).GetHadamard(tint).GetSaturated() * 255.0f;
 			
@@ -180,15 +177,11 @@ public:
 			pTex = &tex;
 			tex_width = pTex->GetWidth();
 			tex_height = pTex->GetHeight();
-			tex_xclamp = tex_width - 1.0f;
-			tex_yclamp = tex_height - 1.0f;
 		}
 	private:
 		const Surface* pTex = nullptr;
 		unsigned int tex_width;
 		unsigned int tex_height;
-		float tex_xclamp;
-		float tex_yclamp;
 	};
 public:
 	VertexShader vs;

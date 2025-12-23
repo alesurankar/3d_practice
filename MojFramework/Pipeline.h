@@ -83,7 +83,6 @@ private:
 		// generate triangle from 3 vertices using gs
 		// and send to clipper
 		auto e = effect.gs(v0, v1, v2, triangle_index);
-		//PostProcessTriangleVertices(e);
 		ClipCullTriangle(e);
 	}
 

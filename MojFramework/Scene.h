@@ -43,6 +43,6 @@ private:
 	static constexpr float vtrack = to_rad(vfov) / (float)Graphics::ScreenHeight;
 	Vec3 cam_pos = { 0.0f,0.0f,0.0f };
 	Mat4 cam_rot = Mat4::Identity();
-	Vec3 light_pos = { 0.0f,0.0f,0.6f };
+	Vec4 light_pos;
 	Mat4 view = Mat4::Translation(-cam_pos);
 };

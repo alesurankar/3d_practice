@@ -8,6 +8,7 @@
 #include <fstream>
 #include <cctype>
 #include <sstream>
+#include <algorithm>
 
 template<class T>
 class IndexedTriangleList

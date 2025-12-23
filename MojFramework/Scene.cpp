@@ -12,18 +12,18 @@ Scene::Scene(Graphics& gfx)
 	light = lights.back().get();
 
 	//Objects
-	objects.emplace_back(std::make_unique<Thing2>(gfx, rn.RndVec3(0.0f, 2.0f), IndexedTriangleList<Thing2::Effect::Vertex>::LoadNormals("models\\suzanne.obj")));
-	objects.emplace_back(std::make_unique<Thing2>(gfx, rn.RndVec3(0.0f, 2.0f), Plane::GetNormals<Thing2::Effect::Vertex>(4, 2)));
+	objects.emplace_back(std::make_unique<Thing2>(gfx, rn.RndVec3(1.0f, 4.0f), IndexedTriangleList<Thing2::Effect::Vertex>::LoadNormals("models\\suzanne.obj")));
+	objects.emplace_back(std::make_unique<Thing2>(gfx, rn.RndVec3(1.0f, 4.0f), Plane::GetNormals<Thing2::Effect::Vertex>()));
 	
 	//Textures
-	textures.emplace_back(std::make_unique<Thing3>(gfx, rn.RndVec3(0.0f, 2.0f), Plane::GetSkinnedNormals<Thing3::Effect::Vertex>(10, 2.0f), L"Images\\stonewall.jpg"));
+	textures.emplace_back(std::make_unique<Thing3>(gfx, rn.RndVec3(1.0f, 4.0f), Plane::GetSkinnedNormals<Thing3::Effect::Vertex>(), L"Images\\stonewall.jpg"));
 	for (const auto& obj : objects) {
-		obj->SetVelocity(rn.RndVec3(-0.8f, 0.8f));
-		obj->SetAngle(rn.RndVec3(-0.8f, 0.8f));
+		obj->SetVelocity(rn.RndVec3(-0.0f, 0.0f));
+		obj->SetAngle(rn.RndVec3(-0.0f, 0.0f));
 	}
 	for (const auto& tex : textures) {
-		tex->SetVelocity(rn.RndVec3(-0.8f, 0.8f));
-		tex->SetAngle(rn.RndVec3(-0.8f, 0.8f));
+		tex->SetVelocity(rn.RndVec3(-0.0f, 0.0f));
+		tex->SetAngle(rn.RndVec3(-0.0f, 0.0f));
 	}
 }
 
@@ -107,6 +107,7 @@ void Scene::Update(const Keyboard& kbd, Mouse& mouse, float dt)
 	}
 
 	//Updating Objects
+	light_pos = Vec4(light->GetPos(), 1.0f);
 	for (const auto& obj : objects) {
 		obj->Move(dt);
 		obj->Rotate(dt);
@@ -155,7 +156,7 @@ void Scene::BindAndDrawObjects(const Thing2& obj)
 	litPipeline.effect.vs.BindWorld(world);
 	litPipeline.effect.vs.BindView(view);
 	litPipeline.effect.vs.BindProjection(proj);
-	litPipeline.effect.ps.SetLightPosition(light_pos);
+	litPipeline.effect.ps.SetLightPosition(light_pos * view);
 
 	litPipeline.Draw(obj.GetTriangle());
 }
@@ -171,9 +172,9 @@ void Scene::BindAndDrawTexture(const Thing3& obj)
 		Mat4::Translation(obj.GetPos());
 
 	texPipeline.effect.vs.BindWorld(world);
-	texPipeline.effect.vs.BindView(view); 
+	texPipeline.effect.vs.BindView(view);
 	texPipeline.effect.vs.BindProjection(proj);
-	texPipeline.effect.vs.SetLightPosition(light_pos);
+	texPipeline.effect.vs.SetLightPosition(light_pos * view);
 
 	texPipeline.Draw(obj.GetTriangle());
 }
