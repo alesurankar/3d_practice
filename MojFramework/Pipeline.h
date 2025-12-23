@@ -21,17 +21,12 @@ public:
 	typedef typename Effect::VertexShader::Output VSOut;
 	typedef typename Effect::GeometryShader::Output GSOut;
 public:
-	Pipeline(Graphics& gfx)
-		:
-		Pipeline(gfx, std::make_shared<ZBuffer>(gfx.ScreenWidth, gfx.ScreenHeight))
-	{
-	}
-	Pipeline(Graphics& gfx, std::shared_ptr<ZBuffer> pZb_in)
+	Pipeline(Graphics& gfx, ZBuffer& pZb_in)
 		:
 		gfx(gfx),
-		pZb(std::move(pZb_in))
+		pZb(pZb_in)
 	{
-		assert(pZb->GetHeight() == gfx.ScreenHeight && pZb->GetWidth() == gfx.ScreenWidth);
+		assert(pZb.GetHeight() == gfx.ScreenHeight && pZb.GetWidth() == gfx.ScreenWidth);
 	}
 	void Draw(const IndexedTriangleList<Vertex>& triList)
 	{
@@ -40,7 +35,7 @@ public:
 	// needed to reset the z-buffer and tri idx after each frame
 	void BeginFrame()
 	{
-		pZb->Clear();
+		pZb.Clear();
 	}
 private:
 	// vertex processing function
@@ -341,7 +336,7 @@ private:
 
 			for (int x = xStart; x < xEnd; x++, iLine += diLine)
 			{
-				if (pZb->TestAndSet(x, y, iLine.pos.z))
+				if (pZb.TestAndSet(x, y, iLine.pos.z))
 				{
 					const float w = 1.0f / iLine.pos.w;
 					const auto attr = iLine * w;
@@ -354,6 +349,6 @@ public:
 	Effect effect;
 private:
 	Graphics& gfx;
+	ZBuffer& pZb;
 	NDCScreenTransformer nst;
-	std::shared_ptr<ZBuffer> pZb;
 };

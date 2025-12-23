@@ -1,7 +1,6 @@
 #pragma once
 #include "Squere.h"
 #include "Sphere.h"
-#include "NDCScreenTransformer.h"
 #include "Graphics.h"
 #include "Vec3.h"
 #include "Mat.h"
@@ -22,11 +21,10 @@ public:
 		vel({ 0.0f,0.0f,0.0f }),
 		ang({ 0.0f,0.0f,0.0f }),
 		size(size_in),
-		itlist(std::move(tl))
+		triangles(std::move(tl))
 	{
-		itlist.AdjustToTrueCenter();
-		pos.z = itlist.GetRadius() * 1.6f;
-		triangles = itlist;
+		triangles.AdjustToTrueCenter();
+		pos.z = triangles.GetRadius() * 1.6f;
 	}
 	void Move(float x, float y, float z)
 	{
@@ -49,46 +47,42 @@ public:
 		ornt.x = wrap_angle(ornt.x + x);
 		ornt.y = wrap_angle(ornt.y + y);
 		ornt.z = wrap_angle(ornt.z + z);
-
-		CheckBorder();
 	}
 	void Rotate(float dt)
 	{
 		ornt.x = wrap_angle(ornt.x + ang.x * dt);
 		ornt.y = wrap_angle(ornt.y + ang.y * dt);
 		ornt.z = wrap_angle(ornt.z + ang.z * dt);
-
-		CheckBorder();
 	}
-	Vec3 GetPos() const
+	Vec3 GetPos() const noexcept
 	{
 		return pos;
 	}
-	Vec3 GetOrnt() const
+	Vec3 GetOrnt() const noexcept
 	{
 		return ornt;
 	}
-	const IndexedTriangleList<Vertex>& GetTriangle() const
+	const IndexedTriangleList<Vertex>& GetTriangle() const noexcept
 	{
 		return triangles;
 	}
-	void SetVelocity(float vx, float vy, float vz)
+	void SetVelocity(float vx, float vy, float vz) noexcept
 	{
 		vel = Vec3(vx, vy, vz);
 	}
-	void ChangeVelocity()
+	void ChangeVelocity() noexcept
 	{
 		vel = -vel;
 	}
-	void SetAngle(float ax, float ay, float az)
+	void SetAngle(float ax, float ay, float az) noexcept
 	{
 		ang = Vec3(ax, ay, az);
 	}
-	void ChangeAngle()
+	void ChangeAngle() noexcept
 	{
 		ang = -ang;
 	}
-	BoxF GetWorldBoundingBox() const
+	BoxF GetWorldBoundingBox() const noexcept
 	{
 		BoxF local = Squere::GetLocalBoundingBox(size);
 
@@ -102,27 +96,27 @@ public:
 			local.back + p.z
 		);
 	}
-	void SetCollisionFlag()
+	void SetCollisionFlag() noexcept
 	{
 		collisionFlag = true;
 	}
-	void ResetCollisionFlag()
+	void ResetCollisionFlag() noexcept
 	{
 		collisionFlag = false;
 	}
-	bool CheckCollisionFlag()
+	bool CheckCollisionFlag() const noexcept
 	{
 		return collisionFlag;
 	}
-	void SetMoved()
+	void SetMoved() noexcept
 	{
 		moved = true;
 	}
-	void ResetMoved()
+	void ResetMoved() noexcept
 	{
 		moved = false;
 	}
-	bool CheckMoved()
+	bool CheckMoved() const noexcept
 	{
 		return moved;
 	}
@@ -159,15 +153,13 @@ private:
 			vel.z = -vel.z;
 			ang.z = -ang.z;
 		}
-		triangles = itlist;
 	}
-public:
+private:
 	Vec3 pos;
 	Vec3 ornt;
 	Vec3 vel;
 	Vec3 ang;
 	float size;
-	IndexedTriangleList<Vertex> itlist;
 	IndexedTriangleList<Vertex> triangles;
 	bool collisionFlag = false;
 	bool moved = true;

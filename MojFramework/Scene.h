@@ -28,7 +28,7 @@ private:
 	std::uniform_real_distribution<float> vRand;
 	std::uniform_real_distribution<float> pRand;
 	std::uniform_real_distribution<float> zRand;
-	std::shared_ptr<ZBuffer> pZb;
+	ZBuffer pZb;
 	Pipeline<Thing1::Effect> unlitPipeline;
 	Pipeline<Thing2::Effect> litPipeline;
 	Pipeline<Thing3::Effect> texPipeline;

@@ -2,7 +2,7 @@
 
 Scene::Scene(Graphics& gfx)
 	:
-	pZb(std::make_shared<ZBuffer>(gfx.ScreenWidth, gfx.ScreenHeight)),
+	pZb(gfx.ScreenWidth, gfx.ScreenHeight),
 	unlitPipeline(gfx, pZb),
 	litPipeline(gfx, pZb),
 	texPipeline(gfx, pZb),
@@ -17,12 +17,12 @@ Scene::Scene(Graphics& gfx)
 	light = lights.back().get();
 	objects.emplace_back(std::make_unique<Thing2>(gfx, Vec3(0.0f, 0.0f, 10.0f), IndexedTriangleList<Thing2::Effect::Vertex>::LoadNormals("models\\suzanne.obj")));
 	objects.emplace_back(std::make_unique<Thing2>(gfx, Vec3(0.0f, 1.0f, 10.0f), Plane::GetNormals<Thing2::Effect::Vertex>(4, 2)));
-	for (auto& obj : objects) {
+	for (const auto& obj : objects) {
 		obj->SetVelocity(3 * vRand(rng), 3 * vRand(rng), 3 * vRand(rng));
 		obj->SetAngle(vRand(rng), vRand(rng), vRand(rng));
 	}
 	textures.emplace_back(std::make_unique<Thing3>(gfx, Vec3(0.0f, 0.0f, 5.0f), Plane::GetSkinnedNormals<Thing3::Effect::Vertex>(10, 2.0f), L"Images\\stonewall.jpg"));
-	for (auto& tex : textures) {
+	for (const auto& tex : textures) {
 		tex->SetVelocity(vRand(rng), vRand(rng), vRand(rng));
 		tex->SetAngle(vRand(rng), vRand(rng), vRand(rng));
 	}
@@ -108,11 +108,11 @@ void Scene::Update(const Keyboard& kbd, Mouse& mouse, float dt)
 	}
 
 	//Updating Objects
-	for (auto& obj : objects) {
+	for (const auto& obj : objects) {
 		obj->Move(dt);
 		obj->Rotate(dt);
 	}
-	for (auto& tex : textures) {
+	for (const auto& tex : textures) {
 		tex->Move(dt);
 		tex->Rotate(dt);
 	}
@@ -123,13 +123,13 @@ void Scene::Draw()
 	litPipeline.BeginFrame();
 	light_pos = (light->GetPos());
 	view = Mat4::Translation(-cam_pos) * cam_rot;
-	for (auto& lit : lights) {
+	for (const auto& lit : lights) {
 		BindAndDrawLights(*lit);
 	}
-	for (auto& obj : objects) {
+	for (const auto& obj : objects) {
 		BindAndDrawObjects(*obj);
 	}
-	for (auto& tex : textures) {
+	for (const auto& tex : textures) {
 		BindAndDrawTexture(*tex);
 	}
 }
