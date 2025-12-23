@@ -108,6 +108,7 @@
     <ClInclude Include="App.h" />
     <ClInclude Include="Box.h" />
     <ClInclude Include="Colors.h" />
+    <ClInclude Include="RandomNumber.h" />
     <ClInclude Include="Squere.h" />
     <ClInclude Include="IndexedList.h" />
     <ClInclude Include="MouseTracker.h" />

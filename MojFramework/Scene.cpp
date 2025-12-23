@@ -5,26 +5,25 @@ Scene::Scene(Graphics& gfx)
 	pZb(gfx.ScreenWidth, gfx.ScreenHeight),
 	unlitPipeline(gfx, pZb),
 	litPipeline(gfx, pZb),
-	texPipeline(gfx, pZb),
-	rng(rd()),
-	vRand(-0.2f, 0.2f),
-	pRand(-50.0f, 50.0f),
-	zRand(100.0f, 200.0f)
+	texPipeline(gfx, pZb)
 {
-	lights.emplace_back(std::make_unique<Thing1>(gfx, Vec3(0.0f, 0.0f, 0.0f), Sphere::GetPlainColor<Thing1::Effect::Vertex>(0.1f)));
-	lights[0]->Move(0.0f, 0.0f, 0.0f);
-	lights[0]->Rotate(0.0f, 0.0f, 0.0f);
+	// Lights
+	lights.emplace_back(std::make_unique<Thing1>(gfx, rn.RndVec3(0.0f, 2.0f), Sphere::GetPlainColor<Thing1::Effect::Vertex>(0.1f)));
 	light = lights.back().get();
-	objects.emplace_back(std::make_unique<Thing2>(gfx, Vec3(0.0f, 0.0f, 10.0f), IndexedTriangleList<Thing2::Effect::Vertex>::LoadNormals("models\\suzanne.obj")));
-	objects.emplace_back(std::make_unique<Thing2>(gfx, Vec3(0.0f, 1.0f, 10.0f), Plane::GetNormals<Thing2::Effect::Vertex>(4, 2)));
+
+	//Objects
+	objects.emplace_back(std::make_unique<Thing2>(gfx, rn.RndVec3(0.0f, 2.0f), IndexedTriangleList<Thing2::Effect::Vertex>::LoadNormals("models\\suzanne.obj")));
+	objects.emplace_back(std::make_unique<Thing2>(gfx, rn.RndVec3(0.0f, 2.0f), Plane::GetNormals<Thing2::Effect::Vertex>(4, 2)));
+	
+	//Textures
+	textures.emplace_back(std::make_unique<Thing3>(gfx, rn.RndVec3(0.0f, 2.0f), Plane::GetSkinnedNormals<Thing3::Effect::Vertex>(10, 2.0f), L"Images\\stonewall.jpg"));
 	for (const auto& obj : objects) {
-		obj->SetVelocity(3 * vRand(rng), 3 * vRand(rng), 3 * vRand(rng));
-		obj->SetAngle(vRand(rng), vRand(rng), vRand(rng));
+		obj->SetVelocity(rn.RndVec3(-0.8f, 0.8f));
+		obj->SetAngle(rn.RndVec3(-0.8f, 0.8f));
 	}
-	textures.emplace_back(std::make_unique<Thing3>(gfx, Vec3(0.0f, 0.0f, 5.0f), Plane::GetSkinnedNormals<Thing3::Effect::Vertex>(10, 2.0f), L"Images\\stonewall.jpg"));
 	for (const auto& tex : textures) {
-		tex->SetVelocity(vRand(rng), vRand(rng), vRand(rng));
-		tex->SetAngle(vRand(rng), vRand(rng), vRand(rng));
+		tex->SetVelocity(rn.RndVec3(-0.8f, 0.8f));
+		tex->SetAngle(rn.RndVec3(-0.8f, 0.8f));
 	}
 }
 

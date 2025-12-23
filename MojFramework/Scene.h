@@ -9,8 +9,8 @@
 #include "Vec2.h"
 #include "Pipeline.h"
 #include "MouseTracker.h"
+#include "RandomNumber.h"
 #include <memory>
-#include <random>
 
 class Scene
 {
@@ -23,11 +23,7 @@ private:
 	void BindAndDrawObjects(const Thing2& obj);
 	void BindAndDrawTexture(const Thing3& obj);
 private:
-	std::random_device rd;
-	std::mt19937 rng;
-	std::uniform_real_distribution<float> vRand;
-	std::uniform_real_distribution<float> pRand;
-	std::uniform_real_distribution<float> zRand;
+	RandomNumber rn;
 	ZBuffer pZb;
 	Pipeline<Thing1::Effect> unlitPipeline;
 	Pipeline<Thing2::Effect> litPipeline;

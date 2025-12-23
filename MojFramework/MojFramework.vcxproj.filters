@@ -209,6 +209,9 @@
     <ClInclude Include="Miniball.h">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
+    <ClInclude Include="RandomNumber.h">
+      <Filter>Header Files\Utility</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="MojFramework.rc">

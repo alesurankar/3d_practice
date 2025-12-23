@@ -25,6 +25,7 @@ public:
 	{
 		triangles.AdjustToTrueCenter();
 		pos.z = triangles.GetRadius() * 1.6f;
+		CheckBorder();
 	}
 	void Move(float x, float y, float z)
 	{
@@ -70,6 +71,10 @@ public:
 	{
 		vel = Vec3(vx, vy, vz);
 	}
+	void SetVelocity(const Vec3& v) noexcept
+	{
+		SetVelocity(v.x, v.y, v.z);
+	}
 	void ChangeVelocity() noexcept
 	{
 		vel = -vel;
@@ -77,6 +82,10 @@ public:
 	void SetAngle(float ax, float ay, float az) noexcept
 	{
 		ang = Vec3(ax, ay, az);
+	}
+	void SetAngle(const Vec3& a) noexcept
+	{
+		SetAngle(a.x, a.y, a.z);
 	}
 	void ChangeAngle() noexcept
 	{
