@@ -5,7 +5,8 @@ Scene::Scene(Graphics& gfx)
 	pZb(gfx.ScreenWidth, gfx.ScreenHeight),
 	unlitPipeline(gfx, pZb),
 	litPipeline(gfx, pZb),
-	texPipeline(gfx, pZb)
+	texPipeline(gfx, pZb),
+	proj(Mat4::ProjectionHFOV(hfov, aspect_ratio, nearZ, farZ))
 {
 	// Lights
 	lights.emplace_back(std::make_unique<Thing1>(gfx, rn.RndVec3(0.0f, 2.0f), Sphere::GetPlainColor<Thing1::Effect::Vertex>(0.1f)));
@@ -56,22 +57,22 @@ void Scene::Update(const Keyboard& kbd, Mouse& mouse, float dt)
 	
 	//Camera position
 	if (kbd.KeyIsPressed('W')) {
-		cam_pos += Vec4{ 0.0f,1.0f,0.0f,0.0f } *!cam_rot * speed;
+		cam_pos += Vec4{ 0.0f,speed,0.0f,0.0f } *!cam_rot;
 	}
 	if (kbd.KeyIsPressed('S')) {
-		cam_pos += Vec4{ 0.0f,-1.0f,0.0f,0.0f } *!cam_rot * speed;
+		cam_pos += Vec4{ 0.0f,-speed,0.0f,0.0f } *!cam_rot;
 	}
 	if (kbd.KeyIsPressed('A')) {
-		cam_pos += Vec4{ -1.0f,0.0f,0.0f,0.0f } *!cam_rot * speed;
+		cam_pos += Vec4{ -speed,0.0f,0.0f,0.0f } *!cam_rot;
 	}
 	if (kbd.KeyIsPressed('D')) {
-		cam_pos += Vec4{ 1.0f,0.0f,0.0f,0.0f } *!cam_rot * speed;
+		cam_pos += Vec4{ speed,0.0f,0.0f,0.0f } *!cam_rot;
 	}
 	if (kbd.KeyIsPressed(VK_SHIFT)) {
-		cam_pos += Vec4{ 0.0f,0.0f,1.0f,0.0f } *!cam_rot * speed;
+		cam_pos += Vec4{ 0.0f,0.0f,speed,0.0f } *!cam_rot;
 	}
 	if (kbd.KeyIsPressed(VK_CONTROL)) {
-		cam_pos += Vec4{ 0.0f,0.0f,-1.0f,0.0f } *!cam_rot * speed;
+		cam_pos += Vec4{ 0.0f,0.0f,-speed,0.0f } *!cam_rot;
 	}
 	if (kbd.KeyIsPressed('Q'))
 	{
@@ -107,7 +108,6 @@ void Scene::Update(const Keyboard& kbd, Mouse& mouse, float dt)
 	}
 
 	//Updating Objects
-	light_pos = Vec4(light->GetPos(), 1.0f);
 	for (const auto& obj : objects) {
 		obj->Move(dt);
 		obj->Rotate(dt);
@@ -118,63 +118,54 @@ void Scene::Update(const Keyboard& kbd, Mouse& mouse, float dt)
 	}
 }
 
-void Scene::Draw()
+void Scene::BindAndDraw()
 {
+	unlitPipeline.BeginFrame();
 	litPipeline.BeginFrame();
-	light_pos = (light->GetPos());
-	view = Mat4::Translation(-cam_pos) * cam_rot;
+	texPipeline.BeginFrame();
+	BindToPipelines();
 	for (const auto& lit : lights) {
-		BindAndDrawLights(*lit);
+		DrawLights(*lit);
 	}
 	for (const auto& obj : objects) {
-		BindAndDrawObjects(*obj);
+		DrawObjects(*obj);
 	}
 	for (const auto& tex : textures) {
-		BindAndDrawTexture(*tex);
+		DrawTexture(*tex);
 	}
 }
 
-void Scene::BindAndDrawLights(const Thing1& obj)
+void Scene::BindToPipelines()
 {
-	const Mat4 world = Mat4::Translation(light_pos);
-
-	unlitPipeline.effect.vs.BindWorld(world);
+	const Mat4 view = Mat4::Translation(-cam_pos) * cam_rot;
+	const Vec4 light_pos = light->GetPosV4();
 	unlitPipeline.effect.vs.BindView(view);
 	unlitPipeline.effect.vs.BindProjection(proj);
 
-	unlitPipeline.Draw(obj.GetTriangle());
-}
-
-void Scene::BindAndDrawObjects(const Thing2& obj)
-{
-	const Mat4 world =
-		Mat4::RotationX(obj.GetOrnt().x) *
-		Mat4::RotationY(obj.GetOrnt().y) *
-		Mat4::RotationZ(obj.GetOrnt().z) *
-		Mat4::Translation(obj.GetPos());
-
-	litPipeline.effect.vs.BindWorld(world);
 	litPipeline.effect.vs.BindView(view);
 	litPipeline.effect.vs.BindProjection(proj);
 	litPipeline.effect.ps.SetLightPosition(light_pos * view);
 
-	litPipeline.Draw(obj.GetTriangle());
-}
-
-void Scene::BindAndDrawTexture(const Thing3& obj)
-{
-	texPipeline.effect.ps.BindTexture(obj.GetTexture()); 
-
-	const Mat4 world =
-		Mat4::RotationX(obj.GetOrnt().x) *
-		Mat4::RotationY(obj.GetOrnt().y) *
-		Mat4::RotationZ(obj.GetOrnt().z) *
-		Mat4::Translation(obj.GetPos());
-
-	texPipeline.effect.vs.BindWorld(world);
 	texPipeline.effect.vs.BindView(view);
 	texPipeline.effect.vs.BindProjection(proj);
 	texPipeline.effect.vs.SetLightPosition(light_pos * view);
+}
 
+void Scene::DrawLights(const Thing1& obj)
+{
+	unlitPipeline.effect.vs.BindWorld(obj.GetWorld());
+	unlitPipeline.Draw(obj.GetTriangle());
+}
+
+void Scene::DrawObjects(const Thing2& obj)
+{
+	litPipeline.effect.vs.BindWorld(obj.GetWorld());
+	litPipeline.Draw(obj.GetTriangle());
+}
+
+void Scene::DrawTexture(const Thing3& obj)
+{
+	texPipeline.effect.ps.BindTexture(obj.GetTexture());
+	texPipeline.effect.vs.BindWorld(obj.GetWorld());
 	texPipeline.Draw(obj.GetTriangle());
 }

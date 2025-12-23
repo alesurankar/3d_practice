@@ -10,4 +10,13 @@ public:
 		:
 		Thing<Effect>(gfx, pos_in, std::move(tl), size)
 	{}
+	Mat4 GetWorld() const noexcept
+	{
+		return Mat4(
+			Mat4::RotationX(GetOrnt().x) *
+			Mat4::RotationY(GetOrnt().y) *
+			Mat4::RotationZ(GetOrnt().z) *
+			Mat4::Translation(GetPosV3())
+		);
+	}
 };

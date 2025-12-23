@@ -13,7 +13,6 @@ class Thing
 {
 public:
 	using Vertex = typename Effect::Vertex;
-	using PipelineT = Pipeline<Effect>;
 	Thing(Graphics& gfx, const Vec3& pos_in, IndexedTriangleList<Vertex>&& tl, float size_in)
 		:
 		pos(pos_in),
@@ -55,9 +54,13 @@ public:
 		ornt.y = wrap_angle(ornt.y + ang.y * dt);
 		ornt.z = wrap_angle(ornt.z + ang.z * dt);
 	}
-	Vec3 GetPos() const noexcept
+	Vec3 GetPosV3() const noexcept
 	{
 		return pos;
+	}
+	Vec4 GetPosV4() const noexcept
+	{
+		return Vec4(Vec3(pos), 1.0f);
 	}
 	Vec3 GetOrnt() const noexcept
 	{

@@ -10,4 +10,8 @@ public:
 		:
 		Thing<Effect>(gfx, pos_in, std::move(tl), size)
 	{}
+	Mat4 GetWorld() const noexcept
+    {
+		return Mat4::Translation(GetPosV4());
+    }
 };

@@ -17,18 +17,19 @@ class Scene
 public:
 	Scene(Graphics& gfx);
 	void Update(const Keyboard& kbd, Mouse& mouse, float dt);
-	void Draw();
+	void BindAndDraw();
 private:
-	void BindAndDrawLights(const Thing1& obj);
-	void BindAndDrawObjects(const Thing2& obj);
-	void BindAndDrawTexture(const Thing3& obj);
+	void BindToPipelines();
+	void DrawLights(const Thing1& obj);
+	void DrawObjects(const Thing2& obj);
+	void DrawTexture(const Thing3& obj);
 private:
 	RandomNumber rn;
 	ZBuffer pZb;
+	MouseTracker mt;
 	Pipeline<Thing1::Effect> unlitPipeline;
 	Pipeline<Thing2::Effect> litPipeline;
 	Pipeline<Thing3::Effect> texPipeline;
-	MouseTracker mt;
 	std::vector<std::unique_ptr<Thing1>> lights;
 	std::vector<std::unique_ptr<Thing2>> objects; 
 	std::vector<std::unique_ptr<Thing3>> textures; 
@@ -38,11 +39,9 @@ private:
 	static constexpr float farZ = 200.0f; 
 	static constexpr float hfov = 70.0f;
 	static constexpr float vfov = hfov / aspect_ratio;
-	const Mat4 proj = Mat4::ProjectionHFOV(hfov, aspect_ratio, nearZ, farZ);
 	static constexpr float htrack = to_rad(hfov) / (float)Graphics::ScreenWidth;
 	static constexpr float vtrack = to_rad(vfov) / (float)Graphics::ScreenHeight;
 	Vec3 cam_pos = { 0.0f,0.0f,0.0f };
 	Mat4 cam_rot = Mat4::Identity();
-	Vec4 light_pos;
-	Mat4 view = Mat4::Translation(-cam_pos);
+	const Mat4 proj;
 };

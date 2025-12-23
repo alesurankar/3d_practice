@@ -27,5 +27,5 @@ void App::UpdateModel()
 
 void App::ComposeFrame()
 {
-	scene->Draw();
+	scene->BindAndDraw();
 }

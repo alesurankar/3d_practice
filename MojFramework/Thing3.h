@@ -12,9 +12,18 @@ public:
 	{
 		pTexture = std::make_shared<Surface>(Surface::FromFile(filename));
 	}
-	const Surface& GetTexture() const
+	const Surface& GetTexture() const noexcept
 	{
 		return *pTexture;
+	}
+	Mat4 GetWorld() const noexcept
+	{
+		return Mat4(
+			Mat4::RotationX(GetOrnt().x) *
+			Mat4::RotationY(GetOrnt().y) *
+			Mat4::RotationZ(GetOrnt().z) *
+			Mat4::Translation(GetPosV3())
+		);
 	}
 private:
 	std::shared_ptr<Surface> pTexture;
