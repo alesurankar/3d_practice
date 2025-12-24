@@ -10,6 +10,7 @@
 #include "Pipeline.h"
 #include "MouseTracker.h"
 #include "RandomNumber.h"
+#include "Frustum.h"
 #include <memory>
 
 class Scene
@@ -20,9 +21,6 @@ public:
 	void BindAndDraw();
 private:
 	void BindToPipelines();
-	void DrawLights(const Thing1& obj);
-	void DrawObjects(const Thing2& obj);
-	void DrawTexture(const Thing3& obj);
 private:
 	RandomNumber rn;
 	ZBuffer pZb;
@@ -44,4 +42,5 @@ private:
 	Vec3 cam_pos = { 0.0f,0.0f,0.0f };
 	Mat4 cam_rot = Mat4::Identity();
 	const Mat4 proj;
+	Mat4 view;
 };

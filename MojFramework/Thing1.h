@@ -10,8 +10,14 @@ public:
 		:
 		Thing<Effect>(gfx, pos_in, std::move(tl), size)
 	{}
+	void Draw(Pipeline<Effect>& pipeline) const
+	{
+		pipeline.effect.vs.BindWorld(GetWorld());
+		pipeline.Draw(GetTriangle());
+	}
+private:
 	Mat4 GetWorld() const noexcept
-    {
+	{
 		return Mat4::Translation(GetPosV4());
-    }
+	}
 };

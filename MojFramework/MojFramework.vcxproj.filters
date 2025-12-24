@@ -212,6 +212,9 @@
     <ClInclude Include="RandomNumber.h">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
+    <ClInclude Include="Frustum.h">
+      <Filter>Header Files\App</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="MojFramework.rc">

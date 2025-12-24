@@ -12,6 +12,13 @@ public:
 	{
 		pTexture = std::make_shared<Surface>(Surface::FromFile(filename));
 	}
+	void Draw(Pipeline<Effect>& pipeline) const
+	{
+		pipeline.effect.ps.BindTexture(GetTexture());
+		pipeline.effect.vs.BindWorld(GetWorld());
+		pipeline.Draw(GetTriangle());
+	}
+private:
 	const Surface& GetTexture() const noexcept
 	{
 		return *pTexture;

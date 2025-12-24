@@ -9,7 +9,7 @@ Scene::Scene(Graphics& gfx)
 	proj(Mat4::ProjectionHFOV(hfov, aspect_ratio, nearZ, farZ))
 {
 	// Lights
-	lights.emplace_back(std::make_unique<Thing1>(gfx, rn.RndVec3(0.0f, 2.0f), Sphere::GetPlainColor<Thing1::Effect::Vertex>(0.1f)));
+	lights.emplace_back(std::make_unique<Thing1>(gfx, rn.RndVec3(0.0f, 2.0f), Sphere::GetPlainColor<Thing1::Effect::Vertex>(0.2f)));
 	light = lights.back().get();
 
 	//Objects
@@ -19,23 +19,24 @@ Scene::Scene(Graphics& gfx)
 	//Textures
 	textures.emplace_back(std::make_unique<Thing3>(gfx, rn.RndVec3(1.0f, 4.0f), Plane::GetSkinnedNormals<Thing3::Effect::Vertex>(), L"Images\\stonewall.jpg"));
 	for (const auto& obj : objects) {
-		obj->SetVelocity(rn.RndVec3(-0.0f, 0.0f));
-		obj->SetAngle(rn.RndVec3(-0.0f, 0.0f));
+		obj->SetVelocity(rn.RndVec3(-0.1f, 0.1f));
+		obj->SetAngle(rn.RndVec3(-0.1f, 0.1f));
 	}
 	for (const auto& tex : textures) {
-		tex->SetVelocity(rn.RndVec3(-0.0f, 0.0f));
-		tex->SetAngle(rn.RndVec3(-0.0f, 0.0f));
+		tex->SetVelocity(rn.RndVec3(-0.1f, 0.1f));
+		tex->SetAngle(rn.RndVec3(-0.1f, 0.1f));
 	}
 }
 
 
 void Scene::Update(const Keyboard& kbd, Mouse& mouse, float dt)
 {
-	//Light Position
 	float speed = dt / 2;
 	if (kbd.KeyIsPressed(VK_SPACE)) {
 		speed = 2 * dt;
 	}
+
+	//Light Position
 	if (kbd.KeyIsPressed(VK_UP)) {
 		light->Move(0.0f, speed, 0.0f);
 	}
@@ -57,30 +58,22 @@ void Scene::Update(const Keyboard& kbd, Mouse& mouse, float dt)
 	
 	//Camera position
 	if (kbd.KeyIsPressed('W')) {
-		cam_pos += Vec4{ 0.0f,speed,0.0f,0.0f } *!cam_rot;
+		cam_pos += Vec4{ 0.0f,speed,0.0f,0.0f } *cam_rot;
 	}
 	if (kbd.KeyIsPressed('S')) {
-		cam_pos += Vec4{ 0.0f,-speed,0.0f,0.0f } *!cam_rot;
+		cam_pos += Vec4{ 0.0f,-speed,0.0f,0.0f } *cam_rot;
 	}
 	if (kbd.KeyIsPressed('A')) {
-		cam_pos += Vec4{ -speed,0.0f,0.0f,0.0f } *!cam_rot;
+		cam_pos += Vec4{ -speed,0.0f,0.0f,0.0f } *cam_rot;
 	}
 	if (kbd.KeyIsPressed('D')) {
-		cam_pos += Vec4{ speed,0.0f,0.0f,0.0f } *!cam_rot;
+		cam_pos += Vec4{ speed,0.0f,0.0f,0.0f } *cam_rot;
 	}
 	if (kbd.KeyIsPressed(VK_SHIFT)) {
-		cam_pos += Vec4{ 0.0f,0.0f,speed,0.0f } *!cam_rot;
+		cam_pos += Vec4{ 0.0f,0.0f,speed,0.0f } *cam_rot;
 	}
 	if (kbd.KeyIsPressed(VK_CONTROL)) {
-		cam_pos += Vec4{ 0.0f,0.0f,-speed,0.0f } *!cam_rot;
-	}
-	if (kbd.KeyIsPressed('Q'))
-	{
-		cam_rot = cam_rot * Mat4::RotationZ(speed);
-	}
-	if (kbd.KeyIsPressed('E'))
-	{
-		cam_rot = cam_rot * Mat4::RotationZ(-speed);
+		cam_pos += Vec4{ 0.0f,0.0f,-speed,0.0f } *cam_rot;
 	}
 
 	//Camera Orientation
@@ -100,8 +93,8 @@ void Scene::Update(const Keyboard& kbd, Mouse& mouse, float dt)
 			{
 				const auto delta = mt.Move(e.GetPos());
 				cam_rot = cam_rot
-					* Mat4::RotationY((float)-delta.x * htrack)
-					* Mat4::RotationX((float)-delta.y * vtrack);
+					* Mat4::RotationY((float)delta.x * htrack)
+					* Mat4::RotationX((float)delta.y * vtrack);
 			}
 			break;
 		}
@@ -109,36 +102,53 @@ void Scene::Update(const Keyboard& kbd, Mouse& mouse, float dt)
 
 	//Updating Objects
 	for (const auto& obj : objects) {
-		obj->Move(dt);
-		obj->Rotate(dt);
+		obj->Update(dt);
 	}
 	for (const auto& tex : textures) {
-		tex->Move(dt);
-		tex->Rotate(dt);
+		tex->Update(dt);
 	}
 }
 
 void Scene::BindAndDraw()
 {
-	unlitPipeline.BeginFrame();
-	litPipeline.BeginFrame();
-	texPipeline.BeginFrame();
+	const FrustumView frustum = FrustumView::BuildViewFrustum(hfov, aspect_ratio, nearZ, farZ);
 	BindToPipelines();
+	view = Mat4::Translation(-cam_pos) * !cam_rot;
+
 	for (const auto& lit : lights) {
-		DrawLights(*lit);
+		Vec4 c4 = lit->GetPosV4() * view;
+		Vec3 centerVS = { c4.x, c4.y, c4.z };
+
+		if (!FrustumView::IsVisible_ViewSpace(centerVS, lit->GetRadius(), frustum))
+   			continue;
+		lit->Draw(unlitPipeline);
 	}
 	for (const auto& obj : objects) {
-		DrawObjects(*obj);
+		Vec4 c4 = Vec4(obj->GetPosV3(), 1.0f) * view;
+		Vec3 centerVS = { c4.x, c4.y, c4.z };
+
+		if (!FrustumView::IsVisible_ViewSpace(centerVS, obj->GetRadius(), frustum))
+			continue;
+		obj->Draw(litPipeline);
 	}
 	for (const auto& tex : textures) {
-		DrawTexture(*tex);
+		Vec4 c4 = Vec4(tex->GetPosV3(), 1.0f) * view;
+		Vec3 centerVS = { c4.x, c4.y, c4.z };
+
+		if (!FrustumView::IsVisible_ViewSpace(centerVS, tex->GetRadius(), frustum))
+			continue;
+		tex->Draw(texPipeline);
 	}
 }
 
 void Scene::BindToPipelines()
 {
-	const Mat4 view = Mat4::Translation(-cam_pos) * cam_rot;
-	const Vec4 light_pos = light->GetPosV4();
+	unlitPipeline.BeginFrame();
+	litPipeline.BeginFrame();
+	texPipeline.BeginFrame();
+
+	Vec4 light_pos = light->GetPosV4();
+
 	unlitPipeline.effect.vs.BindView(view);
 	unlitPipeline.effect.vs.BindProjection(proj);
 
@@ -149,23 +159,4 @@ void Scene::BindToPipelines()
 	texPipeline.effect.vs.BindView(view);
 	texPipeline.effect.vs.BindProjection(proj);
 	texPipeline.effect.vs.SetLightPosition(light_pos * view);
-}
-
-void Scene::DrawLights(const Thing1& obj)
-{
-	unlitPipeline.effect.vs.BindWorld(obj.GetWorld());
-	unlitPipeline.Draw(obj.GetTriangle());
-}
-
-void Scene::DrawObjects(const Thing2& obj)
-{
-	litPipeline.effect.vs.BindWorld(obj.GetWorld());
-	litPipeline.Draw(obj.GetTriangle());
-}
-
-void Scene::DrawTexture(const Thing3& obj)
-{
-	texPipeline.effect.ps.BindTexture(obj.GetTexture());
-	texPipeline.effect.vs.BindWorld(obj.GetWorld());
-	texPipeline.Draw(obj.GetTriangle());
 }

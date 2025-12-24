@@ -36,7 +36,7 @@ public:
 private:
 	void ProcessVertices(const std::vector<Vertex>& vertices, const std::vector<size_t>& indices)
 	{
-		std::vector<VSOut> verticesOut(vertices.size());
+		verticesOut.resize(vertices.size());
 
 		std::transform(vertices.begin(), vertices.end(),
 			verticesOut.begin(),
@@ -285,4 +285,5 @@ private:
 	Graphics& gfx;
 	ZBuffer& pZb;
 	NDCScreenTransformer nst;
+	std::vector<VSOut> verticesOut;
 };

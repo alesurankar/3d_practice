@@ -23,8 +23,13 @@ public:
 		triangles(std::move(tl))
 	{
 		triangles.AdjustToTrueCenter();
-		pos.z = triangles.GetRadius() * 1.6f;
+		boundingRadius = triangles.GetRadius() * size;
 		CheckBorder();
+	}
+	void Update(float dt)
+	{
+		Move(dt);
+		Rotate(dt);
 	}
 	void Move(float x, float y, float z)
 	{
@@ -34,25 +39,11 @@ public:
 
 		CheckBorder();
 	}
-	void Move(float dt)
-	{
-		pos.x += vel.x * dt;
-		pos.y += vel.y * dt;
-		pos.z += vel.z * dt;
-
-		CheckBorder();
-	}
 	void Rotate(float x, float y, float z)
 	{
 		ornt.x = wrap_angle(ornt.x + x);
 		ornt.y = wrap_angle(ornt.y + y);
 		ornt.z = wrap_angle(ornt.z + z);
-	}
-	void Rotate(float dt)
-	{
-		ornt.x = wrap_angle(ornt.x + ang.x * dt);
-		ornt.y = wrap_angle(ornt.y + ang.y * dt);
-		ornt.z = wrap_angle(ornt.z + ang.z * dt);
 	}
 	Vec3 GetPosV3() const noexcept
 	{
@@ -94,6 +85,10 @@ public:
 	{
 		ang = -ang;
 	}
+	float GetRadius() const noexcept
+	{
+		return boundingRadius;
+	}
 	BoxF GetWorldBoundingBox() const noexcept
 	{
 		BoxF local = Squere::GetLocalBoundingBox(size);
@@ -133,6 +128,20 @@ public:
 		return moved;
 	}
 private:
+	void Move(float dt)
+	{
+		pos.x += vel.x * dt;
+		pos.y += vel.y * dt;
+		pos.z += vel.z * dt;
+
+		CheckBorder();
+	}
+	void Rotate(float dt)
+	{
+		ornt.x = wrap_angle(ornt.x + ang.x * dt);
+		ornt.y = wrap_angle(ornt.y + ang.y * dt);
+		ornt.z = wrap_angle(ornt.z + ang.z * dt);
+	}
 	void CheckBorder()
 	{
 		if (pos.x < -6.0) {
@@ -176,4 +185,5 @@ private:
 	bool collisionFlag = false;
 	bool moved = true;
 	bool destroyed = false;
+	float boundingRadius;
 };
